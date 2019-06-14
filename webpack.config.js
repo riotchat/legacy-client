@@ -10,7 +10,7 @@ module.exports = {
 				exclude: /node_modules/
 			},
 			{
-				test: /\.(png|jpg|gif|svg)$/,
+				test: /\.(png|jpg|gif|svg|ico)$/,
 				loader: 'file-loader',
 				options: {
 					name: '[name].[ext]?[hash]',
@@ -50,7 +50,25 @@ module.exports = {
                         outputPath: 'fonts/'
                     }
                 }]
-            }
+			},
+			{
+				test: /\.(html)$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[ext]'
+						}
+					},
+					'extract-loader',
+					{
+						loader: 'html-loader',
+						options: {
+							attrs: ['img:src', 'link:href']
+						}
+					}
+				]
+			}
 		]
 	},
 	resolve: {
@@ -60,9 +78,9 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist')
 	},
 	plugins: [
-		new (require('html-webpack-plugin'))({
-			template: './src/index.html'
-		})
+		//new (require('html-webpack-plugin'))({
+		//	template: './src/index.html'
+		//})
 	],
 	devServer: {
 		disableHostCheck: true
