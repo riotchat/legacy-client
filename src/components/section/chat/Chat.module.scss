@@ -1,0 +1,34 @@
+.root {
+	flex-grow: 1;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.header {
+	flex-shrink: 1;
+	padding: 1em;
+
+	background: #343434;
+	color: whitesmoke;
+
+	.icon {
+		font-size: 30px;
+	}
+}
+
+.description {
+    display: inline;
+    color: grey;
+    font-size: 12px;
+}
+
+.content {
+	flex-grow: 1;
+	background: #333234;
+}
+
+.footer {
+	flex-shrink: 1;
+	background: #333234;
+}

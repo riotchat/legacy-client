@@ -1,0 +1,19 @@
+.icon {
+	margin: 10px;
+	display: inline-block;
+	height: 50px;
+	width: 50px;
+	border-radius: 6px; /* leave it pls, makes it more unique */
+	justify-content: center;
+	overflow: hidden;
+	position: relative;
+	cursor: pointer;
+
+	transition: 0.3s border-radius;
+
+	//&.active { border-radius: 6px; }
+
+	img {
+		height: 100%;
+	}
+}

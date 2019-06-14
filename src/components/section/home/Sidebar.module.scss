@@ -1,0 +1,38 @@
+.feed {
+    padding: 20px;
+}
+
+.dmWrap {
+	padding: 5px 10px;
+	display: flex;
+
+	.title {
+		display: flex;
+  		align-items: center;
+		flex-grow: 1;
+	}
+
+	.button {
+		font-size: 18px;
+		cursor: pointer;
+		opacity: .7;
+		transition: .3s;
+		&:hover {
+			opacity: 1;
+		}
+	}
+}
+
+.directMessages {
+	margin: 10px;
+}
+
+.title {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.feed > .icon {
+	font-size: 30px;
+}

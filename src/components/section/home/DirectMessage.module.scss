@@ -1,0 +1,66 @@
+.parent {
+    margin: 5px 0;
+	padding: 0.5em;
+    display: flex;
+    border-radius: 4px;
+	transition: .2s;
+	cursor: pointer;
+    
+    &:hover {
+        background: #373737;
+    }
+
+    &:active {
+        background: #2C2C2C;
+    }
+}
+
+.avatar {
+	margin: 1px;
+	display: inline-block;
+	height: 35px;
+	width: 35px;
+    border-radius: 50%;
+    border: 3px solid lightgreen;
+	justify-content: center;
+	overflow: hidden;
+	position: relative;
+
+	img {
+		/*position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);*/
+		height: 100%;
+		display: block;
+		margin: 0 auto;
+    }
+    
+    &.online { border: 2px solid lightgreen; }
+    &.streaming { border: 2px solid purple; }
+    &.idle { border: 2px solid yellow; }
+    &.dnd { border: 2px solid red; }
+}
+
+.username {
+	padding-left: 0.6em;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-weight: 600;
+
+	div {
+		max-width: 200px;
+
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+}
+
+.status {
+    color: #BCBCBC;
+    font-weight: 400;
+    font-size: 12px;
+}

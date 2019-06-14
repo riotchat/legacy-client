@@ -4,13 +4,17 @@ module.exports = {
 	entry: './src/index.tsx',
 	module: {
 		rules: [
+			/*{
+				test: /\.svg$/,
+				loader: 'svg-inline-loader'
+			},*/
 			{
 				test: /\.tsx?$/,
 				use: 'babel-loader',
 				exclude: /node_modules/
 			},
 			{
-				test: /\.(png|jpg|gif|svg|ico)$/,
+				test: /\.(png|jpg|gif|ico|svg)$/,
 				loader: 'file-loader',
 				options: {
 					name: '[name].[ext]?[hash]',
@@ -18,31 +22,7 @@ module.exports = {
 				}
 			},
 			{
-				test: /\.scss$/,
-				exclude: /\.module.scss$/,
-				use: [
-					{
-						loader: 'file-loader',
-						options: {
-							name: '[name].css'
-						}
-					},
-					'extract-loader',
-					'css-loader',
-					'resolve-url-loader',
-					{
-						loader: 'sass-loader',
-						options: {
-							includePaths: [
-								path.resolve(__dirname, 'bundle')
-							],
-							sourceMap: true
-						}
-					}
-				]
-			},
-			{
-				test: /\.module.scss$/,
+				test: /\.module\.scss|\.scss|\.css$/,
 				use: [
 					'style-loader',
 					{
@@ -51,11 +31,17 @@ module.exports = {
 							modules: true
 						}
 					},
-					'sass-loader'
+					'resolve-url-loader',
+					{
+						loader: 'sass-loader',
+						options: {
+							sourceMap: true
+						}
+					}
 				]
 			},
             {
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [{
                     loader: 'file-loader',
                     options: {

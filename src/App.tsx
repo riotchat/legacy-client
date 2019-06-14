@@ -1,34 +1,43 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
-import styles from './sass/index.module.scss';
+import styles from './App.module.scss';
+
+import HomeSidebar from './components/section/home/Sidebar';
+import Profile from './components/app/Profile';
+import ServerIcon from './components/app/ServerIcon';
+import Chat from './components/section/chat/Chat';
+import { scrollable, hiddenScrollbar } from './components/util/Scrollbar';
+import Icon from './components/util/Icon';
 
 class App extends React.Component {
 	theme: 'light' | 'dark';
 
 	constructor(props: React.Props<{}>) {
 		super(props);
-		this.theme = 'light';
+		this.theme = 'dark';
 	}
 
 	render() {
-		return(
+		let test: Array<React.ReactNode> = [];
+        for(let i = 0; i < 100; i++)
+            test.push(<ServerIcon serverName="tech support scam time" iconURL="https://placeimg.com/240/240/nature" />);
+
+		return (
 			<div className={styles.root}>
 				<div className={`${styles.sidebar} ${styles.main}`}>
-					<div className={`${styles.guild}`}>server</div>
-				</div>
-				<div className={`${styles.sidebar} ${styles.browser}`}>
-					second sidebar
-					<div className={`${styles.sidebar} ${styles.browser}`}>
-						profile div
+					<div className={`${styles.guilds} ${hiddenScrollbar}`}>
+						{test}
+						<div className={styles.filler}></div>
+					</div>
+					<div className={styles.add}>
+						<Icon icon="plus" />
 					</div>
 				</div>
-				<div>stuff</div>
-				<div className={`${styles.message} ${styles.input}`}>
-					<form>
-
-					</form>
+				<div className={`${styles.sidebar} ${styles.browser}`}>
+					<Profile username="my name jeff" avatarURL="https://placeimg.com/240/240/nature" />
+					<HomeSidebar />
 				</div>
+				<Chat />
 			</div>
 		)
 	}
