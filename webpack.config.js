@@ -6,7 +6,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: 'ts-loader',
+				use: 'babel-loader',
 				exclude: /node_modules/
 			},
 			{
@@ -19,6 +19,7 @@ module.exports = {
 			},
 			{
 				test: /\.scss$/,
+				exclude: /\.module.scss$/,
 				use: [
 					{
 						loader: 'file-loader',
@@ -38,6 +39,19 @@ module.exports = {
 							sourceMap: true
 						}
 					}
+				]
+			},
+			{
+				test: /\.module.scss$/,
+				use: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							modules: true
+						}
+					},
+					'sass-loader'
 				]
 			},
             {
@@ -78,9 +92,10 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist')
 	},
 	plugins: [
-		//new (require('html-webpack-plugin'))({
-		//	template: './src/index.html'
-		//})
+		new (require('mini-css-extract-plugin'))({
+			filename: '[name].css',
+			chunkFilename: '[id].css'
+		})
 	],
 	devServer: {
 		disableHostCheck: true

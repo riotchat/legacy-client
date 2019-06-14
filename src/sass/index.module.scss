@@ -1,0 +1,33 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+.root {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+}
+
+.sidebar {
+	flex-shrink: 1;
+
+	&.main {
+		background: pink;
+		width: 100px;
+
+		.guild {
+			background: red;
+		}
+	}
+
+	&.browser {
+		background: red;
+		width: 200px;
+		border-radius: 10px 0 0 10px;
+	}
+}
