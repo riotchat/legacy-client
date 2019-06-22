@@ -7,14 +7,24 @@
 
 .header {
 	flex-shrink: 1;
-	padding: 1em;
+	padding: 0.5em;
 
-	background: #343434;
+	/*background: #343434;*/
+	background: lightblue;
 	color: whitesmoke;
 
 	.icon {
 		font-size: 30px;
+		vertical-align: middle;
 	}
+}
+
+.divider {
+	/*content: "|";*/
+	width: 1px;
+	height: 20px;
+	color: black;
+	padding: 0 10px;
 }
 
 .description {

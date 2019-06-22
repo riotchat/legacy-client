@@ -5,6 +5,7 @@
 
 import * as React from 'react';
 import styles from './Profile.module.scss';
+import Icon from '../util/Icon';
 
 export default class Profile extends React.Component<{
 	username: string,
@@ -19,6 +20,7 @@ export default class Profile extends React.Component<{
                 <div className={`${styles.username}`}>
 					<div>{this.props.username}</div>
                 </div>
+                <Icon className={styles.button} icon="settings" />
             </div>
         )
     }

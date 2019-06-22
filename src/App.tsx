@@ -34,8 +34,8 @@ class App extends React.Component {
 					</div>
 				</div>
 				<div className={`${styles.sidebar} ${styles.browser}`}>
-					<Profile username="my name jeff" avatarURL="https://placeimg.com/240/240/nature" />
 					<HomeSidebar />
+					<Profile username="my name jeff" avatarURL="https://placeimg.com/240/240/nature" />
 				</div>
 				<Chat />
 			</div>

@@ -5,6 +5,7 @@
     border-radius: 4px;
 	transition: .2s;
 	cursor: pointer;
+	align-items: stretch;
     
     &:hover {
         background: #373737;
@@ -16,15 +17,19 @@
 }
 
 .avatar {
+	display: flex;
+	align-self: center;
 	margin: 1px;
+	margin-right: 10px;
 	display: inline-block;
-	height: 35px;
-	width: 35px;
+	height: 30px;
+	width: 30px;
     border-radius: 50%;
     border: 3px solid lightgreen;
 	justify-content: center;
 	overflow: hidden;
 	position: relative;
+	flex: 0 0 auto;
 
 	img {
 		/*position: absolute;
@@ -43,15 +48,14 @@
 }
 
 .username {
-	padding-left: 0.6em;
-
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	font-weight: 600;
+	font-size: 14px;
 
 	div {
-		max-width: 200px;
+		max-width: 190px;
 
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -60,6 +64,7 @@
 }
 
 .status {
+	max-width: 180px;
     color: #BCBCBC;
     font-weight: 400;
     font-size: 12px;

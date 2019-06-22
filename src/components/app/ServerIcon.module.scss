@@ -1,5 +1,5 @@
 .icon {
-	margin: 10px;
+	margin: 8px 12px;
 	display: inline-block;
 	height: 50px;
 	width: 50px;
@@ -15,5 +15,11 @@
 
 	img {
 		height: 100%;
+	}
+
+	&::before {
+		width: 8px;
+		background: white;
+		height: 40px;
 	}
 }
