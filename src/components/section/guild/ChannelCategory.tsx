@@ -23,7 +23,7 @@ export default class ChannelCategory extends React.Component<{name: string, init
         return (
             <div className={css.category} draggable={true}>
                 <div className={css.wrapper}>
-                    <span className={css.name}>{this.props.name}</span>
+                    <span className={css.name} onClick={this.toggleCategory}>{this.props.name}</span>
                     <Icon className={css.button} icon="plus" type="regular"/>
                     <Icon className={css.caret} icon={this.state.open ? "caret-down" : "caret-right"} type="regular" onClick={this.toggleCategory} />
                 </div>
