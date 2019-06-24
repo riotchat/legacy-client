@@ -6,7 +6,6 @@
 import * as React from 'react';
 
 import css from './Sidebar.module.scss';
-import Icon from '../../util/Icon';
 import { scrollable } from '../../util/Scrollbar';
 import Banner from './Banner';
 import Channel from './Channel';
