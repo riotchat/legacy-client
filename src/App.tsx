@@ -3,11 +3,14 @@ import * as React from 'react';
 import styles from './App.module.scss';
 
 import HomeSidebar from './components/section/home/Sidebar';
+import ServerSidebar from './components/section/guild/Sidebar';
 import Profile from './components/app/Profile';
 import ServerIcon from './components/app/ServerIcon';
 import Chat from './components/section/chat/Chat';
 import { scrollable, hiddenScrollbar } from './components/util/Scrollbar';
 import Icon from './components/util/Icon';
+
+const mode: "home" | "server" = "server";
 
 class App extends React.Component {
 	theme: 'light' | 'dark';
@@ -38,7 +41,8 @@ class App extends React.Component {
 					</div>
 				</div>
 				<div className={`${styles.sidebar} ${styles.browser}`}>
-					<HomeSidebar />
+					{ mode === "home" && <HomeSidebar /> }
+					{ mode === "server" && <ServerSidebar /> }
 					<Profile username="my name jeff" avatarURL="https://placeimg.com/240/240/nature" />
 				</div>
 				<Chat />

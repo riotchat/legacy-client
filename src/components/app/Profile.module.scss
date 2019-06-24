@@ -1,24 +1,24 @@
 .profile {
 	display: flex;
 	margin: 14px 12px;
+	height: 38px;
+	width: 262px - (12px * 2);
 	align-items: center;
 }
 
 .picture {
-	/*margin: 10px;*/
 	display: inline-block;
 	height: 38px;
 	width: 38px;
 	border-radius: 50%;
+	background-color: grey;
 	justify-content: center;
-	overflow: hidden;
 	position: relative;
 	cursor: pointer;
 	margin-right: 8px;
 
-	img {
-		height: 100%;
-	}
+	background-size: cover;
+	background-position: center;
 }
 
 .username {
@@ -28,10 +28,10 @@
 	font-weight: 600;
 	font-size: 14px;
 	flex-grow: 1;
+	user-select: text;
 
 	div {
-		max-width: 160px;
-
+		max-width: 150px;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;

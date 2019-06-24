@@ -1,0 +1,81 @@
+.channelWrapper {
+    position: relative;
+    .channel {
+        opacity: 0.999;
+        position: relative;
+        box-sizing: border-box;
+        margin: 7px 0;
+        padding: 12px;
+        border-radius: 4px;
+        height: 38px;
+
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover {
+            background: #474747;
+        }
+
+        &:active {
+            background: #373737;
+        }
+        
+        > .icon {
+            margin-right: 8px;
+            flex: 0 0 auto;
+        }
+
+        > .text {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            
+            %text {
+                width: 180px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            > .name {
+                @extend %text;
+                font-size: 14px;
+            }
+
+            > .status {
+                @extend %text;
+                font-size: 11px;
+            }
+        }
+    }
+
+    %notification {
+        position: absolute;
+        top: 50%;
+        right: -12px;
+        transform: translate(0%, -50%);
+        z-index: 5;
+
+        $size: 32px;
+        $padding: 5px;
+        border-radius: 6px 0px 0px 6px;
+        height: $size - ($padding * 2);
+        padding: $padding;
+        font-size: 12px;
+        line-height: $size - ($padding * 2);
+        font-weight: 600;
+    }
+
+    > .mention {
+        background: #DF3535;
+        @extend %notification;
+    }
+
+    > .unread {
+        background: #EFEFEF;
+        @extend %notification;
+        width: 5px;
+        padding: 3px 0px;
+    }
+}

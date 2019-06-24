@@ -14,9 +14,7 @@ export default class Profile extends React.Component<{
     render() {
         return (
             <div className={`${styles.profile}`}>
-                <div className={`${styles.picture}`}>
-                    <img src={this.props.avatarURL} draggable={false} />
-                </div>
+                <div className={`${styles.picture}`} style={{ backgroundImage: `url("${this.props.avatarURL}")` }}/>
                 <div className={`${styles.username}`}>
 					<div>{this.props.username}</div>
                 </div>

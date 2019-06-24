@@ -13,7 +13,7 @@ export default class ServerIcon extends React.Component<{
     render() {
         return (
             <div>
-                <div className={`${styles.icon}`}>
+                <div className={`${styles.icon}`} draggable={true}>
                     <img src={this.props.iconURL} draggable={false} />
                 </div>
                 {/*<div className={`${styles.username}`}>
