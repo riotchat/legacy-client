@@ -26,17 +26,19 @@ export default class Message extends React.Component {
         if (this.props.children) {
             let tokens = marked.lexer(this.props.children.toString(), mdOptions);
             tokens.forEach((value, index, array) => {
-                if(value.type === "space")
-                    array[index] = { type: "paragraph", text: "\n\n" };
-                else if(value.type === "heading" && value.depth > 3)
-                    array[index] = { type: "paragraph", text: "#".repeat(value.depth) + " " + value.text + "\n" }
-                
-                if(value.type === "paragraph" || value.type === "heading") {
-                    (array[index] as any).text = value.text.replace(/\[(.+)\]\((.+)\)/g, "\\[$1\\]\\($2\\)");
-                    (array[index] as any).text = value.text.replace(urlRegex, "[$&]($&)");
+                let intermediate = value;
+                if(intermediate.type === "space")
+                    intermediate = { type: "paragraph", text: "\n\n" };
+                else if(intermediate.type === "heading" && intermediate.depth > 3) {
+                    intermediate = { type: "paragraph", text: "#".repeat(intermediate.depth) + " " + intermediate.text + "\n" }
                 }
-
-                console.log(array[index]);
+                
+                if(intermediate.type === "paragraph" || intermediate.type === "heading") {
+                    intermediate.text = intermediate.text.replace(/\[(.+)\]\((.+)\)/g, "\\[$1\\]\\($2\\)");
+                    intermediate.text = intermediate.text.replace(urlRegex, "[$&]($&)");
+                }
+                
+                array[index] = intermediate;
             });
             parsed = marked.parser(tokens, mdOptions);
         }

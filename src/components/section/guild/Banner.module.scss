@@ -36,6 +36,9 @@ $background-transition-time: .3s;
 
         > .name {
             flex: 1 0 auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 1px;
         }
 
         > .verified {

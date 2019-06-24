@@ -64,7 +64,7 @@ export default class Chat extends React.Component<{}> {
 							{`# Level 1\n## Level 2\n### Level 3\n#### Level 4\n##### Level 5\n###### Level 6`}
 						</Message>
 						<Message>
-							{`> Block Quotes`}
+							{`> Block Quotes\n>Now this is great\n> - almighty fatal\n> > also you can have block quotes inside block quotes cause why the heck not`}
 						</Message>
 					</MessageGroup>
 					<MessageGroup timestamp={1561304582} username="FatalErrorCoded" pfpURL="/assets/images/fatalerrorcoded.png">

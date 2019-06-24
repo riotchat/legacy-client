@@ -30,8 +30,8 @@ export default class Banner extends React.Component<{
 
                     { this.props.bannerURL && <div className={css.padding} /> }
                     <div className={`${css.guildName} ${background ? css.background : ""}`}>
-                        <img className={css.verified} src="/assets/icons/verified.svg"/>
-                        <span className={css.name}>Overwatch</span>
+                        {this.props.verified && <img className={css.verified} src="/assets/icons/verified.svg" /> }
+                        <span className={css.name}>{this.props.name}</span>
                     </div>
                 </div>
             </div>
