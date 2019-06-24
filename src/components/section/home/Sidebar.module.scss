@@ -1,8 +1,19 @@
+/*.feed {
+	padding: 8px 20px;
+	
+	.name {
+		font-size: 14px;
+	}
+}*/
+
 .feed {
-    padding: 20px;
+	.feedTab {
+		padding: 10px;
+		font-size: 14px;
+	}
 }
 
-.dmWrap {
+.category {
 	padding: 5px 10px;
 	display: flex;
 
@@ -13,13 +24,50 @@
 	}
 
 	.button {
-		font-size: 18px;
+		height: 20px;
+		width: 20px;
 		cursor: pointer;
 		opacity: .7;
 		transition: .3s;
 		&:hover {
 			opacity: 1;
 		}
+	}
+
+	.nearby {
+		height: 18px;
+		width: 18px;
+		fill: #5389D9 !important;
+		margin-right: 5px;
+	}
+}
+
+.categoryNearby {
+	padding: 5px 10px;
+	display: none;
+
+	.title {
+		display: flex;
+  		align-items: center;
+		flex-grow: 1;
+	}
+
+	.button {
+		height: 20px;
+		width: 20px;
+		cursor: pointer;
+		opacity: .7;
+		transition: .3s;
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.nearby {
+		height: 18px;
+		width: 18px;
+		fill: #5389D9 !important;
+		margin-right: 5px;
 	}
 }
 

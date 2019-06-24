@@ -1,0 +1,20 @@
+.message {
+    margin: 2px 0px;
+
+    > .content {
+        h1, h2, h3 {
+            margin: .2em 0px;
+        }
+
+        blockquote {
+            margin: 3px 0px;
+            padding: 3px 7px;
+            border-left: 2px solid #AAAAAA;
+        }
+
+        a, a:visited {
+            color: #2B8FF3;
+            text-decoration: none;
+        }
+    }
+}

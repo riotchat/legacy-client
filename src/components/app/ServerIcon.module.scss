@@ -1,23 +1,30 @@
 .icon {
-	margin: 8px 12px;
+	margin: 8px 15px;
 	display: inline-block;
-	height: 50px;
-	width: 50px;
-	border-radius: 6px; /* leave it pls, makes it more unique */
+	height: 54px;
+	width: 54px;
+	border-radius: 6px;
 	justify-content: center;
 	overflow: hidden;
 	position: relative;
+	border: 2px solid transparent;
 	cursor: pointer;
+	transition: .3s;
 
-	transition: 0.3s border-radius;
+	&:hover {
+		border: 2px solid white;
+	}
 
-	//&.active { border-radius: 6px; }
+	&.active {
+		border: 2px solid red;
+	}
 
 	img {
 		height: 100%;
 	}
 
 	&::before {
+		display: block;
 		width: 8px;
 		background: white;
 		height: 40px;

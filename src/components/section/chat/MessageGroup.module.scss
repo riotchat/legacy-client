@@ -1,0 +1,45 @@
+.messageGroup {
+    display: flex;
+    margin: 25px 0px;
+    > .pfp {
+        flex: 0 0 auto;
+        background-size: cover;
+        background-position: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 20px;
+        background-color: grey;
+        cursor: pointer;
+    }
+
+    > .content {
+        color: #EFEFEF;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        user-select: text;
+        
+        > .header {
+            margin-bottom: 2px;
+            > .username {
+                font-size: 1rem;
+                font-weight: 600;
+                padding-right: 6px;
+                cursor: pointer;
+            }
+
+            > time {
+                font-weight: 400;
+                color: #808080;
+                font-size: 12px;
+            }
+        }
+
+        > .tag {
+            background: green;
+            border-radius: 4px;
+        }
+    }
+}

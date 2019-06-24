@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap');
 
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+  }
+
 html, body {
 	margin: 0;
 	padding: 0;
@@ -13,11 +18,12 @@ html, body {
 	left: 0;
 	height: 100%;
 	width: 100%;
-	background: #181818;
+	background: #333234;
 	display: flex;
 }
 
 .sidebar {
+	$sidebar-width: 88px;
 	display: flex;
 	flex-direction: column;
 
@@ -25,32 +31,78 @@ html, body {
 	flex-shrink: 1;
 
 	&.main {
-		background: #181818;
-		width: 90px;
+		background: #333234;
+		width: $sidebar-width;
 
 		display: flex;
+
+		.home {
+			margin: 8px 15px;
+			display: inline-block;
+			height: 54px;
+			width: 54px;
+			border-radius: 6px;
+			justify-content: center;
+			overflow: hidden;
+			position: relative;
+			border: 2px solid transparent;
+			background: #4D4D4D;
+			cursor: pointer;
+			transition: .3s;
+
+			span {
+				$icon-size: 26px;
+				margin: (54px - $icon-size) / 2;
+				width: $icon-size;
+				height: $icon-size;
+				svg {
+					width: $icon-size;
+					height: $icon-size;
+				}
+			}
+
+			&:hover {
+				background: #A0A0A0;
+			}
+		}
+
+		.divider {
+			$width: 60px;
+			display: block;
+			height: 1px;
+			width: $width;
+			margin: 14px ((88px - $width) / 2);
+			background: #707070;
+			border-radius: 60px;
+		}
 
 		.guilds {
 			flex-grow: 1;
 
 			.filler {
-				height: 85px;
+				height: $sidebar-width;
 			}
 		}
 
 		.add {
+			$button-margin: 8px;
 			flex-shrink: 1;
-			margin-top: -85px;
-
-			span {
+			margin-top: -$sidebar-width;
+			width: $sidebar-width;
+			height: $sidebar-width;
+			background: linear-gradient(transparent, #333234);
+			cursor: pointer;
+			z-index: 1;
+			span, svg {
 				position: relative;
 				display: block;
 
-				font-size: 4.4em;
-				color: #7B68EE;
+				height: 40px;
+				width: 40px;
+				fill: #7B68EE;
 
-				height: 85px;
-				background: linear-gradient(#00000000, #181818);
+				height: $sidebar-width - ($button-margin * 4);
+				margin: $button-margin;
 			}
 		}
 	}

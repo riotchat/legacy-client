@@ -4,17 +4,17 @@ module.exports = {
 	entry: './src/index.tsx',
 	module: {
 		rules: [
-			/*{
+			{
 				test: /\.svg$/,
 				loader: 'svg-inline-loader'
-			},*/
+			},
 			{
 				test: /\.tsx?$/,
 				use: 'babel-loader',
 				exclude: /node_modules/
 			},
 			{
-				test: /\.(png|jpg|gif|ico|svg)$/,
+				test: /\.(png|jpg|gif|ico)$/,
 				loader: 'file-loader',
 				options: {
 					name: '[name].[ext]?[hash]',

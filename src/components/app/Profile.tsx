@@ -20,7 +20,7 @@ export default class Profile extends React.Component<{
                 <div className={`${styles.username}`}>
 					<div>{this.props.username}</div>
                 </div>
-                <Icon className={styles.button} icon="settings" />
+                <Icon className={styles.settings} icon="cog" />
             </div>
         )
     }

@@ -1,4 +1,8 @@
 import * as React from 'react';
+import Textarea from 'react-textarea-autosize';
+
+import css from "./MessageBox.module.scss";
+import Icon from '../../util/Icon';
 
 export default class MessageBox extends React.Component<{ onSend: (message: string) => boolean }, { message: string }> {
 	constructor(props: { onSend: (message: string) => boolean }) {
@@ -37,11 +41,19 @@ export default class MessageBox extends React.Component<{ onSend: (message: stri
 
 	render() {
 		return (
-			<div>
-				<form onSubmit={this.onSubmit}>
-					<textarea value={this.state.message} onChange={this.onMessageChange} onKeyPress={this.onMessageKeyPress}></textarea>
-				</form>
-			</div>
+            <div style={{ margin: "15px 30px" }}>
+                <span className={css.typeIndicator}></span>
+                <div className={css.messageBox}>
+                    <div className={css.textArea}>
+                        <form onSubmit={this.onSubmit}>
+                            <Textarea maxRows={5} value={this.state.message} onChange={this.onMessageChange} placeholder="Message User" onKeyPress={this.onMessageKeyPress} style={{ height: "19px" }}></Textarea>
+                        </form>
+                    </div>
+                    <div className={css.actionButton}>
+                        <Icon icon="dots-vertical-rounded" type="regular" />
+                    </div>
+                </div>
+            </div>
 		)
 	}
 }

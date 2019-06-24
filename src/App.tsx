@@ -26,11 +26,15 @@ class App extends React.Component {
 			<div className={styles.root}>
 				<div className={`${styles.sidebar} ${styles.main}`}>
 					<div className={`${styles.guilds} ${hiddenScrollbar}`}>
+						<div className={styles.home}>
+							<Icon icon="home" />
+						</div>
+						<div className={styles.divider} />
 						{test}
 						<div className={styles.filler}></div>
 					</div>
 					<div className={styles.add}>
-						<Icon icon="plus" />
+						<Icon icon="plus" type="regular" />
 					</div>
 				</div>
 				<div className={`${styles.sidebar} ${styles.browser}`}>
