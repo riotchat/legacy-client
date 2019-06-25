@@ -2,6 +2,16 @@
     margin: 2px 0px;
 
     > .content {
+        &, * {
+            min-width: 0;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-all;
+            word-break: break-word;
+            overflow: hidden;
+            hyphens: auto;
+        }
+
         h1, h2, h3 {
             margin: .2em 0px;
         }

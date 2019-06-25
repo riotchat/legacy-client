@@ -7,9 +7,13 @@
 	justify-content: center;
 	overflow: hidden;
 	position: relative;
-	border: 2px solid transparent;
+	border: 2px solid #333234;
 	cursor: pointer;
 	transition: .3s;
+	background-color: grey;
+	background-size: cover;
+	background-position: center;
+	opacity: 0.99;
 
 	&:hover {
 		border: 2px solid white;
@@ -19,14 +23,14 @@
 		border: 2px solid red;
 	}
 
-	img {
-		height: 100%;
-	}
-
-	&::before {
+	&.active::before { // Selected server
 		display: block;
 		width: 8px;
 		background: white;
 		height: 40px;
+	}
+
+	&.pinged::before {
+		
 	}
 }

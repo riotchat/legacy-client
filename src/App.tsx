@@ -27,23 +27,25 @@ class App extends React.Component {
 
 		return (
 			<div className={styles.root}>
-				<div className={`${styles.sidebar} ${styles.main}`}>
-					<div className={`${styles.guilds} ${hiddenScrollbar}`}>
-						<div className={styles.home}>
-							<Icon icon="home" />
+				<div className={styles.mainSidebars}>
+					<div className={`${styles.sidebar} ${styles.main}`}>
+						<div className={`${styles.guilds} ${hiddenScrollbar}`}>
+							<div className={styles.home}>
+								<Icon icon="home" />
+							</div>
+							<div className={styles.divider} />
+							{test}
+							<div className={styles.filler}></div>
 						</div>
-						<div className={styles.divider} />
-						{test}
-						<div className={styles.filler}></div>
+						<div className={styles.add}>
+							<Icon icon="plus" type="regular" />
+						</div>
 					</div>
-					<div className={styles.add}>
-						<Icon icon="plus" type="regular" />
+					<div className={`${styles.sidebar} ${styles.browser}`}>
+						{ mode === "home" && <HomeSidebar /> }
+						{ mode === "server" && <ServerSidebar /> }
+						<Profile username="my name jeff" avatarURL="https://placeimg.com/240/240/nature" />
 					</div>
-				</div>
-				<div className={`${styles.sidebar} ${styles.browser}`}>
-					{ mode === "home" && <HomeSidebar /> }
-					{ mode === "server" && <ServerSidebar /> }
-					<Profile username="my name jeff" avatarURL="https://placeimg.com/240/240/nature" />
 				</div>
 				<Chat />
 			</div>

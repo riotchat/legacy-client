@@ -13,12 +13,21 @@
     }
 }*/
 
+.wrapper {
+    margin: 15px 30px;
+
+    @media only screen and (max-width: 900px) {
+        margin: 15px 10px;
+    }
+}
+
 .messageBox {
     box-sizing: border-box;
     width: 100%;
     background: #707070;
     border-radius: 6px;
     display: flex;
+    
 
     > .textArea {
         display: block;
@@ -56,6 +65,10 @@
         border-radius: 0px 6px 6px 0px;
         width: 45px;
         cursor: pointer;
+        vertical-align: middle;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 

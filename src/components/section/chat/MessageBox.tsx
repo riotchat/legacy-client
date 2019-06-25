@@ -41,7 +41,7 @@ export default class MessageBox extends React.Component<{ onSend: (message: stri
 
 	render() {
 		return (
-            <div style={{ margin: "15px 30px" }}>
+            <div className={css.wrapper}>
                 <span className={css.typeIndicator}></span>
                 <div className={css.messageBox}>
                     <div className={css.textArea}>
