@@ -19,11 +19,14 @@ export default class Banner extends React.Component<{
         let background: boolean = false;
         if(!this.props.bannerURL) background = true;
         else background = this.props.scrollPosition !== undefined && !isNaN(this.props.scrollPosition) && this.props.scrollPosition > (130 - 64);
+        let backgroundOpacity: number = (this.props.scrollPosition !== undefined && !isNaN(this.props.scrollPosition))
+            ? (this.props.scrollPosition - (130 - 64)) / (130 - 64) : 0;
+
         return (
             <div className={`${css.padding} ${this.props.bannerURL ? css.extended : ""}`}>
                 <div className={css.wrapper}>
                     { this.props.bannerURL && (
-                        <div className={css.banner} style={{ backgroundImage: `url("${this.props.bannerURL}")`, opacity: !background ? 1 : 0 }}>
+                        <div className={css.banner} style={{ backgroundImage: `url("${this.props.bannerURL}")`, opacity: Math.abs(backgroundOpacity) }}>
                             <div className={css.overlay} />
                         </div>
                     )}
