@@ -20,6 +20,11 @@
         &:active {
             background: #373737;
         }
+
+        &.active {
+            // this class is added when the channel is selected
+            background: #474747;
+        }
         
         > .icon {
             margin-right: 8px;

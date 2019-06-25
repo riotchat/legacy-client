@@ -8,12 +8,14 @@ export default class Channel extends React.Component<{
     type: "text" | "voice" | "videoshare" | "home" | "news",
     status?: string,
     unread?: boolean,
-    pings?: number
+    pings?: number,
+    active?: boolean,
+    canManage?: boolean
 }> {
     render() {
         return (
             <div className={css.channelWrapper}>
-                <div className={css.channel} draggable={true}>
+                <div className={`${css.channel} ${this.props.active ? css.active : ""}`} draggable={this.props.canManage}>
                     <span className={css.icon}>
                         { this.props.type === "home" && <Icon icon="home" /> }
                         { this.props.type === "news" && <Icon icon="news" /> }
