@@ -24,13 +24,18 @@ export default class Chat extends React.Component<{}> {
 			<div className={styles.root}>
 				<div className={styles.header}>
 					<div className={styles.items}>
-					{/*<Icon className={styles.mobileMenu} icon="menu" type="regular" />*/}
+						<Icon className={styles.mobileMenu} icon="menu" type="regular" />
 						<Icon className={styles.icon} icon="chat" />
-						<span className={styles.name}>chat</span>
+						<div className={styles.nameWrapper}>
+							<div className={styles.name}>chat</div>
+						</div>
 						<span className={styles.divider}/>
-                    	<span className={styles.description}>come and hang out, talk about anything you like.</span>
+						<div className={styles.descWrapper}>
+                    		<div className={styles.description}>come and hang out, talk about anything you like.</div>
+						</div>
 						<div className={styles.menu}>
                     		<Icon className={styles.menuIcon} icon="bell" />
+							<Icon className={styles.feedback} icon="megaphone" />
 						</div>
 					</div>
 				</div>
