@@ -10,15 +10,18 @@ import Icon from '../../util/Icon';
 export default class DirectMessage extends React.Component<{
     username: string,
     status?: string,
-    avatarURL: string
+    avatarURL: string,
+    mobile?: boolean
 }> {
     render() {
         return (
             <div className={styles.parent} draggable={true}>
                 <div className={styles.avatar} aria-label="" title={this.props.username} style={{ backgroundImage: `url("${this.props.avatarURL}")` }}/>
                 <div className={styles.username}>
-					<div>{this.props.username}</div>
-                    <div className={styles.mobile}><Icon icon="mobile" type="regular"/></div>
+                    <div className={styles.usernameInline}>
+                        <span>{this.props.username}</span>
+                        { this.props.mobile && <div className={styles.mobile}><Icon icon="mobile" type="regular"/></div> }
+                    </div>
                     { this.props.status && <div className={styles.status}>{this.props.status}</div> }
                 </div>
             </div>
