@@ -12,6 +12,10 @@ html, body {
 	font-family: 'Open Sans', sans-serif;
 	user-select: none;
 	background: #333234;
+	overscroll-behavior: contain;
+
+	/* Disables highlight color on mobile devices - this function is disabled by enabling accessibility mode in settings*/
+	-webkit-tap-highlight-color: transparent;
 }
 
 .root {
@@ -25,7 +29,45 @@ html, body {
 }
 
 .mainSidebars {
+	background: #333234;
 	display: flex;
+
+	@media only screen and (max-width: 900px) {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		z-index: 99;
+		transform: translate(-100%, 0%);
+		transition: transform 0.3s ease;
+
+		&.open {
+			transform: translate(0%, 0%);
+		}
+    }
+}
+
+.drawerOpacity {
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100vw;
+	height: 100vh;
+	z-index: 98;
+	background-color: rgba(0, 0, 0, 0.3);
+	pointer-events: none;
+
+	@media only screen and (max-width: 900px) {
+		display: block;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+
+		&.active {
+			opacity: 1;
+			pointer-events: visible;
+		}
+    }
 }
 
 .sidebar {
@@ -68,9 +110,8 @@ html, body {
 				}
 			}
 
-			&:hover {
-				background: #A0A0A0;
-			}
+			&:hover { background: #A0A0A0; }
+			&.active { background: grey; } //this is currently active?
 		}
 
 		.divider {
