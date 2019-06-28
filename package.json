@@ -21,6 +21,8 @@
     "html-loader": "^0.5.5",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.12.0",
+    "prop-types": "^15.7.2",
+    "react-swipeable-drawer": "^3.1.0",
     "resolve-url-loader": "^3.1.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
@@ -31,7 +33,7 @@
     "webpack-dev-server": "^3.7.1"
   },
   "scripts": {
-    "dev": "webpack-dev-server --mode development --open -w --hot",
+    "dev": "webpack-dev-server --mode development --open -w --hot --host 0.0.0.0",
     "prod": "webpack -p"
   },
   "dependencies": {

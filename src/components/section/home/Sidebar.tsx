@@ -11,7 +11,9 @@ import styles from './Sidebar.module.scss';
 import Icon from '../../util/Icon';
 import { scrollable } from '../../util/Scrollbar';
 
-export default class HomeSidebar extends React.Component {
+export type BaseChannels = "friends" | "news" | "feed";
+
+export default class HomeSidebar extends React.Component<{ onChangeChannel: (channel: BaseChannels | string) => void }> {
     render() {
         // hahayes
         let test: Array<React.ReactNode> = [];
@@ -21,15 +23,15 @@ export default class HomeSidebar extends React.Component {
         return (
             <div className={scrollable}>
                 <div className={styles.feed}>
-                    <div className={styles.feedTab}>
+                    <div className={styles.feedTab} onClick={(e) => this.props.onChangeChannel("feed") }>
 					    <Icon className={styles.icon} icon="home" />
                         <span className={styles.name}>Feed</span>
                     </div>
-                    <div className={styles.feedTab}>
+                    <div className={styles.feedTab} onClick={(e) => this.props.onChangeChannel("news") }>
 					    <Icon className={styles.icon} icon="news" />
                         <span className={styles.name}>News</span>
                     </div>                    
-                    <div className={styles.feedTab}>
+                    <div className={styles.feedTab} onClick={(e) => this.props.onChangeChannel("friends") }>
 					    <Icon className={styles.icon} icon="user-detail" />
                         <span className={styles.name}>Friends</span>
                     </div>

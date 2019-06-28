@@ -1,0 +1,106 @@
+.friend {
+	color: white;
+	display: flex;
+	padding: 12px 20px;
+	align-items: center;
+	justify-content: space-between;
+
+	transform: scaleY(1);
+	transform-origin: 50% 0%;
+	opacity: 1;
+	transition: transform 0.3s, opacity 0.3s;
+	&.hidden {
+		transform: scaleY(0);
+		opacity: 0;
+	}
+
+	> .name {
+		display: flex;
+		align-items: center;
+		.avatar {
+			height: 50px;
+			width: 50px;
+			margin-right: 15px;
+			border-radius: 50%;
+			background-color: grey;
+			background-size: cover;
+			background-position: center;
+		}
+	}
+
+	> .buttons {
+		display: flex;
+		%button {
+			height: 50px;
+			width: 50px;
+			border-radius: 4px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			transition: background-color .3s;
+			background-color: #4D4D4D;
+
+			> span {
+				width: 25px;
+				height: 25px;
+			}
+		}
+
+		.accept {
+			@extend %button;
+			$main-color: #14B89C;
+			margin-right: 10px;
+
+			&:hover {
+				background-color: $main-color;
+			}
+
+			&:active {
+				background-color: darken($main-color, 5%);
+			}
+		}
+
+		.decline {
+			@extend %button;
+			$main-color: #D14F4F;
+			margin-left: 10px;
+
+			&:hover {
+				background-color: $main-color;
+			}
+
+			&:active {
+				background-color: darken($main-color, 5%);
+			}
+		}
+
+		.cancel {
+			@extend %button;
+			$main-color: gray;
+
+			&:hover {
+				background-color: lighten($main-color, 5%);
+			}
+
+			&:active {
+				background-color: darken($main-color, 5%);
+			}
+		}
+	}
+}
+
+.status, .mobileStatus {
+	> .indicator {
+		display: block;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background-color: gray;
+
+		&.online { background-color: #36AD93; }
+		&.streaming { background-color: #7B68EE; }
+		&.away { background-color: #FFCD44; }
+		&.busy { background-color: #D14F4F; }
+	}
+}
