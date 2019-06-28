@@ -1,0 +1,31 @@
+.snackbar {
+	color: white;
+	font-size: 0.8125rem;
+	background: grey;
+	padding: 5px 20px;
+	border-radius: 6px 6px 0 0;
+	margin: 0 32px;
+
+	&.warning { background: #FFCD44; }
+	&.error { background: #D14F4F; }
+	&.new { background: #7B68EE; }
+
+	.timer {
+		height: 18px;
+		width: 18px;
+		margin-right: 8px;
+		vertical-align: middle;
+	}
+	.dismiss {
+		height: 20px;
+		width: 20px;
+		vertical-align: middle;
+		cursor: pointer;
+		transition: .3s;
+		float: right;
+
+		&:hover {
+			fill: white;
+		}
+	}
+}

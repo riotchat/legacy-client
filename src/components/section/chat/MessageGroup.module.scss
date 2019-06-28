@@ -1,6 +1,7 @@
 .messageGroup {
     display: flex;
     margin: 25px 0px;
+    overflow: hidden;
     > .pfp {
         flex: 0 0 auto;
         background-size: cover;
@@ -28,9 +29,15 @@
                 font-weight: 600;
                 padding-right: 6px;
                 cursor: pointer;
+                min-width: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             > time {
+                display: inline-block;
+                word-break: none;
                 font-weight: 400;
                 color: #808080;
                 font-size: 12px;

@@ -38,9 +38,15 @@
 	}
 }
 
+.status {
+	color: #848484;
+	font-size: 12px;
+	user-select: none;
+}
+
 .settings {
 	height: 20px;
 	width: 20px;
 	cursor: pointer;
-	fill: #BCBCBC;
+	fill: #E8E8E8;
 }

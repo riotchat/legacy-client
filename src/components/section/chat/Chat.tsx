@@ -3,12 +3,13 @@ import * as React from 'react';
 import styles from './Chat.module.scss';
 import Icon from '../../util/Icon';
 import MessageBox from './MessageBox';
+import Snackbar from './Snackbar';
 
 import MessageGroup from './MessageGroup';
 import Message from './Message';
 
-export default class Chat extends React.Component<{}> {
-	constructor(props: {}) {
+export default class Chat extends React.Component<{openDrawer?: (drawer: "menu" | "members") => void}> {
+	constructor(props: any) {
 		super(props);
 
 		this.onSend = this.onSend.bind(this);
@@ -24,19 +25,23 @@ export default class Chat extends React.Component<{}> {
 			<div className={styles.root}>
 				<div className={styles.header}>
 					<div className={styles.items}>
-						<Icon className={styles.mobileMenu} icon="menu" type="regular" />
-						<Icon className={styles.icon} icon="chat" />
-						<div className={styles.nameWrapper}>
-							<div className={styles.name}>chat</div>
+						<div className={styles.mobileMenu} onClick={(e) => { if(this.props.openDrawer) this.props.openDrawer("menu"); }}>
+							<Icon icon="menu" type="regular" />
 						</div>
+						<Icon className={styles.icon} icon="chat" />
+						{/* <div className={styles.nameWrapper}> */}
+							<div className={styles.name}>chatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchat</div>
+						{/* </div> */}
 						<span className={styles.divider}/>
 						<div className={styles.descWrapper}>
                     		<div className={styles.description}>come and hang out, talk about anything you like.</div>
 						</div>
-						<div className={styles.menu}>
-                    		<Icon className={styles.menuIcon} icon="bell" />
-							<Icon className={styles.feedback} icon="megaphone" />
-						</div>
+					</div>
+					<div className={styles.menu}>
+						{/*<Icon className={styles.search} icon="search" type="regular"/>*/}
+						<Icon className={styles.menuIcon} icon="group"/>
+                    	<Icon className={styles.menuIcon} icon="bell"/>
+						<Icon className={styles.feedback} icon="megaphone"/>
 					</div>
 				</div>
 				<div className={styles.content}>
@@ -95,6 +100,12 @@ export default class Chat extends React.Component<{}> {
 					</MessageGroup>
 				</div>
 				<div className={styles.footer}>
+					<Snackbar
+						text="hahayes"
+						type="new"
+						icon="check"
+						iconType="regular"
+						onDismiss={() => {}} />
 					<MessageBox onSend={this.onSend} />
 				</div>
 			</div>
