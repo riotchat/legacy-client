@@ -35,7 +35,7 @@
         box-sizing: border-box;
         width: 100%;
         border-radius: 6px 0px 0px 6px;
-        border: 1px solid #707070;
+        /*border: 1px solid #707070;*/
         background: #434343;
         outline: 0;
         flex-grow: 1;
@@ -74,7 +74,7 @@
 
 .typeIndicator {
     $animation-duration: 1s;
-    display: block;
+    display: none; /*remove later thx*/
     padding-bottom: 10px;
     font-size: 12px;
 

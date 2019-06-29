@@ -6,23 +6,25 @@
 import * as React from 'react';
 import styles from './DirectMessage.module.scss';
 import Icon from '../../util/Icon';
+import { User } from 'riotchat.js';
 
 export default class DirectMessage extends React.Component<{
-    username: string,
-    status?: string,
-    avatarURL: string,
-    mobile?: boolean
+    user: User,
+    mobile?: boolean,
+    active?: boolean
+    onClick?: (event: React.MouseEvent<HTMLDivElement>) => void
 }> {
     render() {
+        if(this.props.user === undefined) return;
         return (
-            <div className={styles.parent} draggable={true}>
-                <div className={styles.avatar} aria-label="" title={this.props.username} style={{ backgroundImage: `url("${this.props.avatarURL}")` }}/>
+            <div className={`${styles.parent} ${this.props.active ? styles.active : ""}`} draggable={true} onClick={(e) => { if(this.props.onClick) this.props.onClick(e); }}>
+                <div className={styles.avatar} aria-label="" title={this.props.user.username} style={{ backgroundImage: `url("${this.props.user.avatarURL}")` }}/>
                 <div className={styles.username}>
                     <div className={styles.usernameInline}>
-                        <span>{this.props.username}</span>
+                        <span>{this.props.user.username}</span>
                         { this.props.mobile && <div className={styles.mobile}><Icon icon="mobile" type="regular"/></div> }
                     </div>
-                    { this.props.status && <div className={styles.status}>{this.props.status}</div> }
+                    { this.props.user.status && <div className={styles.status}>{this.props.user.status}</div> }
                 </div>
             </div>
         )

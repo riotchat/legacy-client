@@ -1,5 +1,6 @@
 import * as React from 'react';
 import marked from 'marked';
+import { Message as MessageClass } from 'riotchat.js/dist/internal/Message';
 
 import css from './Message.module.scss';
 let urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
@@ -20,11 +21,11 @@ const mdOptions: marked.MarkedOptions = {
     xhtml: true,
 };
 
-export default class Message extends React.Component {
+export default class Message extends React.Component<{ message: MessageClass }> {
     render() {
         let parsed = "";
-        if (this.props.children) {
-            let tokens = marked.lexer(this.props.children.toString(), mdOptions);
+        if (this.props.message && this.props.message.content) {
+            let tokens = marked.lexer(this.props.message.content.toString(), mdOptions);
             tokens.forEach((value, index, array) => {
                 let intermediate = value;
                 if(intermediate.type === "space")

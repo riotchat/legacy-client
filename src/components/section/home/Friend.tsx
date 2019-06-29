@@ -3,7 +3,7 @@ import * as React from 'react';
 import css from './Friend.module.scss';
 import Icon from '../../util/Icon';
 
-import { User } from '../../../../../riot.js';
+import { User } from 'riotchat.js';
 
 export default class Chat extends React.Component<{
 	user: User,

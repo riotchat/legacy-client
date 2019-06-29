@@ -6,21 +6,134 @@ import MessageBox from './MessageBox';
 import Snackbar from './Snackbar';
 
 import MessageGroup from './MessageGroup';
-import Message from './Message';
+import MessageComponent from './Message';
 
-export default class Chat extends React.Component<{openDrawer?: (drawer: "menu" | "members") => void}> {
-	constructor(props: any) {
+import { Message } from 'riotchat.js/dist/internal/Message';
+import { RiotClient } from '../../..';
+import ScrollIntoView from '../../util/ScrollIntoView';
+
+type ChatProps = {
+	channel: string,
+	openDrawer?: (drawer: "menu" | "members") => void
+}
+
+export default class Chat extends React.Component<ChatProps, { scroll: number, scrollToBottom: boolean, description: string, messages: Array<Message> }> {
+	mounted: boolean;
+	chatRef: React.RefObject<HTMLDivElement>;
+	constructor(props: ChatProps) {
 		super(props);
+		this.mounted = false;
+		this.chatRef = React.createRef();
+		this.state = {
+			description: "",
+			messages: [],
+			scroll: 0,
+			scrollToBottom: true
+		}
 
+		this.reloadChannel = this.reloadChannel.bind(this);
+		this.onMessage = this.onMessage.bind(this);
 		this.onSend = this.onSend.bind(this);
 	}
 
+	componentDidMount() {
+		this.mounted = true;
+		RiotClient.on('message', this.onMessage);
+		this.reloadChannel(this.props);
+	}
+
+	componentWillUnmount() {
+		this.mounted = false;
+		RiotClient.removeListener('message', this.onMessage);
+	}
+
+	componentWillReceiveProps(props: ChatProps) {
+		console.log("existing", this.props);
+		console.log("receiving", props);
+		if(this.props.channel !== props.channel) this.reloadChannel(props);
+	}
+
+	async reloadChannel(props: ChatProps) {
+		if(!this.mounted) return;
+		this.setState((prevState) => {
+			return Object.assign({}, prevState, {
+				description: "",
+				messages: [],
+				scroll: 0,
+				scrollToBottom: true
+			});
+		});
+		try {
+			let channel = await RiotClient.fetchChannel(props.channel);
+			let messages = await channel.fetchMessages();
+			if(!this.mounted || props.channel !== channel.id) return;
+			this.setState((prevState) => {
+				return Object.assign({}, prevState, {
+					description: channel.description,
+					messages
+				});
+			});
+		} catch(e) {
+			console.error(e);
+		}
+	}
+
+	onMessage(message: Message) {
+		if(message.channel.id !== this.props.channel) return;
+		this.setState((prevState, props) => {
+			let scrollToBottom = false;
+			if(this.chatRef.current !== null) {
+				let height = this.chatRef.current.clientHeight;
+				let scrollHeight = this.chatRef.current.scrollHeight;
+				if(prevState.scroll + height + 15 > scrollHeight) scrollToBottom = true;
+			}
+
+			return Object.assign({}, prevState, {
+				messages: prevState.messages.concat([ message ]),
+				scrollToBottom
+			});
+		});
+	}
+
 	onSend(message: string): boolean {
-		console.log(message);
+		if(message == "") return false;
+		RiotClient.fetchChannel(this.props.channel).then((channel) => {
+			channel.send(message);
+		});
 		return true;
 	}
 
+	handleScroll(event: React.UIEvent<HTMLDivElement>) {
+		let target = event.target as HTMLDivElement;
+		this.setState((prevState) => {
+			return Object.assign({}, prevState, {
+				scroll: target.scrollTop
+			});
+		});
+	}
+
 	render() {
+		let messageGroups: Array<React.ReactElement> = [];
+		let currentMessageGroup: React.ReactElement | undefined = undefined;
+
+		this.state.messages.forEach((message) => {
+			let previousInvalid = currentMessageGroup === undefined
+				|| currentMessageGroup.props.user === undefined
+				|| currentMessageGroup.props.user.id !== message.author.id;
+			if(previousInvalid) {
+				if(currentMessageGroup !== undefined) messageGroups.push(currentMessageGroup);
+				currentMessageGroup = <MessageGroup key={`mg${message.id}`} user={message.author} children={[]} />;
+			}
+			if(currentMessageGroup === undefined) return;
+
+			currentMessageGroup.props.children.push(
+				<MessageComponent message={message} />
+			);
+		});
+
+		if(currentMessageGroup !== undefined) messageGroups.push(currentMessageGroup);
+		currentMessageGroup = undefined;
+
 		return (
 			<div className={styles.root}>
 				<div className={styles.header}>
@@ -30,11 +143,11 @@ export default class Chat extends React.Component<{openDrawer?: (drawer: "menu" 
 						</div>
 						<Icon className={styles.icon} icon="chat" />
 						{/* <div className={styles.nameWrapper}> */}
-							<div className={styles.name}>chatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchatchat</div>
+							<div className={styles.name}>a name i guess</div>
 						{/* </div> */}
 						<span className={styles.divider}/>
 						<div className={styles.descWrapper}>
-                    		<div className={styles.description}>come and hang out, talk about anything you like.</div>
+                    		<div className={styles.description}>{this.state.description}</div>
 						</div>
 					</div>
 					<div className={styles.menu}>
@@ -44,8 +157,8 @@ export default class Chat extends React.Component<{openDrawer?: (drawer: "menu" 
 						<Icon className={styles.feedback} icon="megaphone"/>
 					</div>
 				</div>
-				<div className={styles.content}>
-					<MessageGroup timestamp={1561287828} username="nizune" pfpURL="/assets/images/nizune.png">
+				<div className={styles.content} onScroll={this.handleScroll} ref={this.chatRef}>
+					{/* <MessageGroup timestamp={1561287828} username="nizune" pfpURL="/assets/images/nizune.png">
 						<Message>
 							{`my name jeff`}
 						</Message>
@@ -97,15 +210,25 @@ export default class Chat extends React.Component<{openDrawer?: (drawer: "menu" 
 						<Message>
 							{`# [Link in a heading](https://i.kym-cdn.com/photos/images/newsfeed/001/170/001/c44.png)`}
 						</Message>
-					</MessageGroup>
+					</MessageGroup> */}
+					{messageGroups}
+					{messageGroups.length !== 0 && (
+						<ScrollIntoView scroll={this.state.scrollToBottom} onScrolled={
+							() => this.setState((prevState) => {
+								return Object.assign({}, prevState, {
+									scrollToBottom: false
+								});
+							}
+						)} />
+					)}
 				</div>
 				<div className={styles.footer}>
-					<Snackbar
+					{/*<Snackbar
 						text="hahayes"
 						type="new"
 						icon="check"
 						iconType="regular"
-						onDismiss={() => {}} />
+						onDismiss={() => {}} />*/}
 					<MessageBox onSend={this.onSend} />
 				</div>
 			</div>

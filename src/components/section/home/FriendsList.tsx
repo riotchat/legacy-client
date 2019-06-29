@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import Icon from '../../util/Icon';
 import Friend from './Friend';
-import { User } from '../../../../../riot.js';
+import { User } from 'riotchat.js';
 
 import css from './FriendsList.module.scss';
 import { scrollable } from '../../util/Scrollbar';

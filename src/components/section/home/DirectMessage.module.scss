@@ -8,7 +8,7 @@
 	align-items: stretch;
 	opacity: .99;
     
-    &:hover {
+    &:hover, &.active {
         background: #373737;
     }
 

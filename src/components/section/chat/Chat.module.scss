@@ -145,6 +145,7 @@
 		flex: 0 0 auto;
 
 		.menuIcon {
+			margin-left: 10px;
 			cursor: pointer;
 		}
 
@@ -166,6 +167,7 @@
 	overflow-x: auto;
 	padding: 0px 30px;
 	color: white;
+	user-select: text;
 
 	@media only screen and (max-width: 900px) {
 		padding: 0 20px;
