@@ -6,6 +6,8 @@
 import * as React from 'react';
 import styles from './Profile.module.scss';
 import Icon from '../util/Icon';
+import StatusMenu from './StatusMenu';
+import ConnectedVoice from './ConnectedVoice';
 
 import { RiotClient } from '../../index';
 
@@ -20,15 +22,20 @@ function properStatus(status: string): string {
 export default class Profile extends React.Component<{}, {
     username: string,
     status: string,
-    avatarURL: string
+    avatarURL: string,
+    statusMenuOpen: boolean
 }> {
     constructor(props: {}) {
         super(props);
         this.state = {
             username: "",
             status: "",
-            avatarURL: ""
+            avatarURL: "",
+            statusMenuOpen: false
         }
+
+        this.updateStateFromClient = this.updateStateFromClient.bind(this);
+        this.setStatusMenu = this.setStatusMenu.bind(this);
     }
 
     componentDidMount() {
@@ -45,15 +52,27 @@ export default class Profile extends React.Component<{}, {
 
     }
 
+    setStatusMenu(open: boolean) {
+        this.setState((prevState) => {
+            return Object.assign({}, prevState, {
+                statusMenuOpen: open
+            });
+        });
+    }
+
     render() {
         return (
-            <div className={`${styles.profile}`}>
-                <div className={`${styles.picture}`} style={{ backgroundImage: `url("${this.state.avatarURL}")` }}/>
-                <div className={`${styles.username}`}>
-					<div>{this.state.username}</div>
-                    {this.state.status.toUpperCase() !== "ONLINE" && <div className={`${styles.status}`}>{this.state.status}</div> }
+            <div>
+                <ConnectedVoice />
+                <StatusMenu open={this.state.statusMenuOpen} onSet={() => this.setStatusMenu(false)}/>
+                <div className={`${styles.profile}`}>
+                    <div className={`${styles.picture}`} style={{ backgroundImage: `url("${this.state.avatarURL}")` }} onClick={() => this.setStatusMenu(!this.state.statusMenuOpen)}/>
+                    <div className={`${styles.username}`}>
+                        <span>{this.state.username}</span>
+                        {this.state.status.toUpperCase() !== "ONLINE" && <div className={`${styles.status}`}>{this.state.status}</div> }
+                    </div>
+                    <Icon className={styles.settings} icon="cog" />
                 </div>
-                <Icon className={styles.settings} icon="cog" />
             </div>
         )
     }

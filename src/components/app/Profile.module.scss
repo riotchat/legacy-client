@@ -4,6 +4,7 @@
 	height: 38px;
 	width: 262px - (12px * 2);
 	align-items: center;
+	user-select: text;
 }
 
 .picture {
@@ -11,7 +12,7 @@
 	height: 38px;
 	width: 38px;
 	border-radius: 50%;
-	background-color: grey;
+	background-color: #434343;
 	justify-content: center;
 	position: relative;
 	cursor: pointer;
@@ -28,7 +29,6 @@
 	font-weight: 600;
 	font-size: 14px;
 	flex-grow: 1;
-	user-select: text;
 
 	div {
 		max-width: 150px;

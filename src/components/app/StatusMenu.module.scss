@@ -1,0 +1,87 @@
+.menu {
+    background: #404040;
+    width: 262px;
+    padding: 10px 0;
+
+    &.hidden {
+        display: none;
+    }
+
+    .picker {
+        margin: 0 10px;
+    }
+
+    .divider {
+        margin: 4px 0;
+        height: 1px;
+        width: 100%;
+        background: #707070;
+        border-radius: 60px;
+    }
+
+    .status {
+        padding: 10px 20px;
+        border-radius: 4px;
+        transition: background-color .3s;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #2D2D2D;
+        }
+
+        &:active {
+            background-color: #373737;
+        }
+
+        $name-size: 24px;
+        $dot-size: 10px;
+
+        .name { line-height: $name-size; }
+        .icon {
+            height: 20px;
+            width: 20px;
+            
+        }
+        .dot {
+            display: inline-block;
+            height: $dot-size;
+            width: $dot-size;
+            border-radius: 50%;
+            background: gray;
+            &.online { background: #14B89C; }
+            &.away { background: #FFCD44; }
+            &.busy { background: #D14F4F; }
+
+            $top-bottom-margin: ($name-size - $dot-size) / 2;
+            margin: $top-bottom-margin 8px $top-bottom-margin 0px;
+        }
+
+        .dotAndName {
+            display: flex;
+
+            > .dot, > span {
+                vertical-align: middle;
+                flex: 0 0 auto;
+            }
+
+            .nameWrapper {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: column;
+
+                .name {
+                    flex: 1 1 auto;
+                    line-height: $name-size;
+                }
+
+                .description {
+                    flex: 1 1 auto;
+                    display: block;
+                    font-size: 11px;
+                    color: #AFAFAF;
+                }
+            }
+        }
+    }
+}

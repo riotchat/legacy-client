@@ -1,0 +1,49 @@
+.menu {
+    background: #313131;
+    padding: 10px;
+
+    .connected {
+        .status {
+            font-size: 14px;
+            font-weight: 600;
+            color: #36AD93;
+
+            &.connected {color: #36AD93}
+            &.connecting {color: #36AD93}
+            &.disconnected {color: #36AD93}
+        }
+    }
+}
+
+.channel {
+    font-size: 12px;
+    color: #8F8F8F;
+}
+
+.disconnect {
+    cursor: pointer;
+}
+
+.icon {
+    height: 16px;
+    width: 16px;
+    margin-right: 3px;
+    fill: #8F8F8F !important;
+}
+
+.connectedUsers {
+    margin: 12px 0;
+}
+
+.mute {
+    fill: #36AD93 !important;
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+}
+
+.volume {
+    fill: #BCBCBC !important;
+    height: 20px;
+    width: 20px;
+}
