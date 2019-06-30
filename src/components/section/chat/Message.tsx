@@ -1,8 +1,10 @@
 import * as React from 'react';
 import marked from 'marked';
+import hljs from 'highlight.js';
 import { Message as MessageClass } from 'riotchat.js/dist/internal/Message';
 
 import css from './Message.module.scss';
+
 let urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
 const renderer = new marked.Renderer();
@@ -16,15 +18,24 @@ renderer.link = (href, title, text) => {
 
 const mdOptions: marked.MarkedOptions = {
     renderer,
+    gfm: true,
     tables: false,
     sanitize: true,
     xhtml: true,
+    highlight: (code, lang) => {
+        try {
+            return hljs.highlight(lang, code).value;
+        } catch(e) {
+            return code;
+        }
+    }
 };
 
 export default class Message extends React.Component<{ message: MessageClass }> {
     render() {
+        if(!this.props.message) return null;
         let parsed = "";
-        if (this.props.message && this.props.message.content) {
+        if (this.props.message.content) {
             let tokens = marked.lexer(this.props.message.content.toString(), mdOptions);
             tokens.forEach((value, index, array) => {
                 let intermediate = value;
@@ -43,11 +54,15 @@ export default class Message extends React.Component<{ message: MessageClass }> 
             });
             parsed = marked.parser(tokens, mdOptions);
         }
+
         return (
             <div className={css.message}>
                 <span className={css.content} dangerouslySetInnerHTML={{
                     __html: parsed
                 }} />
+                { (this.props.message.createdAt.getTime() !== this.props.message.updatedAt.getTime()) && (
+                    <span></span>
+                )}
             </div>
         )
     }
