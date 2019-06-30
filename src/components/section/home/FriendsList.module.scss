@@ -17,10 +17,8 @@
 	padding: 21px 32px;
 	height: $normal-size;
 	background: #343434;
-	/*background: #464646;*/
 	color: whitesmoke;
 	box-shadow: 0px 1px 6px 0px rgba(33,33,33,0.4);
-	/*box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);*/
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -44,7 +42,7 @@
 			justify-content: center;
 			align-items: center;
 
-			.bar {
+			%bar {
 				position: absolute;
 				bottom: 0px;
 				left: 50%;
@@ -58,8 +56,21 @@
 				pointer-events: none;
 			}
 
+			.bar {
+				@extend %bar;	
+			}
+
 			&.active .bar {
 				width: 100%;
+			}
+
+			.incomingBar {
+				@extend %bar;
+				background-color: red;
+				width: 0%;
+				&.active {
+					width: 100%;
+				}
 			}
 		}
 	}
@@ -170,10 +181,10 @@
 .friends {
 	color: white;
 	height: 100%;
+	padding: 20px 0;
 	margin: 0px 20px;
 
 	> .incoming {
-		padding-top: 20px;
 		.incomingText {
 			display: block;
 			font-size: 12px;
@@ -184,7 +195,6 @@
 	}
 
 	> .outgoing {
-		/*padding-top: 20px;*/
 		.outgoingText {
 			display: block;
 			font-size: 12px;
