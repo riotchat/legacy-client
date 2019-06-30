@@ -13,7 +13,12 @@ RiotClient.on('connected', () => {
 	localStorage.setItem("token", (RiotClient as any).accessToken);
 })
 
-export { RiotClient };
+let focused = true;
+window.onfocus = () => focused = true;
+window.onblur = () => focused = false;
+
+export { RiotClient, focused };
+(window as any).RiotClient = RiotClient;
 
 class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" | "noToken" | "connectionError", email: string, password: string}> {
 	mounted: boolean;
@@ -31,19 +36,14 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 		this.changeEmail = this.changeEmail.bind(this);
 		this.changePassword = this.changePassword.bind(this);
 		this.loginWithCredentials = this.loginWithCredentials.bind(this);
-
-		RiotClient.on('connected', () => {
-			if(!this.mounted) return;
-			this.setState(Object.assign({}, this.state, {
-				loginState: "loggedIn",
-				email: "",
-				password: ""
-			}));
-		});
+		this.successfulLogin = this.successfulLogin.bind(this);
+		this.error = this.error.bind(this);
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		this.mounted = true;
+		RiotClient.on('connected', this.successfulLogin);
+		RiotClient.on('error', this.error);
 		let token = localStorage.getItem("token");
 		if(token != null) {
 			RiotClient.login(token);
@@ -51,6 +51,8 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 	}
 
 	componentWillUnmount() {
+		RiotClient.removeListener('connected', this.successfulLogin);
+		RiotClient.removeListener('error', this.error);
 		this.mounted = false;
 	}
 
@@ -66,13 +68,32 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 		}));
 	}
 
-	loginWithCredentials(event: React.FormEvent<HTMLFormElement>) {
+	async loginWithCredentials(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		if(!this.mounted) return;
-		RiotClient.login(this.state.email, this.state.password);
 
 		this.setState(Object.assign({}, this.state, {
 			loginState: "loggingIn",
+			email: "",
+			password: ""
+		}));
+
+		RiotClient.login(this.state.email, this.state.password);
+	}
+
+	successfulLogin() {
+		if(!this.mounted) return;
+		this.setState(Object.assign({}, this.state, {
+			loginState: "loggedIn",
+			email: "",
+			password: ""
+		}));
+	}
+
+	error() {
+		if(!this.mounted || this.state.loginState === "loggedIn") return;
+		this.setState(Object.assign({}, this.state, {
+			loginState: "connectionError",
 			email: "",
 			password: ""
 		}));
@@ -93,10 +114,17 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 					</div>
 				)}
 				{ this.state.loginState === "loggingIn" && (
-					<h3>Logging in</h3>
+					<div>
+						<h3>Logging in</h3><br /><br />
+						<button onClick={() => { localStorage.removeItem("token"); window.location.reload() }}>Re-login</button>
+					</div>
 				)}
 				{ this.state.loginState === "connectionError" && (
-					<h2>Connection error</h2>
+					<div>
+						<h2>Connection error</h2><br /><br />
+						<button onClick={() => window.location.reload()}>Retry</button><br /><br />
+						<button onClick={() => { localStorage.removeItem("token"); window.location.reload() }}>Re-login</button>
+					</div>
 				)}
 			</div>
 		);

@@ -12,9 +12,11 @@ html, body {
 	font-family: 'Open Sans', sans-serif;
 	user-select: none;
 	background: #333234;
+
+	/* This should disable the address bar on mobile - currently broken, will be purged on next release  */
 	overscroll-behavior: contain;
 
-	/* Disables highlight color on mobile devices - this function is disabled by enabling accessibility mode in settings*/
+	/* Disables highlight color on mobile devices - this function can be disabled by enabling accessibility mode in settings */
 	-webkit-tap-highlight-color: transparent;
 }
 
@@ -31,23 +33,20 @@ html, body {
 .mainSidebars {
 	background: #333234;
 	display: flex;
-
-	@media only screen and (max-width: 900px) {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		height: 100%;
-		z-index: 99;
-		transform: translate(-100%, 0%);
-		transition: transform 0.3s ease;
-
-		&.open {
-			transform: translate(0%, 0%);
-		}
-    }
 }
 
-.drawerOpacity {
+.drawerPaper {
+	overflow-y: unset !important;
+	border: none !important;
+}
+
+.dockedMainSidebar {
+	@media only screen and (min-width: 901px) {
+		width: 350px;
+	}
+}
+
+/*.drawerOpacity {
 	display: none;
 	position: absolute;
 	top: 0px;
@@ -68,7 +67,7 @@ html, body {
 			pointer-events: visible;
 		}
     }
-}
+}*/
 
 .sidebar {
 	$sidebar-width: 88px;
@@ -111,7 +110,7 @@ html, body {
 			}
 
 			&:hover { background: #A0A0A0; }
-			&.active { background: grey; } //this is currently active?
+			&.active { background: grey; }
 		}
 
 		.divider {
@@ -119,7 +118,7 @@ html, body {
 			display: block;
 			height: 1px;
 			width: $width;
-			margin: 14px ((88px - $width) / 2);
+			margin: 10px ((88px - $width) / 2);
 			background: #707070;
 			border-radius: 60px;
 		}
@@ -135,13 +134,14 @@ html, body {
 		.add {
 			$button-margin: 10px;
 			flex-shrink: 1;
-			//margin-top: -$sidebar-width;
 			width: $sidebar-width;
 			background: linear-gradient(transparent, #333234);
 			z-index: 1;
 			position: fixed;
 			bottom: 0px;
 			left: 0px;
+
+			svg { cursor: pointer; }
 
 			span, svg {
 				position: relative;
@@ -153,8 +153,6 @@ html, body {
 				height: $sidebar-width - ($button-margin * 4);
 				margin: $button-margin;
 			}
-
-			svg { cursor: pointer; }
 		}
 	}
 
