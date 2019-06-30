@@ -10,46 +10,62 @@ import MessageComponent from './Message';
 
 import { Message } from 'riotchat.js/dist/internal/Message';
 import { RiotClient } from '../../..';
-import ScrollIntoView from '../../util/ScrollIntoView';
+import { ChannelType } from 'riotchat.js/dist/api/v1/channels';
+import { User } from 'riotchat.js';
 
 type ChatProps = {
 	channel: string,
 	openDrawer?: (drawer: "menu" | "members") => void
 }
 
-export default class Chat extends React.Component<ChatProps, { scroll: number, scrollToBottom: boolean, description: string, messages: Array<Message> }> {
+export default class Chat extends React.Component<ChatProps, { scroll: number, name: string, type: "chat" | "dm" | "self", description: string, messages: Array<Message> }> {
 	mounted: boolean;
 	chatRef: React.RefObject<HTMLDivElement>;
+	scrollToBottomRef: React.RefObject<HTMLDivElement>;
 	constructor(props: ChatProps) {
 		super(props);
 		this.mounted = false;
 		this.chatRef = React.createRef();
+		this.scrollToBottomRef = React.createRef();
 		this.state = {
 			description: "",
 			messages: [],
 			scroll: 0,
-			scrollToBottom: true
+			name: "",
+			type: "chat"
 		}
 
+		this.scrollToBottom = this.scrollToBottom.bind(this);
 		this.reloadChannel = this.reloadChannel.bind(this);
 		this.onMessage = this.onMessage.bind(this);
 		this.onSend = this.onSend.bind(this);
+		this.handleScroll = this.handleScroll.bind(this);
+	}
+
+	scrollToBottom() {
+		setTimeout(() => {
+			if(this.scrollToBottomRef.current === null) return;
+			this.scrollToBottomRef.current.scrollIntoView({
+				block: "end",
+				inline: "end"
+			});
+		}, 0);
 	}
 
 	componentDidMount() {
 		this.mounted = true;
 		RiotClient.on('message', this.onMessage);
 		this.reloadChannel(this.props);
+		(window as any).chatRef = this.chatRef;
 	}
 
 	componentWillUnmount() {
 		this.mounted = false;
 		RiotClient.removeListener('message', this.onMessage);
+		(window as any).chatRef = undefined;
 	}
 
 	componentWillReceiveProps(props: ChatProps) {
-		console.log("existing", this.props);
-		console.log("receiving", props);
 		if(this.props.channel !== props.channel) this.reloadChannel(props);
 	}
 
@@ -57,19 +73,41 @@ export default class Chat extends React.Component<ChatProps, { scroll: number, s
 		if(!this.mounted) return;
 		this.setState((prevState) => {
 			return Object.assign({}, prevState, {
+				name: "",
+				type: "chat",
 				description: "",
 				messages: [],
 				scroll: 0,
-				scrollToBottom: true
 			});
 		});
 		try {
 			let channel = await RiotClient.fetchChannel(props.channel);
+			this.setState((prevState) => {
+				let name = "insert implement fucking channel names";
+				let type = "chat";
+				if (channel.type === ChannelType.DM && channel.users !== undefined) {
+					let users = (channel.users as Array<User>).filter((value) => {
+						return value.id !== RiotClient.user.id;
+					});
+
+					if(users[0] === undefined) {
+						name = "Saved Messages";
+						type = "self";
+					} else {
+						name = users[0].username;
+						type = "dm";
+					}
+				}
+				return Object.assign({}, prevState, {
+					name, type,
+					description: channel.description
+				});
+			});
 			let messages = await channel.fetchMessages();
 			if(!this.mounted || props.channel !== channel.id) return;
 			this.setState((prevState) => {
+				this.scrollToBottom();
 				return Object.assign({}, prevState, {
-					description: channel.description,
 					messages
 				});
 			});
@@ -81,16 +119,14 @@ export default class Chat extends React.Component<ChatProps, { scroll: number, s
 	onMessage(message: Message) {
 		if(message.channel.id !== this.props.channel) return;
 		this.setState((prevState, props) => {
-			let scrollToBottom = false;
 			if(this.chatRef.current !== null) {
 				let height = this.chatRef.current.clientHeight;
 				let scrollHeight = this.chatRef.current.scrollHeight;
-				if(prevState.scroll + height + 15 > scrollHeight) scrollToBottom = true;
+				if(prevState.scroll + height + 50 > scrollHeight) this.scrollToBottom();
 			}
 
 			return Object.assign({}, prevState, {
 				messages: prevState.messages.concat([ message ]),
-				scrollToBottom
 			});
 		});
 	}
@@ -119,15 +155,16 @@ export default class Chat extends React.Component<ChatProps, { scroll: number, s
 		this.state.messages.forEach((message) => {
 			let previousInvalid = currentMessageGroup === undefined
 				|| currentMessageGroup.props.user === undefined
-				|| currentMessageGroup.props.user.id !== message.author.id;
+				|| currentMessageGroup.props.user.id !== message.author.id
+				|| (currentMessageGroup.props.timestamp + (10 * 60 * 1000)) < message.createdAt.getTime();
 			if(previousInvalid) {
 				if(currentMessageGroup !== undefined) messageGroups.push(currentMessageGroup);
-				currentMessageGroup = <MessageGroup key={`mg${message.id}`} user={message.author} children={[]} />;
+				currentMessageGroup = <MessageGroup key={`mg${message.id}`} user={message.author} timestamp={message.createdAt.getTime()} children={[]} />;
 			}
 			if(currentMessageGroup === undefined) return;
 
 			currentMessageGroup.props.children.push(
-				<MessageComponent message={message} />
+				<MessageComponent key={`m${message.id}`} message={message} />
 			);
 		});
 
@@ -141,9 +178,11 @@ export default class Chat extends React.Component<ChatProps, { scroll: number, s
 						<div className={styles.mobileMenu} onClick={(e) => { if(this.props.openDrawer) this.props.openDrawer("menu"); }}>
 							<Icon icon="menu" type="regular" />
 						</div>
-						<Icon className={styles.icon} icon="chat" />
+						{ this.state.type === "chat" && <Icon className={styles.icon} icon="chat" type="solid"/> }
+						{ this.state.type === "dm" && <Icon className={styles.icon} icon="at" type="regular" /> }
+						{ this.state.type === "self" && <Icon className={styles.icon} icon="inbox" type="regular" /> }
 						{/* <div className={styles.nameWrapper}> */}
-							<div className={styles.name}>a name i guess</div>
+							<div className={styles.name}>{this.state.name}<div style={{width: "5px"}} /></div>
 						{/* </div> */}
 						<span className={styles.divider}/>
 						<div className={styles.descWrapper}>
@@ -158,69 +197,8 @@ export default class Chat extends React.Component<ChatProps, { scroll: number, s
 					</div>
 				</div>
 				<div className={styles.content} onScroll={this.handleScroll} ref={this.chatRef}>
-					{/* <MessageGroup timestamp={1561287828} username="nizune" pfpURL="/assets/images/nizune.png">
-						<Message>
-							{`my name jeff`}
-						</Message>
-					</MessageGroup>
-					<MessageGroup timestamp={1561287851} username="FatalErrorCoded" pfpURL="/assets/images/fatalerrorcoded.png">
-						<Message>
-							{`Hey nizune!`}
-						</Message>
-					</MessageGroup>
-					<MessageGroup timestamp={1561287868} username="tech support scammer" pfpURL="https://owo.insrt.uk/rDWrK7q0XJ8MpKdHFPP-Q.png">
-						<Message>
-							{`Haha **yes**!\ntime to\nscam some\n\npeople`}
-						</Message>
-					</MessageGroup>
-					<MessageGroup timestamp={1561290160} username="FatalErrorCoded" pfpURL="/assets/images/fatalerrorcoded.png">
-						<Message>
-							{`Test`}
-						</Message>
-						<Message>
-							{`Single\nLine break`}
-						</Message>
-						<Message>
-							{`Double\n\nLine break`}
-						</Message>
-						<Message>
-							{`# Level 1\n## Level 2\n### Level 3\n#### Level 4\n##### Level 5\n###### Level 6`}
-						</Message>
-						<Message>
-							{`> Block Quotes\n>Now this is great\n> - almighty fatal\n> > also you can have block quotes inside block quotes cause why the heck not`}
-						</Message>
-					</MessageGroup>
-					<MessageGroup timestamp={1561304582} username="FatalErrorCoded" pfpURL="/assets/images/fatalerrorcoded.png">
-						<Message>
-							{`Testing links https://marked.js.org/#/USING_ADVANCED.md#options`}
-						</Message>
-						<Message>
-							{`<b>This should be sanitized</b><script>alert('this is NOT sanitized!')</script>`}
-						</Message>
-					</MessageGroup>
-					<MessageGroup timestamp={1561305347} username="nizune" pfpURL="/assets/images/nizune.png">
-						<Message>
-							{`here's a link to test: https://www.youtube.com/watch?v=dQw4w9WgXcQ`}
-						</Message>
-					</MessageGroup>
-					<MessageGroup timestamp={1561305844} username="FatalErrorCoded" pfpURL="/assets/images/fatalerrorcoded.png">
-						<Message>
-							{`[Another link which should NOT work outside of embeds](https://i.kym-cdn.com/photos/images/newsfeed/001/170/001/c44.png)`}
-						</Message>
-						<Message>
-							{`# [Link in a heading](https://i.kym-cdn.com/photos/images/newsfeed/001/170/001/c44.png)`}
-						</Message>
-					</MessageGroup> */}
 					{messageGroups}
-					{messageGroups.length !== 0 && (
-						<ScrollIntoView scroll={this.state.scrollToBottom} onScrolled={
-							() => this.setState((prevState) => {
-								return Object.assign({}, prevState, {
-									scrollToBottom: false
-								});
-							}
-						)} />
-					)}
+					<div ref={this.scrollToBottomRef} />
 				</div>
 				<div className={styles.footer}>
 					{/*<Snackbar

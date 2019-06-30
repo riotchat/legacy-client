@@ -17,7 +17,7 @@ export default class MessageGroup extends React.Component<{
                     <span className={css.header}>
                         <span className={css.username}>{this.props.user.username}</span>
                         { this.props.timestamp && (
-                            <time>{ moment(this.props.timestamp * 1000).calendar() }</time>
+                            <time>{ moment(this.props.timestamp).calendar() }</time>
                         )}
                     </span>
                     {this.props.children}

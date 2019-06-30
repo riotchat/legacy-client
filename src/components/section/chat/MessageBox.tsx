@@ -14,11 +14,15 @@ export default class MessageBox extends React.Component<{ onSend: (message: stri
         this.onMessageChange = this.onMessageChange.bind(this);
         this.onMessageKeyPress = this.onMessageKeyPress.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onPaste = this.onPaste.bind(this);
 	}
 
     onMessageChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-        this.setState({
-            message: e.target.value
+        let message = e.target.value;
+        this.setState((prevState) => {
+            return Object.assign({}, prevState, {
+                message
+            });
         });
     }
 
@@ -31,13 +35,19 @@ export default class MessageBox extends React.Component<{ onSend: (message: stri
 
 	onSubmit(e?: React.FormEvent) {
         if(e !== undefined) e.preventDefault();
-        let returnValue = this.props.onSend(this.state.message);
-        if(returnValue === true) {
-            this.setState({
-                message: ""
-            });
-        }
+        this.setState((prevState) => {
+            let returnValue = this.props.onSend(this.state.message);
+            if(returnValue === true) {
+                return Object.assign({}, prevState, {
+                    message: ""
+                });
+            } else return prevState;
+        });
 	}
+
+    onPaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
+        console.log(e.clipboardData);
+    }
 
 	render() {
 		return (
@@ -46,7 +56,15 @@ export default class MessageBox extends React.Component<{ onSend: (message: stri
                 <div className={css.messageBox}>
                     <div className={css.textArea}>
                         <form onSubmit={this.onSubmit}>
-                            <Textarea maxRows={5} value={this.state.message} onChange={this.onMessageChange} placeholder="Message User" onKeyPress={this.onMessageKeyPress} style={{ height: "19px" }}></Textarea>
+                            <Textarea
+                                maxRows={5}
+                                value={this.state.message}
+                                onChange={this.onMessageChange}
+                                placeholder="Message User"
+                                onKeyPress={this.onMessageKeyPress}
+                                style={{ height: "19px" }}
+                                onPaste={this.onPaste}
+                            ></Textarea>
                         </form>
                     </div>
                     <div className={css.actionButton}>
