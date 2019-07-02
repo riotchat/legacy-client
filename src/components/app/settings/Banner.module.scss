@@ -1,0 +1,38 @@
+.banner {
+    background: #977EFF;
+    display: none;
+    width: 100%;
+    //height: 50px;
+    padding: 15px 0;
+    text-align: center;
+    @media screen and (min-width: 901px) {
+        display: block;
+    }
+
+    &.mobile {
+        display: block;
+        @media screen and (min-width: 901px) {
+            display: none;
+        }
+    }
+    
+    .icon {
+        display: inline-block;
+    }
+
+    a {
+        color: #E8E8E8;
+        padding-left: 10px;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+.title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.text {
+    font-size: 0.875rem;
+}

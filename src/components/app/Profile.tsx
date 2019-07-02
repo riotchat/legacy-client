@@ -1,6 +1,6 @@
 /**
  * Profile widget for displaying user status
- * @namespace app
+ * @namespace profile
  */
 
 import * as React from 'react';
@@ -9,7 +9,7 @@ import Icon from '../util/Icon';
 import StatusMenu from './StatusMenu';
 import ConnectedVoice from './ConnectedVoice';
 
-import { RiotClient } from '../../index';
+import { RiotClient, pubsub } from '../../index';
 
 function properStatus(status: string): string {
     let tempStatus = status;
@@ -62,7 +62,7 @@ export default class Profile extends React.Component<{}, {
 
     render() {
         return (
-            <div>
+            <div style={{ flex: "0 0 auto" }}>
                 <ConnectedVoice />
                 <StatusMenu open={this.state.statusMenuOpen} onSet={() => this.setStatusMenu(false)}/>
                 <div className={`${styles.profile}`}>
@@ -71,7 +71,7 @@ export default class Profile extends React.Component<{}, {
                         <span>{this.state.username}</span>
                         {this.state.status.toUpperCase() !== "ONLINE" && <div className={`${styles.status}`}>{this.state.status}</div> }
                     </div>
-                    <Icon className={styles.settings} icon="cog" />
+                    <Icon className={styles.settings} icon="cog" onClick={ () => { pubsub.emit('openSettings'); } } />
                 </div>
             </div>
         )

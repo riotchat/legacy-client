@@ -14,15 +14,21 @@ import Chat from './components/section/chat/Chat';
 import { scrollable, hiddenScrollbar } from './components/util/Scrollbar';
 import Icon from './components/util/Icon';
 import FriendsList from './components/section/home/FriendsList';
-import { RiotClient, focused } from './index';
+import { RiotClient, focused, pubsub } from './index';
 import * as SFX from './sfx';
+import ErrorBoundary from './components/util/ErrorBoundary';
+import SettingsPanel, { SettingsPanelTabs } from './components/app/Settings';
 
 class App extends React.Component<{}, {
 	drawer: undefined | "menu" | "members",
 	section: "home" | string,
 	channel: HomeBaseChannels | string,
 	lastHomeChannel: HomeBaseChannels | string,
-	screen: {width: number}
+	screen: {width: number},
+	settingsPanel: {
+		open: boolean,
+		tab: SettingsPanelTabs
+	}
 }> {
 	theme: 'light' | 'dark';
 
@@ -34,21 +40,28 @@ class App extends React.Component<{}, {
 			section: "home",
 			channel: "friends",
 			lastHomeChannel: "friends",
-			screen: { width: window.innerWidth }
+			screen: { width: window.innerWidth },
+			settingsPanel: { open: false, tab: undefined }
 		};
 
 		this.openDrawer = this.openDrawer.bind(this);
 		this.closeDrawer = this.closeDrawer.bind(this);
+
 		this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+		this.onMessage = this.onMessage.bind(this);
+
 		this.setSection = this.setSection.bind(this);
 		this.setChannel = this.setChannel.bind(this);
 		this.setDMChannel = this.setDMChannel.bind(this);
-		this.onMessage = this.onMessage.bind(this);
+
+		this.openSettings = this.openSettings.bind(this);
+		this.closeSettings = this.closeSettings.bind(this);
 	}
 
 	componentDidMount() {
 		RiotClient.on('message', this.onMessage);
-		window.addEventListener("resize", this.updateWindowDimensions);
+		window.addEventListener('resize', this.updateWindowDimensions);
+		pubsub.on('openSettings', this.openSettings);
 		this.updateWindowDimensions();
 	}
 
@@ -108,9 +121,37 @@ class App extends React.Component<{}, {
 	}
 
 	onMessage(message: Message) {
-		if(message.channel.type !== ChannelType.DM && message.channel.type !== ChannelType.GROUP) return;
-		if(message.channel.id === this.state.channel && focused) return;
+		if(message.channel.type !== ChannelType.DM && message.channel.type !== ChannelType.GROUP) {
+			console.log("is not dm");
+			return;
+		}
+		if(message.channel.id === this.state.channel && focused && !this.state.settingsPanel.open) {
+			console.log("epic multiblock");
+			console.log(message.channel.id === this.state.channel, focused, this.state.settingsPanel.open);
+			return;
+		}
 		SFX.message();
+	}
+
+	openSettings(tab?: SettingsPanelTabs) {
+		this.setState((prevState) => {
+			return Object.assign({}, prevState, {
+				settingsPanel: {
+					open: true,
+					tab
+				}
+			});
+		});
+	}
+
+	closeSettings() {
+		this.setState((prevState) => {
+			return Object.assign({}, prevState, {
+				settingsPanel: {
+					open: false
+				}
+			});
+		});
 	}
 
 	render() {
@@ -144,28 +185,35 @@ class App extends React.Component<{}, {
 		let variant: "temporary" | "persistent" = this.state.screen.width > 900 ? "persistent" : "temporary";
 
 		return (
-			<div className={styles.root}>
-				<div className={`${styles.drawerOpacity} ${this.state.drawer !== undefined ? styles.active : ""}`} onClick={this.closeDrawer} />
-				<SwipeableDrawer
-					variant={variant}
-					onOpen={() => this.openDrawer("menu")}
-					onClose={this.closeDrawer}
-					open={variant === "temporary" ? (this.state.drawer === "menu") : true}
-					swipeAreaWidth={30}
-					disableBackdropTransition={true}
-					disableSwipeToOpen={
-						(typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !((navigator as any).standalone))
-					}
-					classes={{
-						docked: styles.dockedMainSidebar,
-						paper: styles.drawerPaper
-					}}
-				>
-					{sidebar}
-				</SwipeableDrawer>
-				{ this.state.channel === "friends"
-					? <FriendsList openDM={this.setDMChannel} openDrawer={this.openDrawer} />
-					: <Chat channel={this.state.channel} openDrawer={this.openDrawer} /> }
+			<div>
+				<div className={styles.root}>
+					<div className={`${styles.drawerOpacity} ${this.state.drawer !== undefined ? styles.active : ""}`} onClick={this.closeDrawer} />
+					<SwipeableDrawer
+						variant={variant}
+						onOpen={() => this.openDrawer("menu")}
+						onClose={this.closeDrawer}
+						open={variant === "temporary" ? (this.state.drawer === "menu") : true}
+						swipeAreaWidth={30}
+						disableBackdropTransition={true}
+						disableSwipeToOpen={
+							(typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !((navigator as any).standalone))
+						}
+						classes={{
+							docked: styles.dockedMainSidebar,
+							paper: styles.drawerPaper
+						}}
+					>
+						{sidebar}
+					</SwipeableDrawer>
+					{ this.state.channel === "friends"
+						? <FriendsList openDM={this.setDMChannel} openDrawer={this.openDrawer} />
+						: (
+							<ErrorBoundary customMessage="chat crashed, blame fatal">
+								<Chat channel={this.state.channel} openDrawer={this.openDrawer} />
+							</ErrorBoundary>
+					)}
+				</div>
+				<SettingsPanel open={this.state.settingsPanel.open} tab={this.state.settingsPanel.tab} onClose={this.closeSettings} onSwitchTab={this.openSettings} />
 			</div>
 		)
 	}

@@ -12,8 +12,6 @@ html, body {
 	font-family: 'Open Sans', sans-serif;
 	user-select: none;
 	background: #333234;
-
-	/* This should disable the address bar on mobile - currently broken, will be purged on next release  */
 	overscroll-behavior: contain;
 
 	/* Disables highlight color on mobile devices - this function can be disabled by enabling accessibility mode in settings */
@@ -45,29 +43,6 @@ html, body {
 		width: 350px;
 	}
 }
-
-/*.drawerOpacity {
-	display: none;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100vw;
-	height: 100vh;
-	z-index: 98;
-	background-color: rgba(0, 0, 0, 0.3);
-	pointer-events: none;
-
-	@media only screen and (max-width: 900px) {
-		display: block;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-
-		&.active {
-			opacity: 1;
-			pointer-events: visible;
-		}
-    }
-}*/
 
 .sidebar {
 	$sidebar-width: 88px;
@@ -147,7 +122,7 @@ html, body {
 				position: relative;
 				display: block;
 
-				fill: #7B68EE;
+				fill: var(--accent-color, #7B68EE);
 
 				width: $sidebar-width - ($button-margin * 4);
 				height: $sidebar-width - ($button-margin * 4);
@@ -159,8 +134,8 @@ html, body {
 	&.browser {
 		background: #212121;
 		color: #EFEFEF;
-
 		width: 262px;
 		border-radius: 10px 0 0 10px;
+		height: 100%;
 	}
 }

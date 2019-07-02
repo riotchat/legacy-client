@@ -4988,10 +4988,10 @@ rimraf@2, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3:
   dependencies:
     glob "^7.1.3"
 
-riotchat.js@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/riotchat.js/-/riotchat.js-0.0.8.tgz#3a4d59c141fe12ced7efa379ae438f452e62b06b"
-  integrity sha512-epR9U3I3rmcZzDLJAnFW2g4XZ9TUX1zrYgpx5jFfeNudLS3JA2foQbibGa38RK0XfyDSNIp+UP7X8cz7LRHqSA==
+riotchat.js@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/riotchat.js/-/riotchat.js-0.0.10.tgz#5bc7cec2773bd574a90942152373718fe897fcbd"
+  integrity sha512-LiSELdAbxQqkvHbF0atw+cY0ovRSOp/Wantajzb1uiq3RvQ1UuqvZ43KobqrX8LOzQYURDyNhpaaQZobum6wEQ==
   dependencies:
     "@elderapo/typed-event-emitter" "^1.5.1"
     axios "^0.19.0"
@@ -5756,6 +5756,18 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
+
+twemoji-parser@12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/twemoji-parser/-/twemoji-parser-12.0.0.tgz#870ea374b495595baa3bddb719e902b39ea7ccd1"
+  integrity sha512-JWZHBY32zKXo6GQ/JIQGLbbSQ5a3k+NHh5VkQ5AJFA++6cr+EtErj1aG8H4K7x8GwQ9/YzArNBQ06ryvKZL+WQ==
+
+twemoji@^12.0.4:
+  version "12.0.4"
+  resolved "https://registry.yarnpkg.com/twemoji/-/twemoji-12.0.4.tgz#f247bb32141a8fa9486ce87eae7abd2c6188eaed"
+  integrity sha512-VEiLYeUErB0t6d3euviuMIXINUUGq0KTksvsqPOmt06oPc7iLO10w5tlYTbVEpiQ+IO2IpkaS9O63D5NIdHrDw==
+  dependencies:
+    twemoji-parser "12.0.0"
 
 type-is@~1.6.17, type-is@~1.6.18:
   version "1.6.18"
