@@ -27,37 +27,9 @@
     background: #707070;
     border-radius: 6px;
     display: flex;
-    
 
-    > .textArea {
-        display: block;
-        resize: none;
-        box-sizing: border-box;
-        width: 100%;
-        border-radius: 6px 0px 0px 6px;
-        /*border: 1px solid #707070;*/
-        background: #434343;
-        outline: 0;
-        flex-grow: 1;
-        display: flex;
-
-        > form {
-            $form-side-padding: 20px;
-            flex-grow: 1;
-            width: 100%;
-            textarea {
-                display: block;
-                padding: 12px $form-side-padding;
-                font-family: "Open Sans", sans-serif;
-                color: white;
-                width: calc(100% - #{$form-side-padding * 2});
-                font-size: 14px;
-                background: transparent;
-                resize: none;
-                border: none;
-                outline: 0;
-            }
-        }
+    > .emojiButton {
+        cursor: pointer;
     }
 
     > .actionButton {
@@ -69,6 +41,37 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+}
+
+.textArea {
+    display: block;
+    resize: none;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 6px 0px 0px 6px;
+    /*border: 1px solid #707070;*/
+    background: #434343;
+    outline: 0;
+    flex-grow: 1;
+    display: flex;
+
+    > form {
+        $form-side-padding: 20px;
+        flex-grow: 1;
+        width: 100%;
+        textarea {
+            display: block;
+            padding: 12px $form-side-padding;
+            font-family: "Open Sans", sans-serif;
+            color: white;
+            width: calc(100% - #{$form-side-padding * 2});
+            font-size: 14px;
+            background: transparent;
+            resize: none;
+            border: none;
+            outline: 0;
+        }
     }
 }
 

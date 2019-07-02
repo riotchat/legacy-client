@@ -21,9 +21,9 @@
 	display: flex;
 	flex-direction: column;
 
-	@media only screen and (max-width: 900px) {
-		width: 100vw; /* Remove this later*/
-	}
+	/*@media only screen and (max-width: 900px) {
+		width: 100vw;
+	}*/
 }
 
 .header {
@@ -52,6 +52,7 @@
 		height: $icon-size;
 		vertical-align: middle;
 		margin-right: 10px;
+		cursor: pointer;
 
 		span {
 			width: $icon-size;
@@ -94,7 +95,7 @@
 			font-weight: 600;
 			white-space: nowrap;
 			overflow: hidden;
-			text-overflow: ellipsis;
+			//text-overflow: ellipsis;
 
 			/*.name {
 				font-size: 14px;
@@ -105,6 +106,25 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 			}*/
+		}
+
+		.indicator {
+			display: none;
+			width: 10px;
+			height: 10px;
+			margin-left: 8px;
+			border-radius: 50%;
+			background-color: gray;
+			flex: 0 0 auto;
+	
+			&.online { background-color: #36AD93; }
+			&.streaming { background-color: #7B68EE; }
+			&.away { background-color: #FFCD44; }
+			&.busy { background-color: #D14F4F; }
+
+			@media only screen and (max-width: 900px) {
+				display: inline-block;
+			}
 		}
 
 		.divider {

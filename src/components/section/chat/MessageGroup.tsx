@@ -6,7 +6,7 @@ import { User } from 'riotchat.js';
 
 export default class MessageGroup extends React.Component<{
     user: User,
-    timestamp?: number
+    timestamp?: Date | number
 }> {
     render() {
         if(this.props.user === undefined) return null;

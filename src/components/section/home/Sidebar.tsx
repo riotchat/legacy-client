@@ -27,7 +27,10 @@ export default class HomeSidebar extends React.Component<{ channel: string, onCh
                 });
                 let user = users[0] !== undefined ? users[0] : RiotClient.user;
                 dms.push(
-                    <DirectMessage user={user} mobile={false} onClick={(e) => this.props.onChangeChannel(channel.id)} active={this.props.channel === channel.id} />
+                    <DirectMessage key={`dm${user.id}`}
+                        user={user}
+                        mobile={false}
+                        onClick={(e) => this.props.onChangeChannel(channel.id)} active={this.props.channel === channel.id} />
                 )
             } else if(channel.type === ChannelType.GROUP) {
                 // GDM code here
@@ -66,10 +69,10 @@ export default class HomeSidebar extends React.Component<{ channel: string, onCh
                 <div className={styles.groupdm}>
                     <div className={styles.category}>
                         <span className={styles.title}>Group Messages</span>
-                        <Icon className={styles.button} icon="message-alt" />
+                        <Icon className={styles.button} icon="plus" type="regular" />
                     </div>
                     <div className={styles.directMessages}>
-                        {dms}
+                        {/*{groupdms}*/}
                     </div>
                 </div>
             </div>

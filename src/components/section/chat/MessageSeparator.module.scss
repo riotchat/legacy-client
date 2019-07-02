@@ -1,0 +1,23 @@
+.separator {
+    display: flex;
+    align-items: center;
+    user-select: none;
+
+    .bar {
+        flex: 1 1 auto;
+        height: 1px;
+        background: gray;
+        margin: 0px 10px;
+    }
+
+    .text {
+        font-size: 14px;
+        flex: 0 0 auto;
+        color: gray;
+    }
+
+    &.new {
+        .bar { background: #DF3535; }
+        .text { color: #DF3535; }
+    }
+}
