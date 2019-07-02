@@ -8,7 +8,6 @@ import css from './FriendsList.module.scss';
 import { scrollable } from '../../util/Scrollbar';
 import { RiotClient } from '../../..';
 import Collection from 'riotchat.js/dist/util/Collection';
-console.log(Collection);
 
 export default class FriendsList extends React.Component<{
     openDrawer?: (drawer: "menu" | "members") => void,

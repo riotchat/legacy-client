@@ -46,7 +46,8 @@ export default class Friend extends React.Component<{
 		user.removeFriend();
 	}
 
-	async removeFriend() {
+	async removeFriend(e: React.MouseEvent<HTMLDivElement>) {
+		e.stopPropagation();
 		if(this.props.type !== "mutual") return;
 		let username = this.props.user.username;
 		let confirmation = confirm(`Are you sure you want to remove ${username} from your friends list?`);
