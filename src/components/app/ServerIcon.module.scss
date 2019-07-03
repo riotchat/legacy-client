@@ -1,3 +1,5 @@
+@import "../../sass/colors";
+
 .icon {
 	margin: 8px 15px;
 	display: inline-block;
@@ -7,13 +9,16 @@
 	justify-content: center;
 	overflow: hidden;
 	position: relative;
-	border: 2px solid #333234;
 	cursor: pointer;
 	transition: .3s;
 	background-color: grey;
 	background-size: cover;
 	background-position: center;
 	opacity: 0.99;
+
+	@include themify($themes) {
+		border: 2px solid themed('main');
+	}
 
 	&:hover {
 		border: 2px solid white;

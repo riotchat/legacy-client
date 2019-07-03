@@ -1,3 +1,5 @@
+@import "../../../sass/colors";
+
 .main {
 	flex: 1 1 0;
 
@@ -22,6 +24,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
+	@include themify($themes) {
+		background: themed('main');
+		color: themed('main-text');
+	}
 
 	@media only screen and (max-width: 900px) {
 		padding: 17px 20px;
@@ -106,10 +113,12 @@
 		.icon {
 			height: $normal-size;
 			width: $normal-size;
-			fill: white;
 			vertical-align: middle;
 			margin-right: 8px;
 			flex: 0 0 auto;
+			@include themify($themes) {
+				fill: themed('icon');
+			}
 		}
 
 		.name {
@@ -184,24 +193,27 @@
 	padding: 20px 0;
 	margin: 0px 20px;
 	box-sizing: border-box;
+	@include themify($themes) {
+		color: themed('main-text');
+	}
+
+	%text {
+		display: block;
+		font-size: 12px;
+		font-weight: 600;
+		margin-bottom: 10px;
+		text-transform: uppercase;
+	}
 
 	> .incoming {
 		.incomingText {
-			display: block;
-			font-size: 12px;
-			font-weight: 600;
-			margin-bottom: 10px;
-			text-transform: uppercase;
+			@extend %text
 		}
 	}
 
 	> .outgoing {
 		.outgoingText {
-			display: block;
-			font-size: 12px;
-			font-weight: 600;
-			margin-bottom: 10px;
-			text-transform: uppercase;
+			@extend %text;
 		}
 	}
 

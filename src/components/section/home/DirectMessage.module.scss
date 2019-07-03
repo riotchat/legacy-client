@@ -1,3 +1,5 @@
+@import "../../../sass/colors";
+
 .parent {
 	margin: 5px 0;
 	padding: 5px;
@@ -7,13 +9,10 @@
 	cursor: pointer;
 	align-items: stretch;
 	opacity: .99;
-	
-	&:hover, &.active {
-		background: #373737;
-	}
 
-	&:active {
-		background: #2C2C2C;
+	@include themify($themes) {
+		&:hover, &.active { background: themed('button-hover'); }
+		&:active { background: themed('button-active'); }
 	}
 }
 
@@ -26,7 +25,6 @@
 	height: 30px;
 	width: 30px;
 	border-radius: 50%;
-	border: 3px solid #36AD93;
 	justify-content: center;
 	overflow: hidden;
 	position: relative;
@@ -34,10 +32,10 @@
 	background-position: center;
 	background-size: cover;
 	
-	&.online { border: 2px solid lightgreen; }
-	&.streaming { border: 2px solid purple; }
-	&.idle { border: 2px solid yellow; }
-	&.dnd { border: 2px solid red; }
+	&.online { border: 2px solid $green; }
+	&.streaming { border: 2px solid $streaming; }
+	&.idle { border: 2px solid $yellow; }
+	&.dnd { border: 2px solid $red; }
 }
 
 .username {
@@ -45,7 +43,7 @@
 	flex-direction: column;
 	justify-content: center;
 	font-weight: 600;
-	font-size: 14px;
+	font-size: 0.875rem;
 	padding-right: 5px;
 
 	.usernameInline {
@@ -72,9 +70,9 @@
 
 	.status {
 		max-width: 175px;
-		color: #BCBCBC;
+		color: #BCBCBC; //keep this
 		font-weight: 400;
-		font-size: 11px;
+		font-size: 0.6875rem;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;

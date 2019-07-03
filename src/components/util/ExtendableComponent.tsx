@@ -5,12 +5,17 @@ export type StreamerMode = {
 	enabled: boolean
 }
 
+export type ThemeInfo = {
+	theme: "dark" | "light",
+	accent: string
+}
+
 export class StreamerModeComponent<P = {}, S = {}> extends React.Component<P, S & { streamerMode: StreamerMode }> {
 	constructor(props: P) {
 		super(props);
-		(this.state as any) = {
+		(this.state as any) = Object.assign({}, this.state, {
 			streamerMode
-		}
+		});
 
 		this.onStreamerModeUpdate = this.onStreamerModeUpdate.bind(this);
 	}
@@ -24,7 +29,6 @@ export class StreamerModeComponent<P = {}, S = {}> extends React.Component<P, S 
 	}
 
 	onStreamerModeUpdate(streamerMode: StreamerMode) {
-		console.log("update", streamerMode, this);
 		this.setState((prevState) => {
 			return Object.assign({}, prevState, {
 				streamerMode

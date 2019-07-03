@@ -1,15 +1,17 @@
+@import '../../sass/colors';
+
 ::-webkit-scrollbar-track {
-	background-color: rgb(36, 36, 36);
+	@include themify($themes) { background-color: themed('scrollbar'); }
 }
 
 ::-webkit-scrollbar {
 	width: 6px;
-	background-color: rgb(36, 36, 36);
+	@include themify($themes) { background-color: themed('scrollbar'); }
 }
 
 ::-webkit-scrollbar-thumb {
 	border-radius: 10px;
-	background-color: rgba(255, 255, 255, 0.2);
+	@include themify($themes) { background-color: themed('scrollbar-thumb'); }
 }
 
 .scrollable {
@@ -17,7 +19,7 @@
 
 	/** Firefox 64; Mozilla is doing God's work here */
 	scrollbar-width: thin;
-	scrollbar-color: rgba(255, 255, 255, 0.2) rgb(36, 36, 36);
+	@include themify($themes) { scrollbar-color: themed('scrollbar-thumb') themed('scrollbar'); }
 }
 
 .hidden {

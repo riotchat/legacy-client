@@ -5,7 +5,7 @@ import { EventEmitter } from 'events';
 import './index.html';
 import App from './App';
 import * as Riot from 'riotchat.js';
-import { StreamerMode } from './components/util/StreamerModeComponent';
+import { StreamerMode, ThemeInfo } from './components/util/ExtendableComponent';
 
 let pubsub = new EventEmitter();
 
@@ -27,9 +27,50 @@ pubsub.on('streamerMode', (_) => streamerMode = _ );
 export { pubsub, RiotClient, focused, streamerMode };
 (window as any).RiotClient = RiotClient;
 
-type ThemeInfo = {
-	theme: "dark" | "light",
-	accent: string
+// https://stackoverflow.com/a/13532993
+function shadeColor(color: string, percent: number) {
+    var R = parseInt(color.substring(1,3),16);
+    var G = parseInt(color.substring(3,5),16);
+	var B = parseInt(color.substring(5,7),16);
+	
+    R = Math.floor(R * (100 + percent) / 100);
+    G =	Math.floor(G * (100 + percent) / 100);
+	B = Math.floor(B * (100 + percent) / 100);
+	
+    R = (R<255) ? ((R > 0) ? R : 0) : 255;
+    G = (G<255) ? ((G > 0) ? G : 0) : 255;
+	B = (B<255) ? ((B > 0) ? B : 0) : 255;
+	
+    var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+    var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+    var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+    return "#"+RR+GG+BB;
+}
+
+// https://stackoverflow.com/a/5624139
+function hexToRgb(hex: string): { r: number, g: number, b: number } {
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? {
+		r: parseInt(result[1], 16),
+		g: parseInt(result[2], 16),
+		b: parseInt(result[3], 16)
+	} : { r: 0, g: 0, b: 0 };
+}
+
+// https://awik.io/determine-color-bright-dark-using-javascript/
+function isLight(r: number, g: number, b: number): boolean {
+    let hsp;
+
+    // HSP equation from http://alienryderflex.com/hsp.html
+    hsp = Math.sqrt(
+        0.299 * (r * r) +
+        0.587 * (g * g) +
+        0.114 * (b * b)
+    );
+
+    // Using the HSP value, determine whether the color is light or dark
+    return hsp > 140;
 }
 
 class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" | "noToken" | "connectionError", email: string, password: string, themeInfo: ThemeInfo}> {
@@ -53,6 +94,8 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 			password: "",
 			themeInfo
 		}
+
+		document.body.setAttribute('theme', themeInfo.theme.toLowerCase());
 
 		this.changeEmail = this.changeEmail.bind(this);
 		this.changePassword = this.changePassword.bind(this);
@@ -126,6 +169,7 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 	updateTheme(themeInfo: ThemeInfo) {
 		this.setState((prevState) => {
 			localStorage.setItem("themeInfo", JSON.stringify(themeInfo));
+			document.body.setAttribute('theme', themeInfo.theme.toLowerCase());
 			return Object.assign({}, prevState, {
 				themeInfo
 			});
@@ -133,17 +177,25 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 	}
 
 	render() {
-		if(this.state.loginState === "loggedIn") return (
-			<div className={`theme--${this.state.themeInfo.theme}`}>
-				<style>{`
-					:root {
-						--accent-color: #${this.state.themeInfo.accent};
-					}
-				`}</style>
-				{this.props.children}
-			</div>
-		);
-		else return (
+		let hexAccent = `#${this.state.themeInfo.accent}`;
+		let accent = hexToRgb(this.state.themeInfo.accent);
+		if(this.state.loginState === "loggedIn") {
+			return (
+				<div className={`theme--${this.state.themeInfo.theme}`}>
+					<style>{`
+						:root {
+							--accent-color: ${hexAccent};
+							--accent-color-darken-10: ${shadeColor(hexAccent, -10)};
+							--accent-color-darken-5: ${shadeColor(hexAccent, -5)};
+							--accent-color-lighten-5: ${shadeColor(hexAccent, 5)};
+							--accent-color-lighten-10: ${shadeColor(hexAccent, 10)};
+							--accent-color-text: ${isLight(accent.r, accent.g, accent.b) ? "black" : "white"}
+						}
+					`}</style>
+					{this.props.children}
+				</div>
+			);
+		} else return (
 			<div style={{ margin: "20px", color: "white" }}>
 				{this.state.loginState === "noToken" && (
 					<div>

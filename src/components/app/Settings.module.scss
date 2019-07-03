@@ -1,3 +1,5 @@
+@import "../../sass/colors";
+
 .root {
 	position: fixed;
 	top: 0;
@@ -5,12 +7,15 @@
 	width: 100%;
 	height: 100%;
 	z-index: 1500;
-	background: #333234;
 	transition: opacity .2s, transform .2s;
 	opacity: 0;
 	transform: scale(1.2);
 	pointer-events: none;
 	outline: none;
+
+	@include themify($themes) {
+		background: themed('main');
+	}
 
 	&.open {
 		opacity: 1;
@@ -26,9 +31,11 @@ $mobile-header-height: 64px;
 	height: $mobile-header-height;
 	padding: 17px 20px;
 	box-sizing: border-box;
-	color: white;
-	background-color: #212121;
 	align-items: center;
+	@include themify($themes) {
+		color: themed('body-text');
+		background: themed('sub');
+	}
 
 	@media screen and (max-width: 900px) {display: flex;}
 
@@ -59,8 +66,10 @@ $mobile-header-height: 64px;
 
 .branding {
 	margin: 25px 0;
-	color: white;
 	opacity: .3;
+	@include themify($themes) {
+		color: themed('body-text');
+	}
 
 	@media screen and (max-width: 900px) {text-align: center;}
 
@@ -78,24 +87,32 @@ $mobile-header-height: 64px;
 	font-size: 0.6875rem;
 	font-weight: 600;
 	border-radius: 3px;
-	background: var(--accent-color, #7B68EE);
+	background: var(--accent-color, $default-accent-color);
+	color: var(--accent-color-text, white);
 	text-transform: uppercase;
 }
 
 .leftPanel {
 	$desktop-panel-width: 30vw;
 	$wrapper-width: 250px;
-	color: white;
+	//color: white;
 	height: 100%;
 	overflow-x: hidden;
 	max-height: calc(100vh - #{$mobile-header-height});
 	flex: 0 0 auto;
-	background-color: #333234;
+	//background-color: #333234;
+	
+	@include themify($themes) {
+		color: themed('body-text');
+		background: themed('main');
+	}
 
 	@media screen and (min-width: 901px) {
 		padding: 0 6px 0 20px;
 		max-height: 100%;
-		background-color: #212121;
+		@include themify($themes) {
+			background: themed('sub');
+		}
 	}
 	
 	> .wrapper {
@@ -142,25 +159,29 @@ $mobile-header-height: 64px;
 					}
 				}
 
-				@media screen and (min-width: 900px) {
-					&.active { background-color: lighten(#303030, 5%); cursor: default;}
-				}
-
-				&:hover { background-color: lighten(#303030, 5%); }
-				&:active {
-					background-color: darken(#303030, 5%);
+				@include themify($themes) {
+					@media screen and (min-width: 900px) {
+						&.active { background-color: themed('button-hover'); cursor: default;}
+					}
+	
+					&:hover { background-color: themed('button-hover'); }
+					&:active {
+						background-color: themed('button-active');
+					}
 				}
 
 				&.account {
 					margin-top: 20px;
-					background-color: #404040;
+					background: #404040;
+					@include themify($themes) {
+						background: themed('profile');
+					}
 					@media screen and (min-width: 901px) {
 						display: none;
 					}
 					> .pfp {
 						display: block;
 						border-radius: 50%;
-						//background: #434343;
 						background: grey;
 						height: 70px;
 						width: 70px;
@@ -190,8 +211,10 @@ $mobile-header-height: 64px;
 
 				&.pro {
 					&, &:hover, &:active, &.active { background-color: #00000000; }
+					&:hover, &:active, &.active {color: white;}
 					span {
 						position: relative;
+						transition: color .3s;
 						z-index: 1;
 					}
 					.bg {
@@ -203,8 +226,8 @@ $mobile-header-height: 64px;
 						background: linear-gradient(45deg,#FFA8C3, #977EFF);
 						opacity: 0;
 						transition: opacity .3s;
-						z-index: 0;
 						border-radius: 4px;
+						z-index: 0;
 					}
 					&:hover .bg, &.active .bg { opacity: 1; }
 					&:active .bg { opacity: 0.7; }
@@ -212,8 +235,8 @@ $mobile-header-height: 64px;
 				
 				&.logoutButton {
 					margin-top: 2em;
-					&:hover {background-color: #D14F4F;}
-					&:active {background-color: darken(#D14F4F, 10%);}
+					&:hover {background-color: $red;}
+					&:active {background-color: darken($red, 10%);}
 
 					@media screen and (max-width: 900px) {
 						display: none;
@@ -255,10 +278,13 @@ $mobile-header-height: 64px;
 	box-sizing: border-box;
 	width: calc(70vw - 26px);
 	height: 100%;
-	color: white;
 	//border-radius: 10px;
-	background: #333234;
 	flex: 0 0 auto;
+	@include themify($themes) {
+		color: themed('body-text');
+		background: themed('main');
+	}
+
 	@media screen and (max-width: 900px) {
 		width: 100vw;
 		display: block;
@@ -269,7 +295,7 @@ $mobile-header-height: 64px;
 
 	.wrapper {
 		position: relative;
-		padding: 60px 40px 80px;
+		padding: 80px 40px 40px;
 		box-sizing: border-box;
 		width: 100%;
 		height: 100%;
@@ -284,6 +310,16 @@ $mobile-header-height: 64px;
 		.innerWrapper {
 			width: 100%;
 			max-width: 900px;
+
+			.title {
+				display: none;
+				@media screen and (min-width: 901px) {
+					display: block;
+					font-size: 20px;
+					font-weight: 600;
+					margin-bottom: 15px;
+				}
+			}
 		}
 	}
 }

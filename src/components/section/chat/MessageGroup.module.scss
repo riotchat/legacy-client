@@ -1,3 +1,5 @@
+@import "../../../sass/colors";
+
 .messageGroup {
 	display: flex;
 	margin: 25px 0px;
@@ -15,11 +17,14 @@
 	}
 
 	> .content {
-		color: #EFEFEF;
 		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
-		font-size: 14px;
+		font-size: 0.875rem;
+
+		@include themify($themes) {
+			color: themed('body-text');
+		}
 		
 		> .header {
 			margin-bottom: 2px;
@@ -32,6 +37,10 @@
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
+
+				@include themify($themes) {
+					color: themed('username');
+				}
 			}
 
 			> time {
@@ -39,7 +48,7 @@
 				word-break: none;
 				font-weight: 400;
 				color: #808080;
-				font-size: 12px;
+				font-size: 0.75rem;
 			}
 		}
 

@@ -8,7 +8,7 @@ import { RiotClient } from '../..';
 import Banner from './settings/Banner';
 import MyAccountPanel from './settings/MyAccount';
 import AppearancePanel from './settings/Appearance';
-import { StreamerModeComponent } from '../util/StreamerModeComponent';
+import { StreamerModeComponent } from '../util/ExtendableComponent';
 import StreamerModePanel from './settings/StreamerMode';
 
 export type SettingsPanelTabs = "account"
@@ -183,6 +183,9 @@ export default class SettingsPanel extends StreamerModeComponent<{
 						{bannerType && <Banner type={bannerType} mobile={false} /> }
 						<div className={`${css.wrapper} ${scrollable} ${bannerType ? css.hasBanner : ""}`}>
 							<div className={css.innerWrapper}>
+								<div className={css.title}>
+									{this.state.internalTab && this.state.internalTab !== "account" && tabToReadable[this.state.internalTab]}
+								</div>
 								{ (this.state.internalTab === undefined || this.state.internalTab === "account") && <MyAccountPanel /> }
 								{ this.state.internalTab === "appearance" && <AppearancePanel /> }
 								{ this.state.internalTab === "streamermode" && <StreamerModePanel /> }

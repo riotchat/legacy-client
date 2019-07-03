@@ -1,6 +1,12 @@
+@import '../../sass/colors';
+
 .icon {
+	//fill: #E8E8E8;
 	width: 24px;
 	height: 24px;
 	display: inline-block;
 	vertical-align: middle;
+	@include themify($themes) {
+		fill: themed('icon');
+	}
 }

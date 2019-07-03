@@ -1,3 +1,5 @@
+@import "../../../sass/colors";
+
 /*@mixin keyframes($animationName) {
 	@-webkit-keyframes $animationName {
 		@content;
@@ -28,6 +30,10 @@
 	border-radius: 6px;
 	display: flex;
 
+	@include themify($themes) {
+		background: themed('action-button');
+	}
+
 	> .emojiButton {
 		cursor: pointer;
 	}
@@ -45,16 +51,17 @@
 }
 
 .textArea {
-	display: block;
 	resize: none;
 	box-sizing: border-box;
 	width: 100%;
 	border-radius: 6px 0px 0px 6px;
-	/*border: 1px solid #707070;*/
-	background: #434343;
 	outline: 0;
 	flex-grow: 1;
 	display: flex;
+
+	@include themify($themes) {
+		background: themed('messagebox');
+	}
 
 	> form {
 		$form-side-padding: 20px;
@@ -64,13 +71,16 @@
 			display: block;
 			padding: 12px $form-side-padding;
 			font-family: "Open Sans", sans-serif;
-			color: white;
 			width: calc(100% - #{$form-side-padding * 2});
 			font-size: 14px;
 			background: transparent;
 			resize: none;
 			border: none;
 			outline: 0;
+
+			@include themify($themes) {
+				color: themed('body-text');
+			}
 		}
 	}
 }

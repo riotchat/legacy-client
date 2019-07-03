@@ -24,7 +24,7 @@
 		user-select: none;
 
 		a {
-			color: #7B68EE;
+			color: var(--accent-color, #7B68EE);
 			text-decoration: none;
 			cursor: pointer;
 			&:hover {

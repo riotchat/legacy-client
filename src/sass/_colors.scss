@@ -1,0 +1,88 @@
+$default-accent-color: #7B68EE;
+$divider: #707070;
+$mention: #DF3535;
+$streaming: #977EFF;
+$unclaimed: #E5AA07;
+$accept: #14B89C;
+$red: #D14F4F;
+$yellow: #FFBB00;
+$green: #36AD93;
+
+// https://medium.com/@dmitriy.borodiy/easy-color-theming-with-scss-bc38fd5734d1
+$themes: (
+	dark: (
+        icon: #EFEFEF,
+        unread: #EFEFEF,
+
+		main: #333234,
+        sub: #212121,
+        profile: #404040,
+		main-text: #E8E8E8,
+        body-text: #FFFFFF,
+
+        username: #E8E8E8,
+
+        home: #4D4D4D,
+        home-active: lighten(#4D4D4D, 10%),
+		divider: #707070,
+
+		button: #303030,
+		button-hover: #373737,
+        button-active: #2C2C2C,
+        
+        button-call: #4D4D4D,
+
+		messagebox: #434343,
+		action-button: #707070,
+
+		scrollbar: #242424,
+		scrollbar-thumb: rgba(255, 255, 255, 0.2)
+	),
+	light: (
+        icon: #5A5A5A,
+        unread: #9B9B9B,
+
+		main: #FBFBFB,
+        sub: #F0F0F0,
+        profile: #E8E8E8,
+		main-text: #464646,
+        body-text: #000000,
+        
+        username: #464646,
+
+        home: #BCBCBC,
+        home-active: lighten(#BCBCBC, 10%),
+		divider: lighten(#707070, 50%),
+
+		button-hover: lighten(#E8E8E8, 10%),
+        button-active: #E8E8E8,
+        
+        button-call: #BCBCBC,
+
+		messagebox: #ECECEC,
+		action-button: #BEBFC1,
+
+		scrollbar: #E5E5E5,
+		scrollbar-thumb: rgba(127, 127, 127, 0.2),
+	)
+);
+
+@mixin themify($themes: $themes) {
+	@each $theme,
+	$map in $themes {
+		body[theme=#{$theme}] & {
+			$theme-map: () !global;
+			@each $key,
+			$submap in $map {
+				$value: map-get(map-get($themes, $theme), '#{$key}');
+				$theme-map: map-merge($theme-map, ($key: $value)) !global;
+			}
+			@content;
+			$theme-map: null !global;
+		}
+	}
+}
+
+@function themed($key) {
+	@return map-get($theme-map, $key);
+}

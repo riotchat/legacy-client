@@ -1,4 +1,7 @@
+@import "../../../sass/colors";
+
 .banner {
+	color: white;
 	background: grey;
 	display: none;
 	width: 100%;
@@ -9,9 +12,9 @@
 		display: block;
 	}
 
-	&.streamerMode { background: #977EFF; }
-	&.strikeWarning { background: #D14F4F; }
-	&.unclaimed { background: #E5AA07; }
+	&.streamerMode { background: $streaming; }
+	&.strikeWarning { background: $red; }
+	&.unclaimed { background: $unclaimed; }
 
 	&.mobile {
 		display: block;

@@ -121,15 +121,9 @@ class App extends React.Component<{}, {
 	}
 
 	onMessage(message: Message) {
-		if(message.channel.type !== ChannelType.DM && message.channel.type !== ChannelType.GROUP) {
-			console.log("is not dm");
-			return;
-		}
-		if(message.channel.id === this.state.channel && focused && !this.state.settingsPanel.open) {
-			console.log("epic multiblock");
-			console.log(message.channel.id === this.state.channel, focused, this.state.settingsPanel.open);
-			return;
-		}
+		if(message.author.id === RiotClient.user.id) return;
+		if(message.channel.type !== ChannelType.DM && message.channel.type !== ChannelType.GROUP) return;
+		if(message.channel.id === this.state.channel && focused && !this.state.settingsPanel.open) return;
 		SFX.message();
 	}
 

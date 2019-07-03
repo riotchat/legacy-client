@@ -1,16 +1,20 @@
+@import '../../sass/colors';
+
 .menu {
-	background: #313131;
 	padding: 10px;
+	@include themify($themes) {
+		background: themed('button');
+	}
 
 	.connected {
 		.status {
 			font-size: 0.8125rem;
 			font-weight: 600;
-			color: #36AD93;
+			color: $green;
 
-			&.connected {color: #36AD93}
-			&.connecting {color: #36AD93}
-			&.disconnected {color: #36AD93}
+			&.connected {color: $green; }
+			&.connecting {color: $green; }
+			&.disconnected {color: $green; }
 		}
 	}
 }
@@ -41,7 +45,7 @@
 }
 
 .mute {
-	fill: #36AD93 !important;
+	fill: $green !important;
 	height: 40px;
 	width: 40px;
 	cursor: pointer;

@@ -1,3 +1,5 @@
+@import "../../../sass/colors";
+
 .feed {
 	margin: 10px;
 
@@ -9,13 +11,15 @@
 		transition: .2s;
 		cursor: pointer;
 		align-items: stretch;
-		
-		&:hover, &.active {
-			background: #373737;
-		}
-	
-		&:active {
-			background: #2C2C2C;
+
+		@include themify($themes) {
+			&:hover, &.active {
+				background: themed('button-hover');
+			}
+
+			&:active {
+				background: themed('button-active');
+			}
 		}
 
 		.icon {

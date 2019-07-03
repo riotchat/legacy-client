@@ -1,3 +1,5 @@
+@import "../../../sass/colors";
+
 .account {
 	display: flex;
 	margin-bottom: 20px;
@@ -84,13 +86,13 @@
 	user-select: text;
 }
 
-.category {
+/*.category {
 	margin-bottom: 20px;
 	display: block;
 	font-size: 0.875rem;
 	font-weight: 600;
 	text-transform: uppercase;
-}
+}*/
 
 .timeline {
 	.strike {
@@ -129,3 +131,34 @@
 		}
 	}
 }
+
+.button {
+	border: none;
+	color: var(--accent-color-text, white);
+	padding: 10px 14px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	font-weight: 600;
+	border: 1px solid var(--accent-color, #7B68EE);
+	border-radius: 4px;
+	cursor: pointer;
+	margin-right: 8px;
+	background: var(--accent-color, #7B68EE);
+	transition: background-color .3s;
+
+	&:hover {
+		background-color: var(--accent-color-lighten-10, #{lighten(#7B68EE, 10%)});
+	}
+
+	&:active {
+		background-color: var(--accent-color-darken-10, #{darken(#7B68EE, 10%)});
+	}
+
+	&.red {
+		background-color: transparent;
+		border: 1px solid red;
+		color: red;
+	}
+  }

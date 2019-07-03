@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&display=swap');
+@import './sass/colors';
 
 * {
 	-webkit-font-smoothing: antialiased;
@@ -18,18 +19,23 @@ html, body {
 	-webkit-tap-highlight-color: transparent;
 }
 
+.root, .mainSidebars {
+	@include themify($themes) {
+		background: themed('main');
+	}
+}
+
 .root {
 	position: fixed;
 	top: 0;
 	left: 0;
 	height: 100%;
 	width: 100%;
-	background: #333234;
 	display: flex;
 }
 
 .mainSidebars {
-	background: #333234;
+	//background: #333234;
 	display: flex;
 }
 
@@ -53,9 +59,12 @@ html, body {
 	flex-shrink: 1;
 
 	&.main {
-		background: #333234;
+		/*body[theme=dark] & { background: $theme-dark-main; }
+		body[theme=light] & { background: $theme-light-main; }*/ //smaž to jestli je to v pořádku
+		@include themify($themes) {
+			background: themed('main');
+		}
 		width: $sidebar-width;
-
 		display: flex;
 		position: relative;
 
@@ -84,8 +93,11 @@ html, body {
 				}
 			}
 
-			&:hover { background: #A0A0A0; }
-			&.active { background: grey; }
+			@include themify($themes) {
+				background: themed('home');
+				//&:hover { background: themed('home'); }
+				&.active { background: themed('home-active'); }
+			}
 		}
 
 		.divider {
@@ -94,8 +106,12 @@ html, body {
 			height: 1px;
 			width: $width;
 			margin: 10px ((88px - $width) / 2);
-			background: #707070;
+			//background: #707070;
 			border-radius: 60px;
+
+			@include themify($themes) {
+				background: themed('divider');
+			}
 		}
 
 		.guilds {
@@ -110,11 +126,14 @@ html, body {
 			$button-margin: 10px;
 			flex-shrink: 1;
 			width: $sidebar-width;
-			background: linear-gradient(transparent, #333234);
+			//background: linear-gradient(transparent, #333234);
 			z-index: 1;
 			position: fixed;
 			bottom: 0px;
 			left: 0px;
+			@include themify($themes) {
+				background: linear-gradient(transparent, themed('sub'));
+			}
 
 			svg { cursor: pointer; }
 
@@ -122,7 +141,7 @@ html, body {
 				position: relative;
 				display: block;
 
-				fill: var(--accent-color, #7B68EE);
+				fill: var(--accent-color, $default-accent-color);
 
 				width: $sidebar-width - ($button-margin * 4);
 				height: $sidebar-width - ($button-margin * 4);
@@ -132,10 +151,13 @@ html, body {
 	}
 
 	&.browser {
-		background: #212121;
-		color: #EFEFEF;
+		//background: #212121;
 		width: 262px;
 		border-radius: 10px 0 0 10px;
 		height: 100vh;
+		@include themify($themes) {
+			background: themed('sub');
+			color: themed('main-text');
+		}
 	}
 }

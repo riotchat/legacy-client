@@ -1,3 +1,5 @@
+@import "../../../sass/colors";
+
 %ellipsisTextWrapper {
 	position: relative;
 	overflow: hidden;
@@ -33,13 +35,14 @@
 	flex: 0 1 auto;
 	padding: 21px 32px;
 	height: $normal-size;
-	background: #343434;
-	/*background: #464646;*/
-	color: whitesmoke;
-	box-shadow: 0px 1px 6px 0px rgba(33,33,33,0.4);
-	/*box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.5);*/
+	box-shadow: 0px 1px 6px 0px rgba(33,33,33,0.3);
 	display: flex;
 	align-items: center;
+
+	@include themify($themes) {
+		color: themed('main-text');
+		background: themed('main');
+	}
 
 	@media only screen and (max-width: 900px) {
 		padding: 17px 20px;
@@ -78,10 +81,13 @@
 		.icon {
 			height: $normal-size;
 			width: $normal-size;
-			fill: white;
 			vertical-align: middle;
 			margin-right: 8px;
 			flex: 0 0 auto;
+
+			@include themify($themes) {
+				fill: themed('icon');
+			}
 		}
 
 		.name {
@@ -117,10 +123,10 @@
 			background-color: gray;
 			flex: 0 0 auto;
 	
-			&.online { background-color: #36AD93; }
-			&.streaming { background-color: #7B68EE; }
-			&.away { background-color: #FFCD44; }
-			&.busy { background-color: #D14F4F; }
+			&.online { background-color: $green; }
+			&.streaming { background-color: $streaming; }
+			&.away { background-color: $yellow; }
+			&.busy { background-color: $red; }
 
 			@media only screen and (max-width: 900px) {
 				display: inline-block;
@@ -135,7 +141,7 @@
 			flex: 0 0 auto;
 			border-radius: 60px;
 			box-sizing: border-box;
-			background: #707070;
+			background: $divider;
 		}
 
 		.descWrapper {
@@ -183,11 +189,14 @@
 
 .content {
 	flex-grow: 1;
-	background: #333234;
 	overflow-x: auto;
 	padding: 0px 30px;
-	color: white;
 	user-select: text;
+
+	@include themify($themes) {
+		background: themed('main');
+		color: themed('body-text')
+	}
 
 	@media only screen and (max-width: 900px) {
 		padding: 0 20px;
@@ -196,5 +205,7 @@
 
 .footer {
 	flex-shrink: 1;
-	background: #333234;
+	@include themify($themes) {
+		background: themed('main');
+	}
 }

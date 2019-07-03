@@ -1,7 +1,11 @@
-.menu {
-	background: #404040;
+@import '../../sass/colors';
+
+.menu {	
 	width: 262px;
 	padding: 10px 0;
+	@include themify($themes) {
+		background: themed('profile');
+	}
 
 	&.hidden {
 		display: none;
@@ -15,8 +19,10 @@
 		margin: 4px 0;
 		height: 1px;
 		width: 100%;
-		background: #707070;
 		border-radius: 60px;
+		@include themify($themes) {
+			background: themed('divider');
+		}
 	}
 
 	.status {
@@ -25,13 +31,9 @@
 		transition: background-color .3s;
 		box-sizing: border-box;
 		cursor: pointer;
-
-		&:hover {
-			background-color: #2D2D2D;
-		}
-
-		&:active {
-			background-color: #373737;
+		@include themify($themes) {
+			&:hover { background-color: themed('button-hover'); }
+			&:active { background-color: themed('button-active'); }
 		}
 
 		$name-size: 24px;
@@ -49,9 +51,9 @@
 			width: $dot-size;
 			border-radius: 50%;
 			background: gray;
-			&.online { background: #14B89C; }
-			&.away { background: #FFCD44; }
-			&.busy { background: #D14F4F; }
+			&.online { background: $green; }
+			&.away { background: $yellow; }
+			&.busy { background: $red; }
 
 			$top-bottom-margin: ($name-size - $dot-size) / 2;
 			margin: $top-bottom-margin 8px $top-bottom-margin 0px;
@@ -79,7 +81,7 @@
 					flex: 1 1 auto;
 					display: block;
 					font-size: 11px;
-					color: #AFAFAF;
+					color: #AFAFAF; //keep this
 				}
 			}
 		}
