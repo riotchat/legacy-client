@@ -5,6 +5,9 @@ import { EventEmitter } from 'events';
 import './index.html';
 import App from './App';
 import * as Riot from 'riotchat.js';
+import { StreamerMode } from './components/util/StreamerModeComponent';
+
+let pubsub = new EventEmitter();
 
 let RiotClient = new Riot.Client();
 let loggedIn = false;
@@ -17,9 +20,11 @@ RiotClient.on('connected', () => {
 let focused = true;
 window.onfocus = () => focused = true;
 window.onblur = () => focused = false;
-let pubsub = new EventEmitter();
 
-export { RiotClient, focused, pubsub };
+let streamerMode: StreamerMode = { enabled: false };
+pubsub.on('streamerMode', (_) => streamerMode = _ );
+
+export { pubsub, RiotClient, focused, streamerMode };
 (window as any).RiotClient = RiotClient;
 
 type ThemeInfo = {
@@ -40,6 +45,7 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 				theme: "dark",
 				accent: "7B68EE"
 			}
+			localStorage.setItem("themeInfo", JSON.stringify(themeInfo));
 		}
 		this.state = {
 			loginState,
@@ -119,6 +125,7 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 
 	updateTheme(themeInfo: ThemeInfo) {
 		this.setState((prevState) => {
+			localStorage.setItem("themeInfo", JSON.stringify(themeInfo));
 			return Object.assign({}, prevState, {
 				themeInfo
 			});

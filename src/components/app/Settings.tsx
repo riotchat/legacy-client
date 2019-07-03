@@ -8,6 +8,8 @@ import { RiotClient } from '../..';
 import Banner from './settings/Banner';
 import MyAccountPanel from './settings/MyAccount';
 import AppearancePanel from './settings/Appearance';
+import { StreamerModeComponent } from '../util/StreamerModeComponent';
+import StreamerModePanel from './settings/StreamerMode';
 
 export type SettingsPanelTabs = "account"
     | "authorized"
@@ -70,7 +72,7 @@ class SettingsTab extends React.Component<{
     }
 }
 
-export default class SettingsPanel extends React.Component<{
+export default class SettingsPanel extends StreamerModeComponent<{
     open: boolean,
     tab?: SettingsPanelTabs,
     onSwitchTab: (tab: SettingsPanelTabs) => void,
@@ -79,9 +81,9 @@ export default class SettingsPanel extends React.Component<{
     rootRef: React.RefObject<HTMLDivElement>;
     constructor(props: any) {
         super(props);
-        this.state = {
+        this.state = Object.assign({}, this.state, {
             internalTab: props.tab
-        }
+        });
 
         this.rootRef = React.createRef();
         this.logoutPrompt = this.logoutPrompt.bind(this);
@@ -89,6 +91,7 @@ export default class SettingsPanel extends React.Component<{
     }
 
     componentDidMount() {
+        super.componentDidMount();
         if(this.props.open && this.rootRef.current !== null) this.rootRef.current.focus();
     }
 
@@ -110,6 +113,9 @@ export default class SettingsPanel extends React.Component<{
     }
     
     render() {
+        let bannerType: "unclaimed" | "streamerMode" | "strikeWarning" | undefined = undefined;
+        if(this.state.streamerMode.enabled) bannerType = "streamerMode";
+
         return (
             <div className={`${css.root} ${this.props.open ? css.open : ""}`} onKeyDown={this.onKeyDown} tabIndex={0} ref={this.rootRef}>
                 <div className={css.mobileHeader}>
@@ -122,14 +128,18 @@ export default class SettingsPanel extends React.Component<{
                 <div className={`${css.settings} ${this.state.internalTab === undefined ? css.noTab : ""}`}>
                     <div className={`${css.leftPanel} ${scrollable}`}>
                         <div className={css.wrapper}>
-                            <Banner type="streamerMode" mobile={true} />
+                            {bannerType && <Banner type={bannerType} mobile={true} /> }
                             <div className={css.innerWrapper}>
                                 <div className={`${css.tab} ${css.account} ${this.state.internalTab === "pro" ? css.active : ""}`} onClick={() => this.props.onSwitchTab("account")}>
-                                    <div className={css.pfp} style={{backgroundImage: RiotClient.user.avatarURL}}/>
+                                    <div className={css.pfp} style={{backgroundImage: `url("${RiotClient.user.avatarURL}")`}}/>
                                     <div className={css.details}>
                                         <span className={css.username}>{RiotClient.user.username}</span>
-                                        <span className={css.email}>E-Mail:</span>
-                                        <span>{RiotClient.user.email}</span>
+                                        {!this.state.streamerMode.enabled && (
+                                            <React.Fragment>
+                                                <span className={css.email}>E-Mail:</span>
+                                                <span className={css.address}>{RiotClient.user.email}</span>
+                                            </React.Fragment>
+                                        )}
                                     </div>
                                 </div>
                                 <div className={css.category}>User Settings</div>
@@ -147,7 +157,7 @@ export default class SettingsPanel extends React.Component<{
                                     <SettingsTab tabName="voicevideo" icon={<Icon icon="microphone"/>} switchTo={this.props.onSwitchTab} active={this.state.internalTab === "voicevideo"} />
                                     <SettingsTab tabName="appearance" icon={<Icon icon="brush"/>} switchTo={this.props.onSwitchTab} active={this.state.internalTab === "appearance"} />
                                     <SettingsTab tabName="accessibility" icon={<Icon icon="body" type="regular"/>} switchTo={this.props.onSwitchTab} active={this.state.internalTab === "accessibility"} />
-                                    <SettingsTab tabName="streamermode" icon={<Icon icon="slideshow"/>} switchTo={this.props.onSwitchTab} active={this.state.internalTab === "streamermode"} />
+                                    <SettingsTab tabName="streamermode" icon={<Icon icon="slideshow"/>} switchTo={this.props.onSwitchTab} beta={true} active={this.state.internalTab === "streamermode"} />
                                     <SettingsTab tabName="language" icon={<Icon icon="globe" type="regular"/>} switchTo={this.props.onSwitchTab} active={this.state.internalTab === "language"} />
                                     <SettingsTab tabName="developer" icon={<Icon icon="wrench"/>} switchTo={this.props.onSwitchTab} active={this.state.internalTab === "developer"} />
                                 <div className={css.category}>About</div>
@@ -170,11 +180,12 @@ export default class SettingsPanel extends React.Component<{
                         </div>
                     </div>
                     <div className={css.rightPanel}>
-                        <Banner type="streamerMode" />
-                        <div className={`${css.wrapper} ${scrollable} ${css.hasBanner}`}>
+                        {bannerType && <Banner type={bannerType} mobile={false} /> }
+                        <div className={`${css.wrapper} ${scrollable} ${bannerType ? css.hasBanner : ""}`}>
                             <div className={css.innerWrapper}>
                                 { (this.state.internalTab === undefined || this.state.internalTab === "account") && <MyAccountPanel /> }
                                 { this.state.internalTab === "appearance" && <AppearancePanel /> }
+                                { this.state.internalTab === "streamermode" && <StreamerModePanel /> }
                             </div>
                         </div>
                     </div>

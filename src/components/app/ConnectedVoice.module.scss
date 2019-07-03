@@ -4,7 +4,7 @@
 
     .connected {
         .status {
-            font-size: 14px;
+            font-size: 0.8125rem;
             font-weight: 600;
             color: #36AD93;
 
@@ -21,7 +21,12 @@
 }
 
 .disconnect {
+    fill: #707070 !important;
     cursor: pointer;
+    transition: fill .3s; //to fix later
+
+    &:hover {fill: black !important;}
+    &:active {fill: black !important;}
 }
 
 .icon {
@@ -42,8 +47,19 @@
     cursor: pointer;
 }
 
-.volume {
+.deafen {
     fill: #BCBCBC !important;
     height: 20px;
     width: 20px;
+    cursor: pointer;
+}
+
+.volumeBar {
+    display: inline-block;
+    margin: 0 15px;
+    width: calc(100% - 50px);
+    height: 4px;
+    vertical-align: middle;
+    background: #505050;
+    border-radius: 60px;
 }

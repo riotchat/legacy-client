@@ -5,7 +5,7 @@ import Icon from '../../util/Icon';
 import { pubsub } from '../../..';
 
 export default class AppearancePanel extends React.Component<{
-    type: "streamerMode" | "strike" | "unclaimed",
+    type: "streamerMode" | "strikeWarning" | "unclaimed",
     strikes?: number,
     mobile?: boolean
 }> {
@@ -35,7 +35,7 @@ export default class AppearancePanel extends React.Component<{
                     }}>Claim</a>
                 </div>
             ]
-        } else if (this.props.type === "strike") {
+        } else if (this.props.type === "strikeWarning") {
             let singularPlural = this.props.strikes === 1 ? "strike" : "strikes";
             rendered = (
                 <div className={css.text}>
@@ -48,7 +48,7 @@ export default class AppearancePanel extends React.Component<{
         }
 
         return (
-            <div className={`${css.banner} ${this.props.mobile ? css.mobile : ""}`}>
+            <div className={`${css.banner} ${this.props.type !== undefined ? css[this.props.type] : ""} ${this.props.mobile ? css.mobile : ""}`}>
                 <div className={css.type}>
                     {rendered}
                 </div>

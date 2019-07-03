@@ -1,13 +1,17 @@
 .banner {
-    background: #977EFF;
+    background: grey;
     display: none;
     width: 100%;
-    //height: 50px;
     padding: 15px 0;
     text-align: center;
+
     @media screen and (min-width: 901px) {
         display: block;
     }
+
+    &.streamerMode { background: #977EFF; }
+    &.strikeWarning { background: #D14F4F; }
+    &.unclaimed { background: #E5AA07; }
 
     &.mobile {
         display: block;

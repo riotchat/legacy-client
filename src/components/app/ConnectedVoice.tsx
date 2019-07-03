@@ -23,10 +23,14 @@ export default class ConnectedVoice extends React.Component<{
                     </div>
                     <div className={css.connectedUsers}>
                         <Icon className={css.mute} icon="microphone"/>
+                        <div className={css.user}/>
                     </div>
 
                     <div className={css.audioControls}>
-                        <Icon className={css.volume} icon="volume-full"/>
+                        <Icon className={css.deafen} icon="volume-full"/>
+                        <div className={css.volumeBar}>
+
+                        </div>
                     </div>
                 </div>
             </div>
