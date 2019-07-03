@@ -5,24 +5,24 @@ import css from "./MessageGroup.module.scss";
 import { User } from 'riotchat.js';
 
 export default class MessageGroup extends React.Component<{
-    user: User,
-    timestamp?: Date | number
+	user: User,
+	timestamp?: Date | number
 }> {
-    render() {
-        if(this.props.user === undefined) return null;
-        return (
-            <div className={css.messageGroup}>
-                <div className={css.pfp} style={{ backgroundImage: `url("${this.props.user.avatarURL}")` }}></div>
-                <div className={css.content}>
-                    <span className={css.header}>
-                        <span className={css.username}>{this.props.user.username}</span>
-                        { this.props.timestamp && (
-                            <time>{ moment(this.props.timestamp).calendar() }</time>
-                        )}
-                    </span>
-                    {this.props.children}
-                </div>
-            </div>
-        )
-    }
+	render() {
+		if(this.props.user === undefined) return null;
+		return (
+			<div className={css.messageGroup}>
+				<div className={css.pfp} style={{ backgroundImage: `url("${this.props.user.avatarURL}")` }}></div>
+				<div className={css.content}>
+					<span className={css.header}>
+						<span className={css.username}>{this.props.user.username}</span>
+						{ this.props.timestamp && (
+							<time>{ moment(this.props.timestamp).calendar() }</time>
+						)}
+					</span>
+					{this.props.children}
+				</div>
+			</div>
+		)
+	}
 }

@@ -6,8 +6,8 @@ declare module '*.svg'
 declare module '*.html'
 
 declare module '*.json' {
-    const value: any;
-    export default value;
+	const value: any;
+	export default value;
 }
 
 declare module '*.scss'

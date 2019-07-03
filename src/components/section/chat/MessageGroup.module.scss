@@ -1,51 +1,51 @@
 .messageGroup {
-    display: flex;
-    margin: 25px 0px;
-    overflow: hidden;
-    > .pfp {
-        flex: 0 0 auto;
-        background-size: cover;
-        background-position: center;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        margin-right: 20px;
-        background-color: grey;
-        cursor: pointer;
-    }
+	display: flex;
+	margin: 25px 0px;
+	overflow: hidden;
+	> .pfp {
+		flex: 0 0 auto;
+		background-size: cover;
+		background-position: center;
+		width: 45px;
+		height: 45px;
+		border-radius: 50%;
+		margin-right: 20px;
+		background-color: grey;
+		cursor: pointer;
+	}
 
-    > .content {
-        color: #EFEFEF;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        font-size: 14px;
-        
-        > .header {
-            margin-bottom: 2px;
-            > .username {
-                font-size: 1rem;
-                font-weight: 600;
-                padding-right: 6px;
-                cursor: pointer;
-                min-width: 0;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
+	> .content {
+		color: #EFEFEF;
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		font-size: 14px;
+		
+		> .header {
+			margin-bottom: 2px;
+			> .username {
+				font-size: 1rem;
+				font-weight: 600;
+				padding-right: 6px;
+				cursor: pointer;
+				min-width: 0;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 
-            > time {
-                display: inline;
-                word-break: none;
-                font-weight: 400;
-                color: #808080;
-                font-size: 12px;
-            }
-        }
+			> time {
+				display: inline;
+				word-break: none;
+				font-weight: 400;
+				color: #808080;
+				font-size: 12px;
+			}
+		}
 
-        > .tag {
-            background: green;
-            border-radius: 4px;
-        }
-    }
+		> .tag {
+			background: green;
+			border-radius: 4px;
+		}
+	}
 }

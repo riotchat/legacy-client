@@ -1,136 +1,136 @@
 .message {
-    margin: 2px 0px;
+	margin: 2px 0px;
 
-    > .editTag {
-        display: inline-block;
-        margin-left: .3em;
-        word-break: none;
-        font-weight: 400;
-        color: #808080;
-        font-size: 0.625rem;
-        user-select: none;
-        cursor: pointer;
-    }
+	> .editTag {
+		display: inline-block;
+		margin-left: .3em;
+		word-break: none;
+		font-weight: 400;
+		color: #808080;
+		font-size: 0.625rem;
+		user-select: none;
+		cursor: pointer;
+	}
 
-    .editBox {
-        margin: 8px 0;
-        border-radius: 6px;
-    }
+	.editBox {
+		margin: 8px 0;
+		border-radius: 6px;
+	}
 
-    .editNote {
-        padding-top: 10px;
-        font-size: 12px;
-        color: #808080;
-        user-select: none;
+	.editNote {
+		padding-top: 10px;
+		font-size: 12px;
+		color: #808080;
+		user-select: none;
 
-        a {
-            color: #7B68EE;
-            text-decoration: none;
-            cursor: pointer;
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
+		a {
+			color: #7B68EE;
+			text-decoration: none;
+			cursor: pointer;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
 
-    > .content {
-        &, * {
-            min-width: 0;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            word-break: break-all;
-            word-break: break-word;
-            overflow: hidden;
-            hyphens: auto;
-        }
+	> .content {
+		&, * {
+			min-width: 0;
+			overflow-wrap: break-word;
+			word-wrap: break-word;
+			word-break: break-all;
+			word-break: break-word;
+			overflow: hidden;
+			hyphens: auto;
+		}
 
-        h1, h2, h3 {
-            margin: .2em 0px;
-        }
+		h1, h2, h3 {
+			margin: .2em 0px;
+		}
 
-        blockquote {
-            margin: 3px 0px;
-            padding: 3px 7px;
-            border-left: 2px solid #AAAAAA;
-        }
+		blockquote {
+			margin: 3px 0px;
+			padding: 3px 7px;
+			border-left: 2px solid #AAAAAA;
+		}
 
-        a, a:visited {
-            color: #2B8FF3;
-            text-decoration: none;
+		a, a:visited {
+			color: #2B8FF3;
+			text-decoration: none;
 
-            &:hover {
-                text-decoration: underline;
-            }
-        }
+			&:hover {
+				text-decoration: underline;
+			}
+		}
 
-        code {
-            background: black;
-            padding: 1px 2px;
-            border-radius: 4px;
-        }
+		code {
+			background: black;
+			padding: 1px 2px;
+			border-radius: 4px;
+		}
 
-        pre {
-            white-space: pre-wrap;
-            max-width: 1000px;
-            /*$background-color: #2d2b57;*/
-            $background-color: #464646;
-            font-weight: normal;
-            background-color: $background-color;
-            padding: 4px;
-            margin: 4px 0px;
-            border-radius: 6px;
-            border: 1px solid lighten($background-color, 10%);
+		pre {
+			white-space: pre-wrap;
+			max-width: 1000px;
+			/*$background-color: #2d2b57;*/
+			$background-color: #464646;
+			font-weight: normal;
+			background-color: $background-color;
+			padding: 4px;
+			margin: 4px 0px;
+			border-radius: 6px;
+			border: 1px solid lighten($background-color, 10%);
 
-            > code {
-                background-color: $background-color;
-                line-height: 1.45;
-            }
-        }
+			> code {
+				background-color: $background-color;
+				line-height: 1.45;
+			}
+		}
 
-        .emoji {
-            object-fit: contain;
-            width: 1.45em;
-            height: 1.45em;
-            margin-left: .05em;
-            margin-right: .1em;
-            vertical-align: -.4em;
-        }
+		.emoji {
+			object-fit: contain;
+			width: 1.45em;
+			height: 1.45em;
+			margin-left: .05em;
+			margin-right: .1em;
+			vertical-align: -.4em;
+		}
 
-        .emojiBig {
-            @extend .emoji;
-            width: 2rem;
-            height: 2rem;
-            margin-bottom: 0;
-            margin-top: .2em;
-            vertical-align: -.3em;
-        }
-    }
+		.emojiBig {
+			@extend .emoji;
+			width: 2rem;
+			height: 2rem;
+			margin-bottom: 0;
+			margin-top: .2em;
+			vertical-align: -.3em;
+		}
+	}
 
-    .buttons {
-        display: flex;
-        opacity: 0;
-        transition: opacity .3s;
-        float: right;
+	.buttons {
+		display: flex;
+		opacity: 0;
+		transition: opacity .3s;
+		float: right;
 
-        span {
-            height: 1.2rem;
-            width: 1.2rem;
-            cursor: pointer;
-            svg {
-                fill: #9A9A9A;
-                transition: fill 0.3s;
-            }
-        }
+		span {
+			height: 1.2rem;
+			width: 1.2rem;
+			cursor: pointer;
+			svg {
+				fill: #9A9A9A;
+				transition: fill 0.3s;
+			}
+		}
 
-        .edit {
-            margin-left: 8px;
-        }
-    }
+		.edit {
+			margin-left: 8px;
+		}
+	}
 
-    &:hover {
-        .buttons {
-            opacity: 1;
-            span:hover svg { fill: #FFFFFF; }
-        }
-    }
+	&:hover {
+		.buttons {
+			opacity: 1;
+			span:hover svg { fill: #FFFFFF; }
+		}
+	}
 }

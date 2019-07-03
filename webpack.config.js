@@ -40,16 +40,16 @@ module.exports = {
 					}
 				]
 			},
-            {
-                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
+			{
+				test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+				use: [{
+					loader: 'file-loader',
+					options: {
 						useRelativePath: true,
-                        name: '[name].[ext]',
-                        outputPath: 'fonts/'
-                    }
-                }]
+						name: '[name].[ext]',
+						outputPath: 'fonts/'
+					}
+				}]
 			},
 			{
 				test: /\.(html)$/,

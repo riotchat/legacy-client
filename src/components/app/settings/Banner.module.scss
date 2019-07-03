@@ -1,42 +1,42 @@
 .banner {
-    background: grey;
-    display: none;
-    width: 100%;
-    padding: 15px 0;
-    text-align: center;
+	background: grey;
+	display: none;
+	width: 100%;
+	padding: 15px 0;
+	text-align: center;
 
-    @media screen and (min-width: 901px) {
-        display: block;
-    }
+	@media screen and (min-width: 901px) {
+		display: block;
+	}
 
-    &.streamerMode { background: #977EFF; }
-    &.strikeWarning { background: #D14F4F; }
-    &.unclaimed { background: #E5AA07; }
+	&.streamerMode { background: #977EFF; }
+	&.strikeWarning { background: #D14F4F; }
+	&.unclaimed { background: #E5AA07; }
 
-    &.mobile {
-        display: block;
-        @media screen and (min-width: 901px) {
-            display: none;
-        }
-    }
-    
-    .icon {
-        display: inline-block;
-    }
+	&.mobile {
+		display: block;
+		@media screen and (min-width: 901px) {
+			display: none;
+		}
+	}
+	
+	.icon {
+		display: inline-block;
+	}
 
-    a {
-        color: #E8E8E8;
-        padding-left: 10px;
-        text-decoration: underline;
-        cursor: pointer;
-    }
+	a {
+		color: #E8E8E8;
+		padding-left: 10px;
+		text-decoration: underline;
+		cursor: pointer;
+	}
 }
 
 .title {
-    font-weight: bold;
-    text-transform: uppercase;
+	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .text {
-    font-size: 0.875rem;
+	font-size: 0.875rem;
 }

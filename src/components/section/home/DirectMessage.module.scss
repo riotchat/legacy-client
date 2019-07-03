@@ -1,20 +1,20 @@
 .parent {
-    margin: 5px 0;
+	margin: 5px 0;
 	padding: 5px;
-    display: flex;
-    border-radius: 4px;
+	display: flex;
+	border-radius: 4px;
 	transition: .2s;
 	cursor: pointer;
 	align-items: stretch;
 	opacity: .99;
-    
-    &:hover, &.active {
-        background: #373737;
-    }
+	
+	&:hover, &.active {
+		background: #373737;
+	}
 
-    &:active {
-        background: #2C2C2C;
-    }
+	&:active {
+		background: #2C2C2C;
+	}
 }
 
 .avatar {
@@ -25,19 +25,19 @@
 	display: inline-block;
 	height: 30px;
 	width: 30px;
-    border-radius: 50%;
-    border: 3px solid #36AD93;
+	border-radius: 50%;
+	border: 3px solid #36AD93;
 	justify-content: center;
 	overflow: hidden;
 	position: relative;
 	flex: 0 0 auto;
 	background-position: center;
 	background-size: cover;
-    
-    &.online { border: 2px solid lightgreen; }
-    &.streaming { border: 2px solid purple; }
-    &.idle { border: 2px solid yellow; }
-    &.dnd { border: 2px solid red; }
+	
+	&.online { border: 2px solid lightgreen; }
+	&.streaming { border: 2px solid purple; }
+	&.idle { border: 2px solid yellow; }
+	&.dnd { border: 2px solid red; }
 }
 
 .username {

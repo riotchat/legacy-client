@@ -1,60 +1,60 @@
 .category {
-    $closed-color: #AFAFAF;
-    $open-color: #FFFFFF;
-    $transition: opacity .3s, color .3s;
-    margin: 14px 0;
+	$closed-color: #AFAFAF;
+	$open-color: #FFFFFF;
+	$transition: opacity .3s, color .3s;
+	margin: 14px 0;
 
-    .wrapper {
-        display: flex;
-        .name {
-            font-size: 12px;
-            text-transform: uppercase;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-            opacity: .7;
-            transition: $transition;
-            cursor: pointer;
-            color: $closed-color;
+	.wrapper {
+		display: flex;
+		.name {
+			font-size: 12px;
+			text-transform: uppercase;
+			font-weight: 600;
+			display: flex;
+			align-items: center;
+			flex-grow: 1;
+			opacity: .7;
+			transition: $transition;
+			cursor: pointer;
+			color: $closed-color;
 
-            &:hover, &:hover ~ .caret {
-                opacity: 1;
-            }
-        }
+			&:hover, &:hover ~ .caret {
+				opacity: 1;
+			}
+		}
 
-        .button {
-            height: 20px;
-            width: 20px;
-            cursor: pointer;
-            opacity: .7;
-            transition: $transition;
-            color: $open-color;
-            &:hover {
-                opacity: 1;
-            }
-        }
+		.button {
+			height: 20px;
+			width: 20px;
+			cursor: pointer;
+			opacity: .7;
+			transition: $transition;
+			color: $open-color;
+			&:hover {
+				opacity: 1;
+			}
+		}
 
-        .caret {
-            height: 18px;
-            width: 18px;
-            cursor: pointer;
-            opacity: .7;
-            transition: $transition;
-            color: $closed-color;
-            &:hover {
-                opacity: 1;
-            }
-        }
-    }
+		.caret {
+			height: 18px;
+			width: 18px;
+			cursor: pointer;
+			opacity: .7;
+			transition: $transition;
+			color: $closed-color;
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
 
-    &.active {
-        .name {
-            color: $open-color;
-        }
+	&.active {
+		.name {
+			color: $open-color;
+		}
 
-        .caret {
-            color: $open-color;
-        }
-    }
+		.caret {
+			color: $open-color;
+		}
+	}
 }

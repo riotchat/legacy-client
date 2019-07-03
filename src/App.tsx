@@ -156,8 +156,8 @@ class App extends React.Component<{}, {
 
 	render() {
 		let test: Array<React.ReactNode> = [];
-        for(let i = 0; i < 100; i++)
-            test.push(<ServerIcon serverName="tech support scam time" iconURL="https://placeimg.com/240/240/nature" />);
+		for(let i = 0; i < 100; i++)
+			test.push(<ServerIcon serverName="tech support scam time" iconURL="https://placeimg.com/240/240/nature" />);
 
 		const sidebar = (
 			<div className={styles.mainSidebars}>

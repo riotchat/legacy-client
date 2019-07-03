@@ -1,97 +1,97 @@
 /*@mixin keyframes($animationName) {
-    @-webkit-keyframes $animationName {
-        @content;
-    }
-    @-moz-keyframes $animationName {
-        @content;
-    }
-    @-o-keyframes $animationName {
-        @content;
-    }
-    @keyframes $animationName {
-        @content;
-    }
+	@-webkit-keyframes $animationName {
+		@content;
+	}
+	@-moz-keyframes $animationName {
+		@content;
+	}
+	@-o-keyframes $animationName {
+		@content;
+	}
+	@keyframes $animationName {
+		@content;
+	}
 }*/
 
 .wrapper {
-    margin: 15px 30px;
+	margin: 15px 30px;
 
-    @media only screen and (max-width: 900px) {
-        margin: 15px 10px;
-    }
+	@media only screen and (max-width: 900px) {
+		margin: 15px 10px;
+	}
 }
 
 .messageBox {
-    box-sizing: border-box;
-    width: 100%;
-    background: #707070;
-    border-radius: 6px;
-    display: flex;
+	box-sizing: border-box;
+	width: 100%;
+	background: #707070;
+	border-radius: 6px;
+	display: flex;
 
-    > .emojiButton {
-        cursor: pointer;
-    }
+	> .emojiButton {
+		cursor: pointer;
+	}
 
-    > .actionButton {
-        flex: 2 0 auto;
-        border-radius: 0px 6px 6px 0px;
-        width: 45px;
-        cursor: pointer;
-        vertical-align: middle;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+	> .actionButton {
+		flex: 2 0 auto;
+		border-radius: 0px 6px 6px 0px;
+		width: 45px;
+		cursor: pointer;
+		vertical-align: middle;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 }
 
 .textArea {
-    display: block;
-    resize: none;
-    box-sizing: border-box;
-    width: 100%;
-    border-radius: 6px 0px 0px 6px;
-    /*border: 1px solid #707070;*/
-    background: #434343;
-    outline: 0;
-    flex-grow: 1;
-    display: flex;
+	display: block;
+	resize: none;
+	box-sizing: border-box;
+	width: 100%;
+	border-radius: 6px 0px 0px 6px;
+	/*border: 1px solid #707070;*/
+	background: #434343;
+	outline: 0;
+	flex-grow: 1;
+	display: flex;
 
-    > form {
-        $form-side-padding: 20px;
-        flex-grow: 1;
-        width: 100%;
-        textarea {
-            display: block;
-            padding: 12px $form-side-padding;
-            font-family: "Open Sans", sans-serif;
-            color: white;
-            width: calc(100% - #{$form-side-padding * 2});
-            font-size: 14px;
-            background: transparent;
-            resize: none;
-            border: none;
-            outline: 0;
-        }
-    }
+	> form {
+		$form-side-padding: 20px;
+		flex-grow: 1;
+		width: 100%;
+		textarea {
+			display: block;
+			padding: 12px $form-side-padding;
+			font-family: "Open Sans", sans-serif;
+			color: white;
+			width: calc(100% - #{$form-side-padding * 2});
+			font-size: 14px;
+			background: transparent;
+			resize: none;
+			border: none;
+			outline: 0;
+		}
+	}
 }
 
 .typeIndicator {
-    $animation-duration: 1s;
-    display: none; /*remove later thx*/
-    padding-bottom: 10px;
-    font-size: 12px;
+	$animation-duration: 1s;
+	display: none; /*remove later thx*/
+	padding-bottom: 10px;
+	font-size: 12px;
 
-    animation-name: typeIndicator;
-    animation-duration: $animation-duration;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+	animation-name: typeIndicator;
+	animation-duration: $animation-duration;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 
-    b {
-        animation-name: typeIndicatorUser;
-        animation-duration: $animation-duration;
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
-    }
+	b {
+		animation-name: typeIndicatorUser;
+		animation-duration: $animation-duration;
+		animation-iteration-count: infinite;
+		animation-direction: alternate;
+	}
 }
 
 $type-indicator-color: #A0A0A0;
@@ -100,13 +100,13 @@ $type-indicator-color-substract: 20%;
 $type-indicator-middle-point: 60%;
 
 @keyframes typeIndicator {
-    0% { color: $type-indicator-color; }
-    #{$type-indicator-middle-point} { color: $type-indicator-color; }
-    100% { color: darken($type-indicator-color, $type-indicator-color-substract); }
+	0% { color: $type-indicator-color; }
+	#{$type-indicator-middle-point} { color: $type-indicator-color; }
+	100% { color: darken($type-indicator-color, $type-indicator-color-substract); }
 }
 
 @keyframes typeIndicatorUser {
-    0% { color: $type-indicator-user-color; }
-    #{$type-indicator-middle-point} { color: $type-indicator-user-color; }
-    100% { color: darken($type-indicator-user-color, $type-indicator-color-substract); }
+	0% { color: $type-indicator-user-color; }
+	#{$type-indicator-middle-point} { color: $type-indicator-user-color; }
+	100% { color: darken($type-indicator-user-color, $type-indicator-color-substract); }
 }

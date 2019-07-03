@@ -7,11 +7,11 @@ import { User } from 'riotchat.js';
 import { RiotClient } from '../../..';
 
 function properStatus(status: string): string {
-    let tempStatus = status;
-    if(tempStatus.toUpperCase() === "INVISIBLE") tempStatus = "offline";
+	let tempStatus = status;
+	if(tempStatus.toUpperCase() === "INVISIBLE") tempStatus = "offline";
 
-    return tempStatus.charAt(0).toUpperCase()
-        + tempStatus.substr(1).toLowerCase();
+	return tempStatus.charAt(0).toUpperCase()
+		+ tempStatus.substr(1).toLowerCase();
 }
 
 export default class Friend extends React.Component<{
