@@ -12,11 +12,6 @@ export default class ErrorBoundary extends React.Component<{ customMessage?: Rea
 		return { error };
 	}
 
-	componentDidCatch(error: Error, info: React.ErrorInfo) {
-		console.error(error);
-		console.error("Thrown in the following component:", info.componentStack);
-	}
-
 	render() {
 		if(!this.state.error) return this.props.children;
 		else return (

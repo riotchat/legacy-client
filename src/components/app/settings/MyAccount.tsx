@@ -5,7 +5,7 @@ import style from './Main.module.scss';
 import Icon from '../../util/Icon';
 import { RiotClient } from '../../..';
 import Tooltip from '@material-ui/core/Tooltip';
-import { StreamerModeComponent } from '../../util/ExtendableComponent';
+import { OptionsComponent } from '../../util/ExtendableComponent';
 
 const idTooltip = `
 This ID is unique to you and only you.
@@ -15,7 +15,7 @@ original. Also, you won't have to deal with
 those random number tags (thank god)
 `
 
-export default class MyAccountPanel extends StreamerModeComponent {
+export default class MyAccountPanel extends OptionsComponent {
 	render() {
 		//let account: React.ReactNode;
 		return (
@@ -29,7 +29,7 @@ export default class MyAccountPanel extends StreamerModeComponent {
 						</div>
 						<div className={css.details}>
 							<span className={css.name}>{RiotClient.user.username}</span>
-							{!this.state.streamerMode.enabled && ( <span className={css.id}>
+							{!this.state.options.streamerMode.enabled && ( <span className={css.id}>
 								<span className={css.title}>UID:</span>
 								<span className={css.copy}>{RiotClient.user.id}</span>
 								<Tooltip title={idTooltip}>
@@ -40,12 +40,13 @@ export default class MyAccountPanel extends StreamerModeComponent {
 						</div>
 					</div>
 				</div>
-				{!this.state.streamerMode.enabled && ( <div className={style.section}>
-					<div className={style.category}>UID</div>
-					<span className={css.copy}>{RiotClient.user.id}</span>
+				{!this.state.options.streamerMode.enabled && ( <div className={`${style.section} ${css.mobile}`}>
+					<div className={style.category}>UID
 					<Tooltip title={idTooltip}>
 						<span><Icon icon="help-circle" /></span>
 					</Tooltip>
+					</div>
+					<span className={css.copy}>{RiotClient.user.id}</span>
 				</div> )}
 				<div className={style.section}>
 					<div className={style.category}>2FA Authentication</div>
@@ -60,11 +61,25 @@ export default class MyAccountPanel extends StreamerModeComponent {
 					<div className={style.category}>Pending Community Strikes</div>
 					<div className={css.timeline}>
 						<div className={css.strike}>
-							<span className={css.date}>02/07/2019</span>
-							<span className={css.title}>Strike<span className={css.count}>1</span></span>
+							<div className={css.date}>02/07/2019</div>
+							<div className={css.title}>Strike<span className={css.count}>2</span></div>
+							<div className={css.details}>You have been issued a warning by a community moderator for playing Fortnite on a public server.</div>
+							<div className={css.expires} style={{color: "red", fontWeight: "bold"}}>This is your last warning — your account may get suspended if you get one more strike this month.</div>
+							<div className={css.expires}>Expires 01/08/2019</div>
+						</div>
+						<div className={css.strike}>
+							<div className={css.date}>02/07/2019</div>
+							<div className={css.title}>Strike<span className={css.count}>1</span></div>
 							<div className={css.details}>You have been issued a warning by a community moderator for playing Fortnite on a public server.</div>
 							<div className={css.expires}>Expires 01/08/2019</div>
 						</div>
+					</div>
+				</div>
+				<div className={style.section}>
+					<div className={style.category}>Account Management</div>
+					<div>
+						<a className={css.button}>Disable Account</a>
+						<a className={`${css.button} ${css.red}`}>Delete Account</a>
 					</div>
 				</div>
 			</div>

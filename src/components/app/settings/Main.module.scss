@@ -8,3 +8,17 @@
 .section {
 	margin-bottom: 20px;
 }
+
+.footer {
+	padding-top: 8px;
+	border-top: 1px solid rgba(112, 112, 112, 0.5);
+	max-width: 500px;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.link {
+	color: #2B8FF3;
+	text-decoration: none;
+	&:hover {text-decoration: underline;}
+}

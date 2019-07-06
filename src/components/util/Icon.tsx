@@ -50,8 +50,10 @@ export default class Icon extends React.Component<IconProps, {svg?: string}> {
 	}
 
 	render() {
+		let style: React.CSSProperties = {};
+		if(this.props.color) style.fill = this.props.color;
 		if(this.state.svg) return (
-			<span className={`${css.icon} ${this.props.className || ''}`}
+			<span className={`${css.icon} ${this.props.className || ''}`} style={style}
 				onClick={(e) => { if(typeof this.props.onClick === "function") this.props.onClick(e) }} dangerouslySetInnerHTML={{ __html: this.state.svg }} />
 		); else return null;
 	}

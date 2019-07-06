@@ -52,7 +52,7 @@
 			%bar {
 				position: absolute;
 				bottom: 0px;
-				left: 50%;
+				left: 50%; //after disabling animations, this property must be removed
 				transform: translate(-50%, 0%);
 				height: 2px;
 				background-color: var(--accent-color, #7B68EE);

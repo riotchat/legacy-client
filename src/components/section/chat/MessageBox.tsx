@@ -4,6 +4,7 @@ import Textarea from 'react-textarea-autosize';
 import css from "./MessageBox.module.scss";
 import Icon from '../../util/Icon';
 import { Channel } from 'riotchat.js';
+import EmojiPicker from './EmojiPicker';
 
 export default class MessageBox extends React.Component<{ channelName: string, channelType: "chat" | "dm" | "self", onSend: (message: string) => boolean }> {
 	constructor(props: { channelName: string, channelType: "chat" | "dm" | "self", onSend: (message: string) => boolean }) {
@@ -20,9 +21,8 @@ export default class MessageBox extends React.Component<{ channelName: string, c
 						full={true}
 						placeholder={this.props.channelType === "self" ? "Save message" : `Message ${this.props.channelType === "dm" ? "@" : "#"}${this.props.channelName}`}
 					/>
-					<Icon className={css.emojiButton} icon="smiley-happy"/>
 					<div className={css.actionButton}>
-						<Icon icon="dots-vertical-rounded" type="regular" />
+						<Icon className={css.emojiButton} icon="dots-vertical-rounded" type="regular" />
 					</div>
 				</div>
 			</div>
@@ -38,14 +38,17 @@ export class InnerMessageBox extends React.Component<{
 	autoFocus?: boolean,
 	onSend: (message: string) => boolean,
 	onKeyPress?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void
-}, { message: string }> {
+}, { message: string, emojiPicker: boolean }> {
 	constructor(props: any) {
 		super(props);
 		this.state = {
-			message: props.initialMessage || ""
+			message: props.initialMessage || "",
+			emojiPicker: false
 		}
 
 		this.onChange = this.onChange.bind(this);
+		this.togglePicker = this.togglePicker.bind(this);
+		this.addEmoji = this.addEmoji.bind(this);
 		this.onKeyPress = this.onKeyPress.bind(this);
 		this.onKeyDown = this.onKeyDown.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
@@ -64,6 +67,22 @@ export class InnerMessageBox extends React.Component<{
 		this.setState((prevState) => {
 			return Object.assign({}, prevState, {
 				message
+			});
+		});
+	}
+
+	togglePicker() {
+		this.setState((prevState) => {
+			return Object.assign({}, prevState, {
+				emojiPicker: !prevState.emojiPicker
+			});
+		});
+	}
+
+	addEmoji(emoji: string) {
+		this.setState((prevState) => {
+			return Object.assign({}, prevState, {
+				message: prevState.message + emoji
 			});
 		});
 	}
@@ -95,6 +114,7 @@ export class InnerMessageBox extends React.Component<{
 	render() {
 		return (
 			<div className={css.textArea}>
+				{ this.state.emojiPicker && <EmojiPicker absolute={{right: "0px", bottom: "50px"}} onPick={this.addEmoji} /> }
 				<form onSubmit={this.onSubmit}>
 					<Textarea
 						maxRows={5}
@@ -107,6 +127,9 @@ export class InnerMessageBox extends React.Component<{
 						autoFocus={this.props.autoFocus === true}>
 					</Textarea>
 				</form>
+				<div className={css.button} onClick={this.togglePicker}>
+					<Icon icon="smiley-happy"/>
+				</div>
 			</div>
 		)
 	}

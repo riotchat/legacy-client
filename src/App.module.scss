@@ -5,6 +5,8 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility !important;
+	::-moz-selection {color: var(--accent-color-text, white); background: rgba(var(--accent-color-rgb), .8);}
+	::selection {color: var(--accent-color-text, white); background: rgba(var(--accent-color-rgb), .8);}
   }
 
 html, body {
@@ -14,8 +16,6 @@ html, body {
 	user-select: none;
 	background: #333234;
 	overscroll-behavior: contain;
-
-	/* Disables highlight color on mobile devices - this function can be disabled by enabling accessibility mode in settings */
 	-webkit-tap-highlight-color: transparent;
 }
 

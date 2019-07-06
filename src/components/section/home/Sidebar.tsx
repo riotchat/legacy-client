@@ -9,6 +9,7 @@ import DirectMessage from './DirectMessage';
 
 import styles from './Sidebar.module.scss';
 import Icon from '../../util/Icon';
+import Tooltip from '@material-ui/core/Tooltip';
 import { scrollable } from '../../util/Scrollbar';
 import { RiotClient } from '../../..';
 import { ChannelType } from 'riotchat.js/dist/api/v1/channels';
@@ -60,7 +61,9 @@ export default class HomeSidebar extends React.Component<{ channel: string, onCh
 				<div className={styles.dm}>
 					<div className={styles.category}>
 						<span className={styles.title}>Direct Messages</span>
-						<Icon className={styles.button} icon="user-plus" />
+						<Tooltip title="test">
+							<Icon className={styles.button} icon="user-plus" />
+						</Tooltip>
 					</div>
 					<div className={styles.directMessages}>
 						{dms}
@@ -69,7 +72,9 @@ export default class HomeSidebar extends React.Component<{ channel: string, onCh
 				<div className={styles.groupdm}>
 					<div className={styles.category}>
 						<span className={styles.title}>Group Messages</span>
-						<Icon className={styles.button} icon="plus" type="regular" />
+						<Tooltip title="Create Group">
+							<Icon className={styles.button} icon="plus" type="regular" />
+						</Tooltip>
 					</div>
 					<div className={styles.directMessages}>
 						{/*{groupdms}*/}

@@ -1,5 +1,6 @@
 import * as React from 'React';
 import { pubsub, streamerMode } from '../..';
+import { ClientOptions, getOptions } from '../../utilFuctions';
 
 export type StreamerMode = {
 	enabled: boolean
@@ -10,28 +11,41 @@ export type ThemeInfo = {
 	accent: string
 }
 
-export class StreamerModeComponent<P = {}, S = {}> extends React.Component<P, S & { streamerMode: StreamerMode }> {
+export type AccessibilityOptions = {
+	colorblind: boolean;
+	outlines: boolean;
+	pinchToZoom: boolean;
+	highlight: boolean; // Highlight color on mobile devices
+	highContrast: boolean;
+	bold: boolean; // Bold Text
+	noAnimations: boolean; // No Animations
+	noBackButton: boolean; // No Back Button Drawer
+
+	textToSpeech: boolean;
+}
+
+export class OptionsComponent<P = {}, S = {}> extends React.Component<P, S & { options: ClientOptions }> {
 	constructor(props: P) {
 		super(props);
 		(this.state as any) = Object.assign({}, this.state, {
-			streamerMode
+			options: getOptions()
 		});
 
-		this.onStreamerModeUpdate = this.onStreamerModeUpdate.bind(this);
+		this.onOptionsUpdate = this.onOptionsUpdate.bind(this);
 	}
 
 	componentDidMount() {
-		pubsub.on('streamerMode', this.onStreamerModeUpdate);
+		pubsub.on('optionsUpdate', this.onOptionsUpdate);
 	}
 
 	componentWillUnmount() {
-		pubsub.removeListener('streamerMode', this.onStreamerModeUpdate);
+		pubsub.removeListener('optionsUpdate', this.onOptionsUpdate);
 	}
 
-	onStreamerModeUpdate(streamerMode: StreamerMode) {
+	onOptionsUpdate(options: ClientOptions) {
 		this.setState((prevState) => {
 			return Object.assign({}, prevState, {
-				streamerMode
+				options: options
 			});
 		});
 	}

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Helmet from 'react-helmet';
 
 import css from './Chat.module.scss';
 import Icon from '../../util/Icon';
@@ -167,11 +168,11 @@ export default class Chat extends React.Component<ChatProps, { name: string, typ
 				|| (currentMessageGroup.props.timestamp + (10 * 60 * 1000)) < message.createdAt.getTime()
 				|| dayYear !== messageDayYear;
 			if(previousInvalid) {
+				if(currentMessageGroup !== undefined) messageGroups.push(currentMessageGroup);
 				if(dayYear !== messageDayYear) {
 					messageGroups.push(<MessageSeparator separation="timestamp" timestamp={message.createdAt} />);
 					dayYear = messageDayYear;
 				}
-				if(currentMessageGroup !== undefined) messageGroups.push(currentMessageGroup);
 				currentMessageGroup = <MessageGroup key={`mg${message.id}`} user={message.author} timestamp={message.createdAt.getTime()} children={[]} />;
 			}
 			if(currentMessageGroup === undefined) return;

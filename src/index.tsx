@@ -1,11 +1,15 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import Helmet from 'react-helmet';
 import { EventEmitter } from 'events';
 
 import './index.html';
+import './sass/accessibility.scss';
 import App from './App';
 import * as Riot from 'riotchat.js';
-import { StreamerMode, ThemeInfo } from './components/util/ExtendableComponent';
+import { isLight, hexToRgb, shadeColor, ClientOptions } from './utilFuctions';
+import { StreamerMode, ThemeInfo, OptionsComponent, AccessibilityOptions } from './components/util/ExtendableComponent';
+import { Input, Title, Description, Checkbox, RadioGroup } from './components/util/FormComponents';
 
 let pubsub = new EventEmitter();
 
@@ -27,89 +31,44 @@ pubsub.on('streamerMode', (_) => streamerMode = _ );
 export { pubsub, RiotClient, focused, streamerMode };
 (window as any).RiotClient = RiotClient;
 
-// https://stackoverflow.com/a/13532993
-function shadeColor(color: string, percent: number) {
-    var R = parseInt(color.substring(1,3),16);
-    var G = parseInt(color.substring(3,5),16);
-	var B = parseInt(color.substring(5,7),16);
-	
-    R = Math.floor(R * (100 + percent) / 100);
-    G =	Math.floor(G * (100 + percent) / 100);
-	B = Math.floor(B * (100 + percent) / 100);
-	
-    R = (R<255) ? ((R > 0) ? R : 0) : 255;
-    G = (G<255) ? ((G > 0) ? G : 0) : 255;
-	B = (B<255) ? ((B > 0) ? B : 0) : 255;
-	
-    var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
-    var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
-    var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
-
-    return "#"+RR+GG+BB;
+function setAccessibility(accessibility: AccessibilityOptions) {
+	document.body.setAttribute('accessibility', `${accessibility.colorblind ? "colorblind " : ""}${accessibility.outlines ? "outlines " : ""}`
+		+ `${accessibility.highlight ? "highlight " : ""}${accessibility.bold ? "bold " : ""}${accessibility.noAnimations ? "noAnimations" : ""}`);
 }
 
-// https://stackoverflow.com/a/5624139
-function hexToRgb(hex: string): { r: number, g: number, b: number } {
-	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	return result ? {
-		r: parseInt(result[1], 16),
-		g: parseInt(result[2], 16),
-		b: parseInt(result[3], 16)
-	} : { r: 0, g: 0, b: 0 };
-}
-
-// https://awik.io/determine-color-bright-dark-using-javascript/
-function isLight(r: number, g: number, b: number): boolean {
-    let hsp;
-
-    // HSP equation from http://alienryderflex.com/hsp.html
-    hsp = Math.sqrt(
-        0.299 * (r * r) +
-        0.587 * (g * g) +
-        0.114 * (b * b)
-    );
-
-    // Using the HSP value, determine whether the color is light or dark
-    return hsp > 140;
-}
-
-class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" | "noToken" | "connectionError", email: string, password: string, themeInfo: ThemeInfo}> {
+class PreApp extends OptionsComponent<{}, {loginState: "loggedIn" | "loggingIn" | "noToken" | "connectionError", email: string, password: string, checkboxOne?: number, checkboxTwo: number}> {
 	mounted: boolean;
 	constructor(props: {}) {
 		super(props);
 		this.mounted = false;
 		let loginState: any = localStorage.getItem("token") != null ? "loggingIn" : "noToken";
 		if(loggedIn) loginState = "loggedIn";
-		let themeInfo: ThemeInfo | undefined = localStorage.getItem("themeInfo") ? JSON.parse(localStorage.getItem("themeInfo") as any) : undefined;
-		if(!themeInfo) {
-			themeInfo = {
-				theme: "dark",
-				accent: "7B68EE"
-			}
-			localStorage.setItem("themeInfo", JSON.stringify(themeInfo));
-		}
-		this.state = {
+		this.state = Object.assign({}, this.state, {
 			loginState,
 			email: "",
 			password: "",
-			themeInfo
-		}
+			checkboxOne: undefined,
+			checkboxTwo: 1
+		});
 
-		document.body.setAttribute('theme', themeInfo.theme.toLowerCase());
+		setAccessibility(this.state.options.accessibility);
+		document.body.setAttribute('theme', this.state.options.themeInfo.theme.toLowerCase() + (this.state.options.accessibility.highContrast ? "-hc" : ""));
+		this.onOptionsUpdate = this.onOptionsUpdate.bind(this);
 
 		this.changeEmail = this.changeEmail.bind(this);
 		this.changePassword = this.changePassword.bind(this);
 		this.loginWithCredentials = this.loginWithCredentials.bind(this);
 		this.successfulLogin = this.successfulLogin.bind(this);
 		this.error = this.error.bind(this);
-		this.updateTheme = this.updateTheme.bind(this);
+		this.radioTestToggle = this.radioTestToggle.bind(this);
 	}
 
 	async componentDidMount() {
+		super.componentDidMount();
+
 		this.mounted = true;
 		RiotClient.on('connected', this.successfulLogin);
 		RiotClient.on('error', this.error);
-		pubsub.on('updateTheme', this.updateTheme);
 		let token = localStorage.getItem("token");
 		if(token != null) {
 			RiotClient.login(token);
@@ -117,10 +76,19 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 	}
 
 	componentWillUnmount() {
+		super.componentWillUnmount();
 		RiotClient.removeListener('connected', this.successfulLogin);
 		RiotClient.removeListener('error', this.error);
-		pubsub.removeListener('updateTheme', this.updateTheme);
 		this.mounted = false;
+	}
+
+	onOptionsUpdate(options: ClientOptions) {
+		this.setState((prevState) => {
+			document.body.setAttribute('theme', options.themeInfo.theme.toLowerCase() + (options.accessibility.highContrast ? "-hc" : ""));
+			setAccessibility(options.accessibility);
+			localStorage.setItem('options', JSON.stringify(options));
+			return Object.assign({}, prevState, { options });
+		});
 	}
 
 	changeEmail(event: React.ChangeEvent<HTMLInputElement>) {
@@ -166,34 +134,47 @@ class PreApp extends React.Component<{}, {loginState: "loggedIn" | "loggingIn" |
 		}));
 	}
 
-	updateTheme(themeInfo: ThemeInfo) {
+	radioTestToggle(checkboxGroup: number, checkbox: number) {
 		this.setState((prevState) => {
-			localStorage.setItem("themeInfo", JSON.stringify(themeInfo));
-			document.body.setAttribute('theme', themeInfo.theme.toLowerCase());
 			return Object.assign({}, prevState, {
-				themeInfo
+				[checkboxGroup === 1 ? "checkboxOne" : "checkboxTwo"]: checkbox
 			});
 		});
 	}
 
 	render() {
-		let hexAccent = `#${this.state.themeInfo.accent}`;
-		let accent = hexToRgb(this.state.themeInfo.accent);
+		let accent = this.state.options.themeInfo.accent;
+		if(this.state.options.accessibility.highContrast) accent = this.state.options.themeInfo.theme === "dark" ? "FFFFFF" : "000000";
+		let hexAccent = `#${accent}`;
+		let accentRGB = hexToRgb(accent);
 		if(this.state.loginState === "loggedIn") {
 			return (
-				<div className={`theme--${this.state.themeInfo.theme}`}>
+				<React.Fragment>
+					<Helmet>
+						<meta key="metaViewport" name="viewport"
+							content={`width=device-width, initial-scale=0.9, user-scalable=${this.state.options.accessibility.pinchToZoom ? "yes" : "no"}`} />	
+						{ this.state.options.themeInfo.theme === "dark" && !this.state.options.accessibility.highContrast
+							&& <meta key="metaTheme" name="theme-color" content="#333234" /> }
+						{ this.state.options.themeInfo.theme === "dark" && this.state.options.accessibility.highContrast
+							&& <meta key="metaTheme" name="theme-color" content="#000000" /> }
+						{ this.state.options.themeInfo.theme === "light" && !this.state.options.accessibility.highContrast
+							&& <meta key="metaTheme" name="theme-color" content="#FBFBFB" /> }
+						{ this.state.options.themeInfo.theme === "light" && this.state.options.accessibility.highContrast
+							&& <meta key="metaTheme" name="theme-color" content="#FFFFFF" /> }
+					</Helmet>
 					<style>{`
 						:root {
 							--accent-color: ${hexAccent};
+							--accent-color-rgb: ${accentRGB.r}, ${accentRGB.g}, ${accentRGB.b};
 							--accent-color-darken-10: ${shadeColor(hexAccent, -10)};
 							--accent-color-darken-5: ${shadeColor(hexAccent, -5)};
 							--accent-color-lighten-5: ${shadeColor(hexAccent, 5)};
 							--accent-color-lighten-10: ${shadeColor(hexAccent, 10)};
-							--accent-color-text: ${isLight(accent.r, accent.g, accent.b) ? "black" : "white"}
+							--accent-color-text: ${isLight(accentRGB.r, accentRGB.g, accentRGB.b) ? "black" : "white"}
 						}
 					`}</style>
 					{this.props.children}
-				</div>
+				</React.Fragment>
 			);
 		} else return (
 			<div style={{ margin: "20px", color: "white" }}>

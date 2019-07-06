@@ -31,6 +31,7 @@
 	flex: 0 0 auto;
 	background-position: center;
 	background-size: cover;
+	border: 2px solid grey;
 	
 	&.online { border: 2px solid $green; }
 	&.streaming { border: 2px solid $streaming; }

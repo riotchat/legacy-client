@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Helmet from 'react-helmet';
 
 import css from './Settings.module.scss';
 import Icon from '../util/Icon'
@@ -7,9 +8,11 @@ import { RiotClient } from '../..';
 
 import Banner from './settings/Banner';
 import MyAccountPanel from './settings/MyAccount';
+import VoiceVideoPanel from './settings/VoiceVideo';
 import AppearancePanel from './settings/Appearance';
-import { StreamerModeComponent } from '../util/ExtendableComponent';
+import AccessibilityPanel from './settings/Accessibility';
 import StreamerModePanel from './settings/StreamerMode';
+import { OptionsComponent } from '../util/ExtendableComponent';
 
 export type SettingsPanelTabs = "account"
 	| "authorized"
@@ -72,7 +75,7 @@ class SettingsTab extends React.Component<{
 	}
 }
 
-export default class SettingsPanel extends StreamerModeComponent<{
+export default class SettingsPanel extends OptionsComponent<{
 	open: boolean,
 	tab?: SettingsPanelTabs,
 	onSwitchTab: (tab: SettingsPanelTabs) => void,
@@ -114,16 +117,25 @@ export default class SettingsPanel extends StreamerModeComponent<{
 	
 	render() {
 		let bannerType: "unclaimed" | "streamerMode" | "strikeWarning" | undefined = undefined;
-		if(this.state.streamerMode.enabled) bannerType = "streamerMode";
+		if(this.state.options.streamerMode.enabled) bannerType = "streamerMode";
 
 		return (
 			<div className={`${css.root} ${this.props.open ? css.open : ""}`} onKeyDown={this.onKeyDown} tabIndex={0} ref={this.rootRef}>
+				{this.props.open && <Helmet>
+					{ this.state.options.themeInfo.theme === "dark" && !this.state.options.accessibility.highContrast
+						&& <meta key="metaTheme" name="theme-color" content="#212121" /> }
+					{ this.state.options.themeInfo.theme === "light" && !this.state.options.accessibility.highContrast
+						&& <meta key="metaTheme" name="theme-color" content="#F0F0F0" /> }
+				</Helmet> }
 				<div className={css.mobileHeader}>
 					{ this.state.internalTab !== undefined
 						? <Icon className={css.close} icon="arrow-back" type="regular" onClick={() => this.props.onSwitchTab(undefined)} />
 						: <Icon className={css.close} icon="x" type="regular" onClick={this.props.onClose} /> }
 					<span className={css.headerText}>{this.state.internalTab ? tabToReadable[this.state.internalTab] : "Settings"}</span>
 					<Icon icon="log-out" type="regular" onClick={this.logoutPrompt} />
+				</div>
+				<div className={`${css.closeButton} ${bannerType !== undefined ? css.hasBanner : ""}`} onClick={this.props.onClose}>
+					<Icon className={css.close} icon="x" type="regular" onClick={this.props.onClose} />
 				</div>
 				<div className={`${css.settings} ${this.state.internalTab === undefined ? css.noTab : ""}`}>
 					<div className={`${css.leftPanel} ${scrollable}`}>
@@ -134,7 +146,7 @@ export default class SettingsPanel extends StreamerModeComponent<{
 									<div className={css.pfp} style={{backgroundImage: `url("${RiotClient.user.avatarURL}")`}}/>
 									<div className={css.details}>
 										<span className={css.username}>{RiotClient.user.username}</span>
-										{!this.state.streamerMode.enabled && (
+										{!this.state.options.streamerMode.enabled && (
 											<React.Fragment>
 												<span className={css.email}>E-Mail:</span>
 												<span className={css.address}>{RiotClient.user.email}</span>
@@ -146,7 +158,7 @@ export default class SettingsPanel extends StreamerModeComponent<{
 									<SettingsTab className={css.mobileHide} tabName="account" icon={<Icon icon="id-card" />} switchTo={this.props.onSwitchTab}
 										active={this.state.internalTab === undefined || this.state.internalTab === "account"} />
 									<SettingsTab tabName="authorized" icon={<Icon icon="check-shield" />} switchTo={this.props.onSwitchTab} active={this.state.internalTab === "authorized"} />
-									<SettingsTab tabName="integrations" icon={<Icon icon="cog" />} switchTo={this.props.onSwitchTab} beta={true} active={this.state.internalTab === "integrations"} />
+									<SettingsTab tabName="integrations" icon={<Icon icon="extension" />} switchTo={this.props.onSwitchTab} beta={true} active={this.state.internalTab === "integrations"} />
 								<div className={css.category}>Riot PRO</div>
 									<div className={`${css.tab} ${css.pro} ${this.state.internalTab === "pro" ? css.active : ""}`} onClick={() => this.props.onSwitchTab("pro")}>
 										<div className={css.bg} />
@@ -187,8 +199,10 @@ export default class SettingsPanel extends StreamerModeComponent<{
 									{this.state.internalTab && this.state.internalTab !== "account" && tabToReadable[this.state.internalTab]}
 								</div>
 								{ (this.state.internalTab === undefined || this.state.internalTab === "account") && <MyAccountPanel /> }
-								{ this.state.internalTab === "appearance" && <AppearancePanel /> }
-								{ this.state.internalTab === "streamermode" && <StreamerModePanel /> }
+								{ this.state.internalTab === "voicevideo" && <VoiceVideoPanel/> }
+								{ this.state.internalTab === "appearance" && <AppearancePanel/> }
+								{ this.state.internalTab === "accessibility" && <AccessibilityPanel/> }
+								{ this.state.internalTab === "streamermode" && <StreamerModePanel/> }
 							</div>
 						</div>
 					</div>

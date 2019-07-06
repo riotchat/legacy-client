@@ -29,19 +29,17 @@
 	background: #707070;
 	border-radius: 6px;
 	display: flex;
+	align-items: center;
 
 	@include themify($themes) {
 		background: themed('action-button');
-	}
-
-	> .emojiButton {
-		cursor: pointer;
 	}
 
 	> .actionButton {
 		flex: 2 0 auto;
 		border-radius: 0px 6px 6px 0px;
 		width: 45px;
+		height: 45px;
 		cursor: pointer;
 		vertical-align: middle;
 		display: flex;
@@ -51,6 +49,7 @@
 }
 
 .textArea {
+	position: relative;
 	resize: none;
 	box-sizing: border-box;
 	width: 100%;
@@ -82,6 +81,30 @@
 				color: themed('body-text');
 			}
 		}
+	}
+
+	.button {
+		width: 45px;
+		height: 45px;
+		vertical-align: middle;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		//align-self: center;
+		cursor: pointer;
+		opacity: .5;
+		transition: opacity .3s;
+		&:hover {
+			opacity: 1;
+		}
+
+		/*span {
+			opacity: .5;
+			transition: opacity .3s;
+			&:hover {
+				opacity: 1;
+			}
+		}*/
 	}
 }
 

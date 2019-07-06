@@ -10,7 +10,7 @@ $green: #36AD93;
 
 // https://medium.com/@dmitriy.borodiy/easy-color-theming-with-scss-bc38fd5734d1
 $themes: (
-	dark: (
+	dark: ( // Dark Theme
         icon: #EFEFEF,
         unread: #EFEFEF,
 
@@ -38,6 +38,34 @@ $themes: (
 		scrollbar: #242424,
 		scrollbar-thumb: rgba(255, 255, 255, 0.2)
 	),
+	dark-hc: ( // DARK THEME HIGH CONTRAST
+        icon: #FFFFFF,
+        unread: #FFFFFF,
+
+		main: #000000,
+        sub: #000000,
+        profile: #101010,
+		main-text: #FFFFFF,
+        body-text: #FFFFFF,
+
+        username: #FFFFFF,
+
+        home: #4D4D4D,
+        home-active: lighten(#4D4D4D, 10%),
+		divider: #FFFFFF,
+
+		button: #303030,
+		button-hover: #373737,
+        button-active: #2C2C2C,
+        
+        button-call: #4D4D4D,
+
+		messagebox: #000000,
+		action-button: #707070,
+
+		scrollbar: rgb(127, 127, 127),
+		scrollbar-thumb: rgb(255, 255, 255)
+	),
 	light: (
         icon: #5A5A5A,
         unread: #9B9B9B,
@@ -64,7 +92,34 @@ $themes: (
 
 		scrollbar: #E5E5E5,
 		scrollbar-thumb: rgba(127, 127, 127, 0.2),
-	)
+	),
+	light-hc: ( // LIGHT THEME HIGH CONTRAST
+        icon: #5A5A5A,
+        unread: #9B9B9B,
+
+		main: #FFFFFF,
+        sub: #FFFFFF,
+        profile: #FFFFFF,
+		main-text: #000000,
+        body-text: #000000,
+        
+        username: #000000,
+
+        home: #BCBCBC,
+        home-active: lighten(#BCBCBC, 10%),
+		divider: #000000,
+
+		button-hover: lighten(#E8E8E8, 10%),
+        button-active: #E8E8E8,
+        
+        button-call: #BCBCBC,
+
+		messagebox: #ECECEC,
+		action-button: #BEBFC1,
+
+		scrollbar: rgb(127, 127, 127),
+		scrollbar-thumb: rgb(0, 0, 0),
+	),
 );
 
 @mixin themify($themes: $themes) {
