@@ -35,8 +35,8 @@
 	
 	&.online { border: 2px solid $green; }
 	&.streaming { border: 2px solid $streaming; }
-	&.idle { border: 2px solid $yellow; }
-	&.dnd { border: 2px solid $red; }
+	&.away { border: 2px solid $yellow; }
+	&.busy { border: 2px solid $red; }
 }
 
 .username {

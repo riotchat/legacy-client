@@ -17,7 +17,34 @@ import { User } from 'riotchat.js';
 
 export type BaseChannels = "friends" | "news" | "feed";
 
+// TODO: Optimize the sidebar as force updates are bad
 export default class HomeSidebar extends React.Component<{ channel: string, onChangeChannel: (channel: BaseChannels | string) => void }> {
+	constructor(props: any) {
+		super(props);
+		this.userUpdate = this.userUpdate.bind(this);
+	}
+
+	componentDidMount() {
+		RiotClient.on('userUpdate', this.userUpdate);
+	}
+
+	componentWillUnmount() {
+		RiotClient.removeListener('userUpdate', this.userUpdate);
+	}
+
+	userUpdate(user: User) {
+		let hasDMChannel = false;
+		for (let channel of RiotClient.channels.values()) {
+			if(channel.type !== ChannelType.DM || channel.users === undefined || channel.users.indexOf(RiotClient.user) === -1) return;
+			if(channel.users.indexOf(user) !== -1) {
+				hasDMChannel = true;
+				break;
+			}
+		}
+
+		if(hasDMChannel) this.forceUpdate();
+	}
+
 	render() {
 		let dms: Array<React.ReactNode> = [];
 		RiotClient.channels.forEach((channel, key, map) => {

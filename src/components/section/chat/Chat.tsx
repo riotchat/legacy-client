@@ -20,7 +20,13 @@ type ChatProps = {
 	openDrawer?: (drawer: "menu" | "members") => void
 }
 
-export default class Chat extends React.Component<ChatProps, { name: string, type: "chat" | "dm" | "self", description: string, messages: Collection<string, Message> }> {
+export default class Chat extends React.Component<ChatProps, {
+	name: string,
+	type: "chat" | "dm" | "self",
+	description: string,
+	user?: User,
+	messages: Collection<string, Message>
+}> {
 	mounted: boolean;
 	scroll: number;
 	chatRef: React.RefObject<HTMLDivElement>;
@@ -40,6 +46,7 @@ export default class Chat extends React.Component<ChatProps, { name: string, typ
 
 		this.scrollToBottom = this.scrollToBottom.bind(this);
 		this.reloadChannel = this.reloadChannel.bind(this);
+		this.updateUser = this.updateUser.bind(this);
 		this.onMessage = this.onMessage.bind(this);
 		this.onSend = this.onSend.bind(this);
 		this.handleScroll = this.handleScroll.bind(this);
@@ -59,6 +66,7 @@ export default class Chat extends React.Component<ChatProps, { name: string, typ
 		this.mounted = true;
 		RiotClient.on('message', this.onMessage);
 		RiotClient.on('messageUpdate', this.onMessage);
+		RiotClient.on('userUpdate', this.updateUser);
 		this.reloadChannel(this.props);
 		(window as any).chatRef = this.chatRef;
 	}
@@ -67,6 +75,7 @@ export default class Chat extends React.Component<ChatProps, { name: string, typ
 		this.mounted = false;
 		RiotClient.removeListener('message', this.onMessage);
 		RiotClient.removeListener('messageUpdate', this.onMessage);
+		RiotClient.removeListener('userUpdate', this.updateUser);
 		(window as any).chatRef = undefined;
 	}
 
@@ -90,6 +99,7 @@ export default class Chat extends React.Component<ChatProps, { name: string, typ
 			this.setState((prevState) => {
 				let name = "insert implement fucking channel names";
 				let type = "chat";
+				let user: User | undefined = undefined;
 				if(channel.type === ChannelType.DM && channel.users !== undefined) {
 					let users = (channel.users as Array<User>).filter((value) => {
 						return value.id !== RiotClient.user.id;
@@ -101,10 +111,11 @@ export default class Chat extends React.Component<ChatProps, { name: string, typ
 					} else {
 						name = users[0].username;
 						type = "dm";
+						user = users[0];
 					}
 				}
 				return Object.assign({}, prevState, {
-					name, type,
+					name, type, user,
 					description: channel.description
 				});
 			});
@@ -124,6 +135,13 @@ export default class Chat extends React.Component<ChatProps, { name: string, typ
 		} catch(e) {
 			console.error(e);
 		}
+	}
+
+	updateUser(user: User) {
+		if(this.state.user === undefined || this.state.user.id !== user.id) return;
+		this.setState((prevState) => {
+			user
+		});
 	}
 
 	onMessage(message: Message) {
@@ -197,7 +215,8 @@ export default class Chat extends React.Component<ChatProps, { name: string, typ
 						{ this.state.type === "self" && <Icon className={css.icon} icon="inbox" type="regular"/> }
 						{/* <div className={css.nameWrapper}> */}
 							<div className={css.name}>{this.state.name}<div style={{width: "5px"}}/></div>
-							<span className={css.indicator}/>
+							{ this.state.type === "dm" && this.state.user &&
+								<span className={`${css.indicator} ${this.state.user.status ? css[this.state.user.status.toLowerCase()] : ""}`}/> }
 						{/* </div> */}
 						{/*<span className={css.divider}/>*/}
 						<div className={css.descWrapper}>

@@ -39,7 +39,8 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --mode development --open -w --hot --host 0.0.0.0",
-    "prod": "webpack -p"
+    "build-dev": "webpack -d",
+    "build": "webpack -p"
   },
   "dependencies": {
     "@material-ui/core": "^4.1.3",
@@ -57,7 +58,7 @@
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-textarea-autosize": "^7.1.0",
-    "riotchat.js": "^0.0.10",
+    "riotchat.js": "^0.0.11",
     "twemoji": "^12.0.4"
   }
 }

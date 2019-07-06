@@ -52,15 +52,16 @@ export default class FriendsList extends React.Component<{
 		RiotClient.removeListener('userUpdate', this.onUserUpdate);
 	}
 
-	// testing
 	setTab(tab: "online" | "all" | "requests") {
-		this.setState({ tab });
+		this.setState((prevState) => {
+			return Object.assign({}, prevState, { tab });
+		});
 	}
 
 	onUserUpdate(user: User) {
 		this.setState((prevState) => {
 			let map = prevState.friends;
-			if (user.relation !== "unknown") map.set(user.id, user);
+			if (user.relation !== "unknown" && user.relation !== "self") map.set(user.id, user);
 			else if (map.get(user.id) !== undefined) map.delete(user.id);
 			return Object.assign({}, prevState, {
 				friends: map

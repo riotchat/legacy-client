@@ -10,10 +10,12 @@ import StatusMenu from './StatusMenu';
 import ConnectedVoice from './ConnectedVoice';
 
 import { RiotClient, pubsub } from '../../index';
+import { User } from 'riotchat.js';
 
-function properStatus(status: string): string {
+export function properStatus(status: string, whenOffline?: string): string {
 	let tempStatus = status;
-	if(tempStatus.toUpperCase() === "OFFLINE") tempStatus = "invisible";
+	if(tempStatus.toUpperCase() === "INVISIBLE" || tempStatus.toUpperCase() === "OFFLINE")
+		tempStatus = whenOffline || "offline";
 
 	return tempStatus.charAt(0).toUpperCase()
 		+ tempStatus.substr(1).toLowerCase();
@@ -39,17 +41,27 @@ export default class Profile extends React.Component<{}, {
 	}
 
 	componentDidMount() {
+		RiotClient.on('userUpdate', this.updateStateFromClient);
 		this.setState((prevState, props) => {
 			return Object.assign({}, prevState, {
 				username: RiotClient.user.username,
-				status: properStatus(RiotClient.user.status || "invisible"),
+				status: RiotClient.user.status || "invisible",
 				avatarURL: RiotClient.user.avatarURL
 			});
 		});
 	}
 
-	updateStateFromClient() {
+	componentWillUnmount() {
+		RiotClient.removeListener('userUpdate', this.updateStateFromClient);
+	}
 
+	updateStateFromClient(user: User) {
+		if(user.id !== RiotClient.user.id || this.state.status === user.status) return;
+		this.setState((prevState) => {
+			return Object.assign({}, prevState, {
+				status: user.status || "invisible"
+			});
+		})
 	}
 
 	setStatusMenu(open: boolean) {
@@ -64,12 +76,15 @@ export default class Profile extends React.Component<{}, {
 		return (
 			<div style={{ flex: "0 0 auto" }}>
 				<ConnectedVoice />
-				<StatusMenu open={this.state.statusMenuOpen} onSet={() => this.setStatusMenu(false)}/>
+				<StatusMenu open={this.state.statusMenuOpen} onSet={(status: "online" | "away" | "busy" | "invisible") => {
+					RiotClient.user.setStatus(status);
+					this.setStatusMenu(false);
+				}}/>
 				<div className={`${styles.profile}`}>
 					<div className={`${styles.picture}`} style={{ backgroundImage: `url("${this.state.avatarURL}")` }} onClick={() => this.setStatusMenu(!this.state.statusMenuOpen)}/>
 					<div className={`${styles.username}`}>
 						<span>{this.state.username}</span>
-						{this.state.status.toUpperCase() !== "ONLINE" && <div className={`${styles.status}`}>{this.state.status}</div> }
+						{this.state.status.toUpperCase() !== "ONLINE" && <div className={`${styles.status}`}>{properStatus(this.state.status, "invisible")}</div> }
 					</div>
 					<Icon className={styles.settings} icon="cog" onClick={ () => { pubsub.emit('openSettings'); } } />
 				</div>

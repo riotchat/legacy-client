@@ -5072,10 +5072,10 @@ rimraf@2, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3:
   dependencies:
     glob "^7.1.3"
 
-riotchat.js@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/riotchat.js/-/riotchat.js-0.0.10.tgz#5bc7cec2773bd574a90942152373718fe897fcbd"
-  integrity sha512-LiSELdAbxQqkvHbF0atw+cY0ovRSOp/Wantajzb1uiq3RvQ1UuqvZ43KobqrX8LOzQYURDyNhpaaQZobum6wEQ==
+riotchat.js@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/riotchat.js/-/riotchat.js-0.0.11.tgz#ad254e8081138b073862c95ab9a3ee5ed6461ad4"
+  integrity sha512-IaWMpvb5hsBpUWsIXy87jU4Wr8SUsmF61xG7EqdAhvsSB49jGA+s76F81ucwGeXgAx/Us8v5lnYDj8fWtzIxBA==
   dependencies:
     "@elderapo/typed-event-emitter" "^1.5.1"
     axios "^0.19.0"

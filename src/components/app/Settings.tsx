@@ -187,7 +187,7 @@ export default class SettingsPanel extends OptionsComponent<{
 							</div>
 							<div className={css.branding}>
 								<img src="/assets/downloads/branding/logo-white-full.svg" draggable={false}/>
-								<span className={css.version}>Version 0.0.10</span>
+								<span className={css.version}>Version 0.0.11</span>
 							</div>
 						</div>
 					</div>
