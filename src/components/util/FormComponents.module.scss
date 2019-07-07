@@ -52,25 +52,6 @@
 	}
 }
 
-.categoryTitle {
-	color: white;
-	font-size: 0.875rem;
-	font-weight: 600;
-	text-transform: uppercase;
-	@include themify($themes) {
-		color: themed('body-text');
-	}
-}
-
-.categoryDescription {
-	margin-bottom: 4px;
-	color: grey;
-	font-size: 0.75rem;
-	@include themify($themes) {
-		color: themed('main-text');
-	}
-}
-
 .checkboxWrapper {
 	$transition-delay: .2s;
 	display: flex;
@@ -89,7 +70,6 @@
 
 	.checkbox {
 		flex: 0 0 auto;
-		margin-right: 12px;
 		input { display: none; }
 		label {
 			display: flex;
@@ -104,6 +84,12 @@
 				pointer-events: none;
 			}
 		}
+	}
+
+	.check {
+		opacity: 0;
+		transition: opacity $transition-delay;
+		svg { fill: var(--checkbox-color, #{$default-accent-color}); }
 	}
 
 	.text {
@@ -163,27 +149,13 @@
 		}
 	}
 
-	&.type-checkbox .title, &.type-radio .title {
-		padding: 2px 0;
-	}
+	&.type-checkbox .checkbox, &.type-radio .checkbox { margin-right: 12px; }
+	&.type-toggle .checkbox { padding-left: 20px; }
+	&.type-checkbox .title, &.type-radio .title { padding: 2px 0; }
 	
 	&.checked.type-checkbox, &.checked.type-radio {
 		background-color: var(--checkbox-color, #{$default-accent-color});
 		border: 1px solid var(--checkbox-color, #{$default-accent-color});
-
-		/*&:hover {
-			background-color: var(--accent-color-lighten-5, #{lighten(#7B68EE, 10%)});
-		}
-	
-		&:active {
-			background-color: var(--accent-color-darken-5, #{darken(#7B68EE, 10%)});
-		}*/
-	}
-
-	.check {
-		opacity: 0;
-		transition: opacity $transition-delay;
-		svg { fill: var(--checkbox-color, #{$default-accent-color}); }
 	}
 
 	&.checked {

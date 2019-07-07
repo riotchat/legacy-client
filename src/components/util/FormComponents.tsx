@@ -2,26 +2,10 @@ import * as React from 'react';
 
 import css from './FormComponents.module.scss';
 import lodash from 'lodash';
-import { ThemeInfo } from './ExtendableComponent';
+import { ThemeInfo, OptionsComponent } from './ExtendableComponent';
 import { pubsub } from '../..';
 import { isLight, hexToRgb } from '../../utilFuctions';
 import Icon from './Icon';
-
-export class Title extends React.Component {
-    render() {
-        return (
-            <div className={css.categoryTitle}>{this.props.children}</div>
-        )
-    }
-}
-
-export class Description extends React.Component {
-    render() {
-        return (
-            <div className={css.categoryDescription}>{this.props.children}</div>
-        )
-    }
-}
 
 export class Button extends React.Component {
     render() {
@@ -39,44 +23,22 @@ export class Input extends React.Component<{placeholder: string}> {
     }
 }
 
-export class Checkbox extends React.Component<{
+export class Checkbox extends OptionsComponent<{
     checked?: boolean,
     type?: "checkbox" | "radio" | "toggle",
     color?: string, // optional, will be accent color if undefined
     text: string,
     description?: string,
     onChecked?: (checked: boolean) => void
-}, { themeInfo: ThemeInfo }> {
+}> {
     checkboxWrapperId: string;
     checkboxId: string;
     constructor(props: any) {
         super(props);
         this.checkboxWrapperId = lodash.uniqueId("checkboxWrapper");
         this.checkboxId = lodash.uniqueId("checkbox");
-        
-        this.state = {
-            themeInfo: localStorage.getItem("themeInfo") ? JSON.parse(localStorage.getItem("themeInfo") as any) : { accent: "7B68EE" }
-        }
-
-        this.updateTheme = this.updateTheme.bind(this);
         this.toggle = this.toggle.bind(this);
     }
-
-    componentDidMount() {
-        pubsub.on('updateTheme', this.updateTheme);
-    }
-
-    componentWillUnmount() {
-        pubsub.removeListener('updateTheme', this.updateTheme);
-    }
-
-    updateTheme(themeInfo: ThemeInfo) {
-		this.setState((prevState) => {
-			return Object.assign({}, prevState, {
-				themeInfo
-			});
-		});
-	}
 
     toggle(e: React.MouseEvent, onCheckbox: boolean) {
         e.stopPropagation();
@@ -86,7 +48,7 @@ export class Checkbox extends React.Component<{
 
     render() {
         let type = this.props.type === undefined ? "checkbox" : this.props.type;
-        let selectedColor = this.props.color || ("#" + this.state.themeInfo.accent);
+        let selectedColor = this.props.color || ("#" + this.state.options.themeInfo.accent);
         let hexColor = hexToRgb(selectedColor);
 
         let checkbox: React.ReactNode = (

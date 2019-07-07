@@ -1,11 +1,13 @@
 @import "../../../sass/colors";
 
 .picker {
-	z-index: 9999;
-	width: 100%;
+	display: flex;
+	z-index: 2000;
 	height: 325px;
+	width: 100%;
 	border-radius: 10px;
 	box-sizing: border-box;
+	flex-direction: column;
 	@media screen and (min-width: 901px) {
 		width: 350px;
 	}
@@ -15,9 +17,6 @@
 		background: themed('main');
 		border: 2px solid themed('sub');
 	}
-
-	display: flex;
-	flex-direction: column;
 
 	.header {
 		flex: 0 0 auto;

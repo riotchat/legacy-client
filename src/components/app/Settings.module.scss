@@ -118,7 +118,8 @@ $mobile-header-height: 64px;
 	font-size: 0.6875rem;
 	font-weight: 600;
 	border-radius: 3px;
-	background: var(--accent-color, $default-accent-color);
+	transition: background-color .3s, color .3s;
+	background-color: var(--accent-color, $default-accent-color);
 	color: var(--accent-color-text, white);
 	text-transform: uppercase;
 }
@@ -126,12 +127,10 @@ $mobile-header-height: 64px;
 .leftPanel {
 	$desktop-panel-width: 30vw;
 	$wrapper-width: 250px;
-	//color: white;
 	height: 100%;
 	overflow-x: hidden;
 	max-height: calc(100vh - #{$mobile-header-height});
 	flex: 0 0 auto;
-	//background-color: #333234;
 	
 	@include themify($themes) {
 		color: themed('body-text');
@@ -266,8 +265,17 @@ $mobile-header-height: 64px;
 				
 				&.logoutButton {
 					margin-top: 2em;
-					&:hover {background-color: $red;}
-					&:active {background-color: darken($red, 10%);}
+					transition: background-color .3s, color .3s;
+					&:hover { background-color: $red !important; }
+					&:active { background-color: darken($red, 10%) !important; }
+					&:hover, &:active {
+						color: white;
+						svg {
+							fill: white;
+						}
+					}
+
+					svg { transition: fill .3s; }
 
 					@media screen and (max-width: 900px) {
 						display: none;
@@ -314,7 +322,6 @@ $mobile-header-height: 64px;
 	box-sizing: border-box;
 	width: calc(70vw - 26px);
 	height: 100%;
-	//border-radius: 10px;
 	flex: 0 0 auto;
 	@include themify($themes) {
 		color: themed('body-text');
@@ -340,7 +347,7 @@ $mobile-header-height: 64px;
 		}
 
 		@media screen and (max-width: 900px) {
-			padding: 20px 10px;
+			padding: 20px 12px;
 		}
 
 		.innerWrapper {

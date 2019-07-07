@@ -36,9 +36,16 @@ export default class MyAccountPanel extends OptionsComponent {
 									<span><Icon icon="help-circle" /></span>
 								</Tooltip>
 							</span> )}
-							<a className={css.button}>Edit</a>
+							{!this.state.options.streamerMode.enabled && (
+								<React.Fragment>
+									<span className={css.title}>E-Mail:</span>
+									<span className={css.address}>{RiotClient.user.email}</span>
+								</React.Fragment>
+							)}
 						</div>
+						<a className={css.button}>Edit</a>
 					</div>
+					<a className={css.button} style={{width: "100%"}}>Edit</a>
 				</div>
 				{!this.state.options.streamerMode.enabled && ( <div className={`${style.section} ${css.mobile}`}>
 					<div className={style.category}>UID

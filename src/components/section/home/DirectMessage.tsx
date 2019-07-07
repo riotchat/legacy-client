@@ -19,8 +19,9 @@ export default class DirectMessage extends React.Component<{
 		if(this.props.user === undefined) return;
 		return (
 			<div className={`${styles.parent} ${this.props.active ? styles.active : ""}`} draggable={true} onClick={(e) => { if(this.props.onClick) this.props.onClick(e); }}>
-				<div className={`${styles.avatar} ${this.props.user.status ? styles[this.props.user.status.toLowerCase()] : ""}`}
-					aria-label="" title={this.props.user.username} style={{ backgroundImage: `url("${this.props.user.avatarURL}")` }}/>
+				<div className={styles.avatar} aria-label={this.props.user.username} style={{ backgroundImage: `url("${this.props.user.avatarURL}")` }}>
+					<div className={`${styles.indicator} ${this.props.user.status ? styles[this.props.user.status.toLowerCase()] : ""}`} aria-label={this.props.user.status}/>
+				</div>
 				<div className={styles.username}>
 					<div className={styles.usernameInline}>
 						<span>{this.props.user.username}</span>

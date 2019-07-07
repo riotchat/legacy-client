@@ -5,20 +5,20 @@
 
 	.feedTab {
 		margin: 5px 0;
-		padding: 12px;
+		padding: 10px;
 		display: flex;
 		border-radius: 4px;
-		transition: .2s;
+		transition: background-color .3s;
 		cursor: pointer;
 		align-items: stretch;
 
 		@include themify($themes) {
 			&:hover, &.active {
-				background: themed('button-hover');
+				background-color: themed('button-hover');
 			}
 
 			&:active {
-				background: themed('button-active');
+				background-color: themed('button-active');
 			}
 		}
 
@@ -30,9 +30,9 @@
 	}
 }
 
-.groupdm {
-	//display: none;
-}
+/*.groupdm {
+	display: none;
+}*/
 
 .category {
 	padding: 5px 10px;
