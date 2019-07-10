@@ -2,7 +2,8 @@
 
 .account {
 	display: flex;
-	margin-bottom: 20px;
+	align-items: center;
+	margin-bottom: 40px;
 
 	.pfp {
 		position: relative;
@@ -64,16 +65,15 @@
 				display: none;
 			}
 			span {
-				margin-left: 4px;
 				svg { fill: gray; }
 			}
 
 			.title {
+				color: gray;
 				font-weight: 600;
 				margin-right: 4px;
 				@media screen and (max-width: 900px) {
 					display: block;
-					color: grey;
 					font-size: 12px;
 				}
 			}
@@ -127,7 +127,9 @@
 }
 
 .button {
+	box-sizing: border-box;
 	border: none;
+	height: 40px;
 	color: var(--accent-color-text, white);
 	padding: 10px 14px;
 	text-align: center;
@@ -162,5 +164,27 @@
   .mobile {
 	@media screen and (min-width: 901px) {
 		display: none;
+	}
+  }
+
+  .infoTitle {
+	  color: grey;
+	  text-transform: uppercase;
+	font-weight: 600;
+	margin-right: 4px;
+	@media screen and (max-width: 900px) {
+		color: grey;
+		font-size: 12px;
+	}
+  }
+
+  .securityEnabled {
+	display: flex;
+	align-items: center;
+	margin-bottom: 12px;
+	font-weight: 600;
+	color: #14B89C;
+	.lock {
+		margin-right: 4px;
 	}
   }

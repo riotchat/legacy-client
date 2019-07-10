@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import css from './StreamerMode.module.scss';
+import css from './Accessibility.module.scss';
 import style from './Main.module.scss';
 import Icon from '../../util/Icon';
 import { Checkbox } from '../../../components/util/FormComponents';
@@ -73,9 +73,11 @@ export default class AccessibilityPanel extends OptionsComponent {
 				</div>
 				<div className={style.section}>
 					<div className={style.category}>Chat Font Scaling</div>
+						<input type="range" name="points" min="80" max="160" step="20"/>
 				</div>
                 <div className={style.section}>
 					<div className={style.category}>Zoom Options</div>
+					<input type="range" name="points" min="50" max="200" step="15"/>
 				</div>
                 <div className={style.section}>
 					<div className={style.footer}>Did we miss anything? Let us know over at <a className={style.link} href="https://riotchat.gq/accessibility" target="_blank">riotchat.gq/accessibility</a></div>

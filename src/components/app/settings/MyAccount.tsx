@@ -30,7 +30,7 @@ export default class MyAccountPanel extends OptionsComponent {
 						<div className={css.details}>
 							<span className={css.name}>{RiotClient.user.username}</span>
 							{!this.state.options.streamerMode.enabled && ( <span className={css.id}>
-								<span className={css.title}>UID:</span>
+								<span className={css.title}>UID</span>
 								<span className={css.copy}>{RiotClient.user.id}</span>
 								<Tooltip title={idTooltip}>
 									<span><Icon icon="help-circle" /></span>
@@ -38,14 +38,14 @@ export default class MyAccountPanel extends OptionsComponent {
 							</span> )}
 							{!this.state.options.streamerMode.enabled && (
 								<React.Fragment>
-									<span className={css.title}>E-Mail:</span>
-									<span className={css.address}>{RiotClient.user.email}</span>
+									<span className={css.infoTitle}>E-Mail</span>
+									<span className={css.copy}>{RiotClient.user.email}</span>
 								</React.Fragment>
 							)}
 						</div>
 						<a className={css.button}>Edit</a>
 					</div>
-					<a className={css.button} style={{width: "100%"}}>Edit</a>
+					<a className={`${css.button} ${css.mobile}`}>Edit</a>
 				</div>
 				{!this.state.options.streamerMode.enabled && ( <div className={`${style.section} ${css.mobile}`}>
 					<div className={style.category}>UID
@@ -58,8 +58,8 @@ export default class MyAccountPanel extends OptionsComponent {
 				<div className={style.section}>
 					<div className={style.category}>2FA Authentication</div>
 					<div className={css.securityEnabled}>
-						<Icon className={css.lock} icon="lock-alt" />
-						<span>2FA has been enabled on this account. Learn more</span>
+						<Icon className={css.lock} icon="lock-alt" color="#14B89C"/>
+						<span>2FA has been enabled on this account.</span>
 					</div>
 					<a className={css.button}>View Backup Codes</a>
 					<a className={`${css.button} ${css.red}`}>Remove 2FA</a>

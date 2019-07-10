@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
 
+import packageJson from '../../../package.json';
+
 import css from './Settings.module.scss';
 import Icon from '../util/Icon'
 import { scrollable } from '../util/Scrollbar';
@@ -187,7 +189,7 @@ export default class SettingsPanel extends OptionsComponent<{
 							</div>
 							<div className={css.branding}>
 								<img src="/assets/downloads/branding/logo-white-full.svg" draggable={false}/>
-								<span className={css.version}>Version 0.0.11</span>
+								<span className={css.version}>Version {packageJson.version}</span>
 							</div>
 						</div>
 					</div>
