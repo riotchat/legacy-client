@@ -14,6 +14,8 @@ import { RiotClient } from '../../..';
 import { ChannelType } from 'riotchat.js/dist/api/v1/channels';
 import { User, Collection } from 'riotchat.js';
 import MessageSeparator from './MessageSeparator';
+import { DMChannel, GroupChannel } from 'riotchat.js/dist/internal/Channel';
+import HeaderBanner from '../../app/HeaderBanner';
 
 type ChatProps = {
 	channel: string,
@@ -22,7 +24,7 @@ type ChatProps = {
 
 export default class Chat extends React.Component<ChatProps, {
 	name: string,
-	type: "chat" | "dm" | "self",
+	type: "chat" | "dm" | "self" | "group",
 	description: string,
 	user?: User,
 	messages: Collection<string, Message>
@@ -97,15 +99,15 @@ export default class Chat extends React.Component<ChatProps, {
 		try {
 			let channel = await RiotClient.fetchChannel(props.channel);
 			this.setState((prevState) => {
-				let name = "insert implement fucking channel names";
+				let name = "";
 				let type = "chat";
 				let user: User | undefined = undefined;
-				if(channel.type === ChannelType.DM && channel.users !== undefined) {
+				if (channel instanceof DMChannel) {
 					let users = (channel.users as Array<User>).filter((value) => {
 						return value.id !== RiotClient.user.id;
 					});
 
-					if(users[0] === undefined) {
+					if (users[0] === undefined) {
 						name = "Saved Messages";
 						type = "self";
 					} else {
@@ -113,10 +115,14 @@ export default class Chat extends React.Component<ChatProps, {
 						type = "dm";
 						user = users[0];
 					}
+				} else if (channel instanceof GroupChannel) {
+					name = channel.group.displayTitle;
+					type = "group";
 				}
+
 				return Object.assign({}, prevState, {
 					name, type, user,
-					description: channel.description
+					description: (channel instanceof DMChannel || channel instanceof GroupChannel) ? channel.description : ""
 				});
 			});
 
@@ -188,7 +194,7 @@ export default class Chat extends React.Component<ChatProps, {
 			if(previousInvalid) {
 				if(currentMessageGroup !== undefined) messageGroups.push(currentMessageGroup);
 				if(dayYear !== messageDayYear) {
-					messageGroups.push(<MessageSeparator separation="timestamp" timestamp={message.createdAt} />);
+					messageGroups.push(<MessageSeparator key={`ms${message.id}`} separation="timestamp" timestamp={message.createdAt} />);
 					dayYear = messageDayYear;
 				}
 				currentMessageGroup = <MessageGroup key={`mg${message.id}`} user={message.author} timestamp={message.createdAt.getTime()} children={[]} />;
@@ -210,15 +216,17 @@ export default class Chat extends React.Component<ChatProps, {
 						<div className={css.mobileMenu} onClick={(e) => { if(this.props.openDrawer) this.props.openDrawer("menu"); }}>
 							<Icon icon="menu" type="regular" />
 						</div>
-						{ this.state.type === "chat" && <Icon className={css.icon} icon="chat" type="solid"/> }
+						{ this.state.type === "chat" && <Icon className={css.icon} icon="chat"/> }
 						{ this.state.type === "dm" && <Icon className={css.icon} icon="at" type="regular"/> }
+						{ this.state.type === "group" && <Icon className={css.icon} icon="group"/> }
 						{ this.state.type === "self" && <Icon className={css.icon} icon="inbox" type="regular"/> }
 						{/* <div className={css.nameWrapper}> */}
 							<div className={css.name}>{this.state.name}<div style={{width: "5px"}}/></div>
+						{/*<input type="text" className={css.nameGroup}/>*/}
+							{ this.state.type === "group" && <Icon className={`${css.icon} ${css.dropdown}`} icon="chevron-down" type="regular"/> }
 							{ this.state.type === "dm" && this.state.user &&
 								<span className={`${css.indicator} ${this.state.user.status ? css[this.state.user.status.toLowerCase()] : ""}`}/> }
 						{/* </div> */}
-						{/*<span className={css.divider}/>*/}
 						<div className={css.descWrapper}>
 							<span className={css.divider}/>
                     		<div className={css.description}>{this.state.description}</div>
@@ -231,6 +239,7 @@ export default class Chat extends React.Component<ChatProps, {
 						<Icon className={css.feedback} icon="megaphone"/>
 					</div>
 				</div>
+				<HeaderBanner title="Outage" text="We are currently experiencing a high load on our voice servers." />
 				<div className={css.content} onScroll={this.handleScroll} ref={this.chatRef}>
 					{messageGroups}
 					<div ref={this.scrollToBottomRef} />

@@ -29,6 +29,7 @@
 			border-radius: 50%;
 			position: relative;
 			flex: 0 0 auto;
+			background-color: grey;
 			background-position: center;
 			background-size: cover;
 		}
@@ -71,7 +72,6 @@
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
-			display: flex;
 	
 			> span {
 				flex: 0 1 auto;
@@ -82,14 +82,14 @@
 				flex: 0 0 auto;
 				&, span, svg {
 					fill: gray;
-					width: 15px;
-					height: 15px;
+					width: 18px;
+					height: 18px;
 				}
 			}
 		}
 	
 		.status {
-			max-width: 175px;
+			max-width: 170px;
 			color: #BCBCBC;
 			font-weight: 400;
 			font-size: 0.6875rem;
@@ -98,4 +98,32 @@
 			overflow: hidden;
 		}
 	}
+}
+
+%notification {
+	position: absolute;
+	top: 50%;
+	right: -12px;
+	transform: translate(0%, -50%);
+	z-index: 5;
+	$size: 32px;
+	$padding: 5px;
+	border-radius: 6px 0px 0px 6px;
+	height: $size - ($padding * 2);
+	padding: $padding;
+	font-size: 12px;
+	line-height: 10px;
+	font-weight: 600;
+}
+
+> .mention {
+	background: #DF3535;
+	@extend %notification;
+}
+
+> .unread {
+	background: #EFEFEF;
+	@extend %notification;
+	width: 5px;
+	padding: 3px 0px;
 }
