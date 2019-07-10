@@ -1,0 +1,42 @@
+@import '../../sass/colors';
+
+.banner {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    min-height: 50px;
+    background: $red;
+    color: white;
+    font-size: 0.8125rem;
+
+    &.notice {background: $default-accent-color;}
+    &.error {background: $red;}
+
+    .title {
+        font-weight: bold;
+        flex: 0 0 auto;
+        text-transform: uppercase;
+    }
+
+    .divider {
+        flex: 0 0 auto;
+        display: block;
+        height: 26px;
+        width: 1px;
+        margin: 0 10px;
+        background: #FFFFFF;
+        border-radius: 60px;
+        opacity: .5;
+    }
+
+    .text {
+        flex: 1 1 auto;
+    }
+
+    .dismiss {
+        margin: 0 10px;
+        cursor: pointer;
+    }
+}

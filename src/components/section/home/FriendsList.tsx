@@ -32,12 +32,12 @@ export default class FriendsList extends React.Component<{
 	async componentDidMount() {
 		this.mounted = true;
 		RiotClient.on('userUpdate', this.onUserUpdate);
-		let friends = await RiotClient.fetchFriends();
 		if (!this.mounted) return;
 
 		let friendsMap = new Collection<string, User>();
-		friends.forEach((friend) => {
-			friendsMap.set(friend.id, friend);
+		RiotClient.users.forEach((user) => {
+			if(user.relation === "unknown" || user.relation === "self") return;
+			friendsMap.set(user.id, user);
 		});
 
 		this.setState((prevState) => {
@@ -85,8 +85,10 @@ export default class FriendsList extends React.Component<{
 						<div className={css.mobileMenu} onClick={(e) => { if (this.props.openDrawer) this.props.openDrawer("menu"); }}>
 							<Icon icon="menu" type="regular" />
 						</div>
-						<Icon className={css.icon} icon="user-detail" />
-						<div className={css.name}>Friends</div>
+						<div className={css.title}>
+							<Icon className={css.icon} icon="user-detail" />
+							<div className={css.name}>Friends</div>
+						</div>
 					</div>
 					<div className={css.tabs}>
 						<div className={`${css.tab} ${this.state.tab === "online" ? css.active : ""}`} onClick={(e) => this.setTab("online")}>
@@ -115,7 +117,6 @@ export default class FriendsList extends React.Component<{
 								alert(`Couldn't add user with ID ${userId} to your friend list!`);
 							}
 						}} />
-						<Icon className={css.feedback} icon="megaphone" />
 					</div>
 				</div>
 				<div className={scrollable} style={{ height: "100%" }}>

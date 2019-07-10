@@ -96,6 +96,7 @@
 		}
 
 		@media only screen and (max-width: 900px) {
+			margin-right: 0;
 			display: block;
 		}
 	}
@@ -118,6 +119,13 @@
 			flex: 0 0 auto;
 			@include themify($themes) {
 				fill: themed('icon');
+			}
+		}
+
+		.title {
+			display: flex;
+			@media only screen and (max-width: 900px) {
+				display: none;
 			}
 		}
 
@@ -195,6 +203,9 @@
 	box-sizing: border-box;
 	@include themify($themes) {
 		color: themed('main-text');
+	}
+	@media only screen and (max-width: 900px) {
+		margin: 0 12px;
 	}
 
 	%text {
