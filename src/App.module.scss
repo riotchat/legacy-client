@@ -132,7 +132,7 @@ html, body {
 			bottom: 0px;
 			left: 0px;
 			@include themify($themes) {
-				background: linear-gradient(transparent, themed('sub'));
+				background: linear-gradient(transparent, themed('main'));
 			}
 
 			svg { cursor: pointer; }

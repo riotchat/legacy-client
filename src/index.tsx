@@ -9,7 +9,7 @@ import App from './App';
 import * as Riot from 'riotchat.js';
 import { isLight, hexToRgb, shadeColor, ClientOptions } from './utilFuctions';
 import { StreamerMode, ThemeInfo, OptionsComponent, AccessibilityOptions } from './components/util/ExtendableComponent';
-import { Input, Title, Description, Checkbox, RadioGroup } from './components/util/FormComponents';
+import { Input, Checkbox, RadioGroup } from './components/util/FormComponents';
 
 let pubsub = new EventEmitter();
 

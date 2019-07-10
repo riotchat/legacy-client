@@ -18,6 +18,8 @@ import { RiotClient, focused, pubsub } from './index';
 import * as SFX from './sfx';
 import ErrorBoundary from './components/util/ErrorBoundary';
 import SettingsPanel, { SettingsPanelTabs } from './components/app/Settings';
+import { DMChannel, GroupChannel } from 'riotchat.js/dist/internal/Channel';
+import NewsTab from './components/section/home/News';
 
 class App extends React.Component<{}, {
 	drawer: undefined | "menu" | "members",
@@ -30,10 +32,12 @@ class App extends React.Component<{}, {
 		tab: SettingsPanelTabs
 	}
 }> {
+	canNotify: boolean;
 	theme: 'light' | 'dark';
 
 	constructor(props: React.Props<{}>) {
 		super(props);
+		this.canNotify = false;
 		this.theme = 'dark';
 		this.state = {
 			drawer: undefined,
@@ -59,6 +63,14 @@ class App extends React.Component<{}, {
 	}
 
 	componentDidMount() {
+		if ("Notification" in window) {
+			Notification.requestPermission(result => {
+				if (result === 'granted') {
+					this.canNotify = true;
+				}
+			});
+		}
+
 		RiotClient.on('message', this.onMessage);
 		window.addEventListener('resize', this.updateWindowDimensions);
 		pubsub.on('openSettings', this.openSettings);
@@ -122,8 +134,25 @@ class App extends React.Component<{}, {
 
 	onMessage(message: Message) {
 		if(message.author.id === RiotClient.user.id) return;
-		if(message.channel.type !== ChannelType.DM && message.channel.type !== ChannelType.GROUP) return;
+		if(!(message.channel instanceof DMChannel) && !(message.channel instanceof GroupChannel)) return;
 		if(message.channel.id === this.state.channel && focused && !this.state.settingsPanel.open) return;
+
+		if (this.canNotify) {
+			let notification = new Notification(message.author.username, {
+				body: message.content.substr(0, 32),
+				icon: message.author.avatarURL,
+				silent: true
+			});
+
+			notification.onclick = () => {
+				this.setSection("home");
+				this.setChannel(message.channel.id);
+				window.focus();
+			}
+
+			setTimeout(notification.close.bind(notification), 4000);
+		}
+
 		SFX.message();
 	}
 
@@ -149,10 +178,6 @@ class App extends React.Component<{}, {
 	}
 
 	render() {
-		let test: Array<React.ReactNode> = [];
-		for(let i = 0; i < 100; i++)
-			test.push(<ServerIcon serverName="tech support scam time" iconURL="https://placeimg.com/240/240/nature" />);
-
 		const sidebar = (
 			<div className={styles.mainSidebars}>
 				<div className={`${styles.sidebar} ${styles.main}`}>
@@ -161,7 +186,6 @@ class App extends React.Component<{}, {
 							<Icon icon="home" />
 						</div>
 						<div className={styles.divider} />
-						{test}
 						<div className={styles.filler}></div>
 					</div>
 					<div className={styles.add}>
@@ -199,9 +223,9 @@ class App extends React.Component<{}, {
 					>
 						{sidebar}
 					</SwipeableDrawer>
-					{ this.state.channel === "friends"
-						? <FriendsList openDM={this.setDMChannel} openDrawer={this.openDrawer} />
-						: (
+					{ this.state.channel === "friends" && <FriendsList openDM={this.setDMChannel} openDrawer={this.openDrawer} /> }
+					{ this.state.channel === "news" && <NewsTab /> }
+					{ this.state.channel !== "feed" && this.state.channel !== "news" && this.state.channel !== "friends" && (
 							<ErrorBoundary customMessage="chat crashed, blame fatal">
 								<Chat channel={this.state.channel} openDrawer={this.openDrawer} />
 							</ErrorBoundary>
