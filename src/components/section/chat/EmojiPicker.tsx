@@ -1,12 +1,11 @@
 import * as React from 'react';
+import { Grid } from 'react-virtualized';
 import twemoji from 'twemoji';
 
 import emoteData from 'emojibase-data/en/compact.json';
 let parsedEmoteData: Array<string> = emoteData.map((value) => {
 	return twemoji.parse(value.unicode);
 });
-
-console.log(parsedEmoteData);
 
 let groups: Array<string> = [
 	"Smileys",

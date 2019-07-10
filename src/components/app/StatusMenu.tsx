@@ -16,7 +16,7 @@ export default class StatusMenu extends React.Component<{
 			<div className={`${css.menu} ${this.props.open === false ? css.hidden : ""}`}>
 				<div className={css.picker}>
 					<div className={css.status}>
-						<div className={css.dotAndName}>
+						<div className={css.iconAndName}>
 							<Icon className={css.icon} icon="user-voice"/>
 							<span className={css.name}>Set custom status</span>
 						</div>

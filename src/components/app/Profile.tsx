@@ -75,7 +75,7 @@ export default class Profile extends React.Component<{}, {
 	render() {
 		return (
 			<div style={{ flex: "0 0 auto" }}>
-				<ConnectedVoice />
+				{/* <ConnectedVoice /> */}
 				<StatusMenu open={this.state.statusMenuOpen} onSet={(status: "online" | "away" | "busy" | "invisible") => {
 					RiotClient.user.setStatus(status);
 					this.setStatusMenu(false);
@@ -84,7 +84,10 @@ export default class Profile extends React.Component<{}, {
 					<div className={`${styles.picture}`} style={{ backgroundImage: `url("${this.state.avatarURL}")` }} onClick={() => this.setStatusMenu(!this.state.statusMenuOpen)}/>
 					<div className={`${styles.username}`}>
 						<span>{this.state.username}</span>
-						{this.state.status.toUpperCase() !== "ONLINE" && <div className={`${styles.status}`}>{properStatus(this.state.status, "invisible")}</div> }
+						{this.state.status.toUpperCase() !== "ONLINE" && 
+						<div className={`${styles.status}`}>{properStatus(this.state.status, "invisible")}
+							<Icon className={styles.icon} icon="joystick"/>
+						</div> }
 					</div>
 					<Icon className={styles.settings} icon="cog" onClick={ () => { pubsub.emit('openSettings'); } } />
 				</div>

@@ -8,6 +8,11 @@
 		height: 1px;
 		background: gray;
 		margin: 0px 10px;
+		border-radius: 60px;
+
+		@media only screen and (max-width: 900px) {
+			margin: 0 8px;
+		}
 	}
 
 	.text {

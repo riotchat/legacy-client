@@ -6,12 +6,15 @@ import Icon from '../../util/Icon';
 import { Channel } from 'riotchat.js';
 import EmojiPicker from './EmojiPicker';
 
-export default class MessageBox extends React.Component<{ channelName: string, channelType: "chat" | "dm" | "self", onSend: (message: string) => boolean }> {
-	constructor(props: { channelName: string, channelType: "chat" | "dm" | "self", onSend: (message: string) => boolean }) {
+export default class MessageBox extends React.Component<{ channelName: string, channelType: "chat" | "dm" | "self" | "group", onSend: (message: string) => boolean }> {
+	constructor(props: { channelName: string, channelType: "chat" | "dm" | "self" | "group", onSend: (message: string) => boolean }) {
 		super(props);
 	}
 
 	render() {
+		let channelPrefix = "#";
+		if (this.props.channelType === "dm") channelPrefix = "@";
+		if (this.props.channelType === "group") channelPrefix = "";
 		return (
 			<div className={css.wrapper}>
 				<span className={css.typeIndicator}></span>
@@ -20,6 +23,7 @@ export default class MessageBox extends React.Component<{ channelName: string, c
 						onSend={this.props.onSend} 
 						full={true}
 						placeholder={this.props.channelType === "self" ? "Save message" : `Message ${this.props.channelType === "dm" ? "@" : "#"}${this.props.channelName}`}
+						autoFocus={true}
 					/>
 					<div className={css.actionButton}>
 						<Icon className={css.emojiButton} icon="dots-vertical-rounded" type="regular" />
@@ -88,19 +92,23 @@ export class InnerMessageBox extends React.Component<{
 	}
 
 	onKeyPress(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-		if(e.charCode === 13 && e.shiftKey === false) {
+		if (e.shiftKey) return;
+		if (e.charCode === 13) {
 			e.preventDefault();
 			this.onSubmit();
+		} else if (e.charCode === 38) {
+			e.preventDefault();
+			// ! EDIT MESSAGE HERE
 		}
 	}
 
 	onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-		if(!(e.keyCode === 13 && e.shiftKey === false) && this.props.onKeyPress)
+		if (!(e.keyCode === 13 && e.shiftKey === false) && this.props.onKeyPress)
 			this.props.onKeyPress(e);
 	}
 
 	onSubmit(e?: React.FormEvent) {
-		if(e !== undefined) e.preventDefault();
+		if (e !== undefined) e.preventDefault();
 		this.setState((prevState) => {
 			let returnValue = this.props.onSend(this.state.message);
 			if(returnValue === true) {

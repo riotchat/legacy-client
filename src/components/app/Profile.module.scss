@@ -7,48 +7,55 @@
 	width: 262px - (12px * 2);
 	align-items: center;
 	user-select: text;
-}
 
-.picture {
-	display: inline-block;
-	height: 38px;
-	width: 38px;
-	border-radius: 50%;
-	background-color: #434343;
-	justify-content: center;
-	position: relative;
-	cursor: pointer;
-	margin-right: 8px;
-
-	background-size: cover;
-	background-position: center;
-}
-
-.username {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	font-weight: 600;
-	font-size: 0.875rem;
-	flex-grow: 1;
-
-	div {
-		max-width: 150px;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
+	.picture {
+		display: inline-block;
+		height: 38px;
+		width: 38px;
+		border-radius: 50%;
+		background-color: #434343;
+		justify-content: center;
+		position: relative;
+		cursor: pointer;
+		margin-right: 8px;
+	
+		background-size: cover;
+		background-position: center;
 	}
-}
 
-.status {
-	color: #848484;
-	font-size: 12px;
-	user-select: none;
-}
+	.username {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		font-weight: 600;
+		font-size: 0.875rem;
+		flex-grow: 1;
+	
+		.status {
+			max-width: 150px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			color: #848484;
+			font-size: 12px;
+			user-select: none;
 
-.settings {
-	height: 22px;
-	width: 22px;
-	cursor: pointer;
-	fill: #E8E8E8;
+			.icon {
+				fill: #aaaaaa;
+				height: 15px;
+				width: 15px;
+				margin-left: 4px;
+			}
+		}
+	}
+	
+	.settings {
+		height: 22px;
+		width: 22px;
+		cursor: pointer;
+		fill: #E8E8E8;
+	}
+	
 }
