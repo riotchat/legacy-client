@@ -13,13 +13,23 @@
 		align-items: stretch;
 
 		@include themify($themes) {
-			&:hover, &.active {
-				background-color: themed('button-hover');
+			&:hover {
+				background: themed('button-hover');
 			}
-
+			
 			&:active {
-				background-color: themed('button-active');
+				background: themed('button-active');
 			}
+	
+			&.active {
+				cursor: default;
+				transition: none;
+				background: themed('button-hover') !important;
+			}
+		}
+
+		@media only screen and (max-width: 900px) {
+			padding: 15px 10px;
 		}
 
 		.icon {
@@ -29,10 +39,6 @@
 		}
 	}
 }
-
-/*.groupdm {
-	display: none;
-}*/
 
 .category {
 	padding: 5px 10px;

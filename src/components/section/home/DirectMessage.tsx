@@ -1,6 +1,6 @@
 /**
  * Direct message button
- * @namespace home
+ * @namespace directmessage
  */
 
 import * as React from 'react';
@@ -9,6 +9,8 @@ import Icon from '../../util/Icon';
 import { User } from 'riotchat.js';
 import { properStatus } from '../../app/Profile';
 import { Group } from 'riotchat.js/dist/internal/Group';
+import { Activity } from 'riotchat.js/dist/api/v1/users';
+import { parseStatus } from '../../../utilFuctions';
 
 export default class DirectMessage extends React.Component<{
 	userOrGroup: User | Group,
@@ -17,10 +19,10 @@ export default class DirectMessage extends React.Component<{
 	onClick?: (event: React.MouseEvent<HTMLDivElement>) => void
 }> {
 	render() {
-		if(this.props.userOrGroup instanceof User) return (
-			<div className={`${styles.parent} ${this.props.active ? styles.active : ""}`} draggable={true} onClick={(e) => { if(this.props.onClick) this.props.onClick(e); }}>
+		if (this.props.userOrGroup instanceof User) return (
+			<div className={`${styles.parent} ${this.props.active ? styles.active : ""}`} draggable={true} onClick={(e) => { if (this.props.onClick) this.props.onClick(e); }}>
 				<div className={styles.avatar}
-					aria-label={this.props.userOrGroup.username} 
+					aria-label={this.props.userOrGroup.username}
 					style={{ backgroundImage: `url("${this.props.userOrGroup.avatarURL}")` }}
 				>
 					<div className={`${styles.indicator} ${this.props.userOrGroup.status ? styles[this.props.userOrGroup.status.toLowerCase()] : ""}`}
@@ -30,15 +32,18 @@ export default class DirectMessage extends React.Component<{
 				<div className={styles.username}>
 					<div className={styles.usernameInline}>
 						<span>{this.props.userOrGroup.username}</span>
-						<span className={styles.mobile}><Icon icon="mobile" type="regular"/></span>
-						{ this.props.mobile && <div className={styles.mobile}><Icon icon="mobile" type="regular"/></div> }
+						<span className={styles.mobile}><Icon icon="mobile" type="regular" /></span>
+						{this.props.mobile && <div className={styles.mobile}><Icon icon="mobile" type="regular" /></div>}
 					</div>
-					{ this.props.userOrGroup.status && this.props.userOrGroup.status.toUpperCase() !== "ONLINE" &&
-						<div className={styles.status}>{properStatus(this.props.userOrGroup.status)}</div> }
+					{!(this.props.userOrGroup.status.toUpperCase() === "ONLINE" && this.props.userOrGroup.activity.type === Activity.None) && (
+						<div className={`${styles.status}`}>
+							{parseStatus(this.props.userOrGroup.status, this.props.userOrGroup.activity, styles.icon)}
+						</div>
+					)}
 				</div>
 			</div>
 		);
-		else if(this.props.userOrGroup instanceof Group) return (
+		else if (this.props.userOrGroup instanceof Group) return (
 			<div className={`${styles.parent} ${this.props.active ? styles.active : ""}`} draggable={true} onClick={(e) => { if(this.props.onClick) this.props.onClick(e); }}>
 				<div className={styles.avatar}
 					aria-label={this.props.userOrGroup.title} 

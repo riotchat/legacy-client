@@ -106,6 +106,7 @@ export default class FriendsList extends React.Component<{
 						</div>
 					</div>
 					<div className={css.menu}>
+						<Icon className={css.menuIcon} icon="conversation"/>
 						<Icon className={css.menuIcon} icon="user-plus" onClick={async () => {
 							let userId = prompt("Enter a User ID to add them to your friends list:");
 							if (userId === null) return;
@@ -124,13 +125,12 @@ export default class FriendsList extends React.Component<{
 						{ this.state.tab !== "requests" && (
 							this.state.friends.array().map((value, index) => {
 								if(value.relation !== "active") return null;
-								let isOffline: boolean = value.status === "invisible" || value.status === "offline";
 								return (
 									<Friend
 										key={`fm${value.id}`}
 										user={value}
 										type="mutual"
-										hidden={this.state.tab === "online" && isOffline}
+										hidden={this.state.tab === "online" && value.status === "offline"}
 										onClick={() => { if(this.props.openDM) this.props.openDM(value.id); }}
 									/>
 								);

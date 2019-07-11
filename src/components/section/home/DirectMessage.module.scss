@@ -3,7 +3,7 @@
 .parent {
 	height: 34px;
 	margin: 5px 0;
-	padding: 5px;
+	padding: 5px 8px;
 	display: flex;
 	border-radius: 4px;
 	transition: .2s;
@@ -11,7 +11,7 @@
 	align-items: center;
 	opacity: .99;
 	@include themify($themes) {
-		&:hover, &.active {
+		&:hover {
 			background: themed('button-hover');
 			.avatar .indicator { border: 2px solid themed('button-hover') !important; }
 		}
@@ -19,43 +19,54 @@
 			background: themed('button-active');
 			.avatar .indicator { border: 2px solid themed('button-active') !important; }
 		}
+
+		&.active {
+			cursor: default;
+			transition: none;
+			background: themed('button-hover') !important;
+			.avatar .indicator { border: 2px solid themed('button-hover') !important; }
+		}
+	}
+
+	@media only screen and (max-width: 900px) {
+		padding: 10px;
 	}
 
 		.avatar {
+			$size: 30px;
 			display: flex;
 			margin-right: 10px;
-			height: 30px;
-			width: 30px;
+			height: $size;
+			width: $size;
 			border-radius: 50%;
 			position: relative;
 			flex: 0 0 auto;
 			background-color: grey;
 			background-position: center;
 			background-size: cover;
-		}
-		
-		.indicator {
-			position: absolute;
-			height: 10px;
-			width: 10px;
-			right: -3px;
-			bottom: -3px;
-			border-radius: 7px;
-			background-color: grey;
-			transition: .2s;
-			@include themify($themes) {
-				border: 2px solid themed('sub');
-			}
-			
-			&.online { background-color: $green; }
-			&.streaming { background-color: $streaming; }
-			&.away { background-color: $yellow; }
-			&.busy { background-color: $red; }
 
-			&.colorblind {
-				&.streaming { background-image: $streaming; }
-				&.away { background-image: $yellow; }
-				&.busy { background-image: $red; }
+			.indicator {
+				position: absolute;
+				height: $size / 3;
+				width: $size / 3;
+				right: -3px;
+				bottom: -3px;
+				border-radius: 50%;
+				background-color: grey;
+				transition: background-color .2s;
+				@include themify($themes) {
+					border: 2px solid themed('sub');
+				}
+				
+				&.online { background-color: $green; }
+				&.streaming { background-color: $streaming; }
+				&.away { background-color: $yellow; }
+				&.busy { background-color: $red; }
+				&.colorblind {
+					&.streaming { background-image: $streaming; }
+					&.away { background-image: $yellow; }
+					&.busy { background-image: $red; }
+				}
 			}
 		}
 	
@@ -65,9 +76,10 @@
 		justify-content: center;
 		font-weight: 600;
 		font-size: 0.875rem;
-		padding-right: 5px;
 	
 		.usernameInline {
+			display: flex;
+			align-items: center;
 			max-width: 180px;
 			white-space: nowrap;
 			text-overflow: ellipsis;
@@ -78,6 +90,8 @@
 			}
 	
 			.mobile {
+				display: flex;
+				align-self: center;
 				margin-left: 4px;
 				flex: 0 0 auto;
 				&, span, svg {
@@ -89,6 +103,8 @@
 		}
 	
 		.status {
+			display: flex;
+			align-items: center;
 			max-width: 170px;
 			color: #BCBCBC;
 			font-weight: 400;
@@ -96,6 +112,13 @@
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
+
+			.icon {
+				fill: #aaaaaa;
+				height: 15px;
+				width: 15px;
+				margin-left: 3px;
+			}
 		}
 	}
 }
@@ -108,10 +131,10 @@
 	z-index: 5;
 	$size: 32px;
 	$padding: 5px;
-	border-radius: 6px 0px 0px 6px;
+	border-radius: 6px 0 0 6px;
 	height: $size - ($padding * 2);
 	padding: $padding;
-	font-size: 12px;
+	font-size: 0.75rem;
 	line-height: 10px;
 	font-weight: 600;
 }
@@ -125,5 +148,5 @@
 	background: #EFEFEF;
 	@extend %notification;
 	width: 5px;
-	padding: 3px 0px;
+	padding: 3px 0;
 }

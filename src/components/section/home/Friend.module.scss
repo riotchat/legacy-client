@@ -18,6 +18,10 @@
 		}
 	}
 
+	@media only screen and (max-width: 900px) {
+		padding: 12px 16px;
+	}
+
 	&.hidden {
 		display: none;
 	}
@@ -25,25 +29,81 @@
 	> .name {
 		display: flex;
 		align-items: center;
+
+		.flexColumn {
+			display: flex;
+			flex-direction: column;
+		
+			.username {
+				min-width: 0;
+				font-weight: 600;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				@include themify($themes) {
+					color: themed('main-text');
+				}
+				@media only screen and (min-width: 901px) {
+					width: calc(40vw - 300px);
+				}
+			}
+		
+			.statusText {
+				display: none;
+				@media only screen and (max-width: 900px) {
+					display: flex;
+					color: #aaaaaa;
+					font-size: .75rem;
+				}
+			}
+		
+			.mobileIndicator {
+				fill: grey;
+				margin-left: 4px;
+				height: 20px;
+				width: 20px;
+			}
+		}
+
 		> .avatar {
-			height: 50px;
-			width: 50px;
+			position: relative;
+			$size: 50px;
+			height: $size;
+			width: $size;
 			margin-right: 15px;
 			border-radius: 50%;
 			background-color: grey;
 			background-size: cover;
 			background-position: center;
 			flex: 0 0 auto;
-		}
 
-		> .username {
-			min-width: 0;
-			margin-right: 10px;
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			@media only screen and (min-width: 901px) {
-				width: calc(40vw - 300px);
+			.indicatorMobile {
+				position: absolute;
+				height: 14px;
+				width: 14px;
+				right: -3px;
+				bottom: -3px;
+				border-radius: 50%;
+				background-color: grey;
+				transition: background-color .2s;
+				@include themify($themes) {
+					border: 2px solid themed('sub');
+				}
+			
+				@media only screen and (min-width: 901px) {
+					display: none;
+				}
+				
+				&.online { background-color: $green; }
+				&.streaming { background-color: $streaming; }
+				&.away { background-color: $yellow; }
+				&.busy { background-color: $red; }
+
+				&.colorblind {
+					&.streaming { background-image: $streaming; }
+					&.away { background-image: $yellow; }
+					&.busy { background-image: $red; }
+				}
 			}
 		}
 	}
@@ -53,7 +113,7 @@
 		display: flex;
 		&.desktopOnly {
 			opacity: 0;
-			transition: opacity 0.3s;
+			transition: opacity .3s;
 			@media only screen and (max-width: 900px) {
 				display: none;
 			}
@@ -101,7 +161,7 @@
 
 			.videochat {
 				@include button($button-call);
-				margin: 0px 10px;
+				margin: 0 10px;
 			}
 		}
 
@@ -125,6 +185,10 @@
 		&.streaming { background-color: $streaming; }
 		&.away { background-color: $yellow; }
 		&.busy { background-color: $red; }
+
+		@media only screen and (max-width: 900px) {
+			display: none;
+		}
 	}
 }
 
@@ -135,9 +199,16 @@
 
 @media only screen and (min-width: 901px) {
 	.status {
+		font-size: .9375rem;
 		display: flex;
 		align-items: center;
 		> .indicator { margin-right: 8px; }
 	}
 	.mobileStatus { display: none; }
+}
+
+.mobile {
+	@media only screen and (min-width: 901px) {
+		display: none;
+	}
 }

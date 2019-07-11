@@ -5,6 +5,7 @@ import Icon from '../../util/Icon';
 
 import { User } from 'riotchat.js';
 import { RiotClient } from '../../..';
+import { parseStatus } from '../../../utilFuctions';
 
 function properStatus(status: string): string {
 	let tempStatus = status;
@@ -62,17 +63,28 @@ export default class Friend extends React.Component<{
 	}
 
 	render() {
+		let status = parseStatus(this.props.user.status, this.props.user.activity);
 		return (
 			<div className={`${css.friend} ${this.props.hidden ? css.hidden : ""} ${this.props.type === "mutual" && this.props.onClick ? css.clickable : ""}`}
 				onClick={(e => { if(this.props.onClick) this.props.onClick(); })}
 			>
 				<div className={css.name}>
-					<div className={css.avatar} style={{backgroundImage: `url(${this.props.user.avatarURL})`}}/>
-					<span className={css.username}>{this.props.user.username}</span>
+					<div className={css.avatar} style={{backgroundImage: `url(${this.props.user.avatarURL})`}}>
+						<span className={`${css.indicatorMobile} ${this.props.user.status !== undefined && css[this.props.user.status]}`} />
+					</div>
+					<div className={css.flexColumn}>
+						<div style={{ display: "flex", alignItems: "center"}}>
+							<span className={css.username}>
+								{this.props.user.username}
+								<Icon className={css.mobileIndicator} icon="mobile" type="regular"/>
+							</span>
+						</div>
+						<span className={css.statusText}>{status}</span>
+					</div>
 					{ (this.props.type === undefined || this.props.type === "mutual") && (
 						<div className={css.status}>
 							<span className={`${css.indicator} ${this.props.user.status !== undefined && css[this.props.user.status]}`} />
-							<span className={css.statusText}>{this.props.user.status !== undefined ? properStatus(this.props.user.status) : properStatus("offline")}</span>
+							<span className={css.statusText}>{status}</span>
 						</div>
 					)}
 				</div>

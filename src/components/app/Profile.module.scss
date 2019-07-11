@@ -9,18 +9,42 @@
 	user-select: text;
 
 	.picture {
-		display: inline-block;
-		height: 38px;
-		width: 38px;
+		$size: 38px;
+		height: $size;
+		width: $size;
 		border-radius: 50%;
 		background-color: #434343;
 		justify-content: center;
 		position: relative;
 		cursor: pointer;
 		margin-right: 8px;
-	
 		background-size: cover;
 		background-position: center;
+
+		.indicator {
+			position: absolute;
+			height: $size / 3;
+			width: $size / 3;
+			right: -3px;
+			bottom: -3px;
+			border-radius: 50%;
+			background-color: grey;
+			transition: .2s;
+			@include themify($themes) {
+				border: 2px solid themed('sub');
+			}
+			
+			&.online { background-color: $green; }
+			&.streaming { background-color: $streaming; }
+			&.away { background-color: $yellow; }
+			&.busy { background-color: $red; }
+
+			&.colorblind {
+				&.streaming { background-image: $streaming; }
+				&.away { background-image: $yellow; }
+				&.busy { background-image: $red; }
+			}
+		}
 	}
 
 	.username {
@@ -32,11 +56,11 @@
 		flex-grow: 1;
 	
 		.status {
+			display: flex;
 			max-width: 150px;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
-			display: flex;
 			align-items: center;
 			color: #848484;
 			font-size: 12px;

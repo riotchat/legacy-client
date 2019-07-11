@@ -135,7 +135,7 @@
 			max-width: 200px;
 			//flex: 0 4 auto;
 
-			font-size: 14px;
+			font-size: 0.875rem;
 			line-height: $normal-size;
 			font-weight: 600;
 			white-space: nowrap;
@@ -163,7 +163,7 @@
 				//@extend %ellipsisText;
 				width: calc(100% - 20px);
 				color: white;
-				font-size: 12px;
+				font-size: 0.75rem;
 				line-height: $normal-size;
 			}
 		}
@@ -180,17 +180,11 @@
 		flex: 0 0 auto;
 
 		.menuIcon {
+			margin-left: 10px;
 			cursor: pointer;
-		}
-
-		.search {
-			cursor: pointer;
-			margin: 0 10px;
-		}
-
-		.feedback {
-			cursor: pointer;
-			margin-left: 20px;
+			&:first-child {
+				margin-left: 0;
+			}
 		}
 	}
 }
@@ -199,7 +193,7 @@
 	color: white;
 	height: 100%;
 	padding: 20px 0;
-	margin: 0px 20px;
+	margin: 0 20px;
 	box-sizing: border-box;
 	@include themify($themes) {
 		color: themed('main-text');
@@ -210,7 +204,7 @@
 
 	%text {
 		display: block;
-		font-size: 12px;
+		font-size: 0.75rem;
 		font-weight: 600;
 		margin-bottom: 10px;
 		text-transform: uppercase;

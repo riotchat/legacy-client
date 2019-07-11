@@ -11,6 +11,8 @@ import ConnectedVoice from './ConnectedVoice';
 
 import { RiotClient, pubsub } from '../../index';
 import { User } from 'riotchat.js';
+import { Activity, Status } from 'riotchat.js/dist/api/v1/users';
+import { parseStatus } from '../../utilFuctions';
 
 export function properStatus(status: string, whenOffline?: string): string {
 	let tempStatus = status;
@@ -23,7 +25,8 @@ export function properStatus(status: string, whenOffline?: string): string {
 
 export default class Profile extends React.Component<{}, {
 	username: string,
-	status: string,
+	status: Status,
+	activity: { type: Activity, custom?: string },
 	avatarURL: string,
 	statusMenuOpen: boolean
 }> {
@@ -31,7 +34,8 @@ export default class Profile extends React.Component<{}, {
 		super(props);
 		this.state = {
 			username: "",
-			status: "",
+			status: "offline",
+			activity: { type: Activity.None, custom: undefined },
 			avatarURL: "",
 			statusMenuOpen: false
 		}
@@ -45,7 +49,8 @@ export default class Profile extends React.Component<{}, {
 		this.setState((prevState, props) => {
 			return Object.assign({}, prevState, {
 				username: RiotClient.user.username,
-				status: RiotClient.user.status || "invisible",
+				status: RiotClient.user.status || "offline",
+				activity: RiotClient.user.activity,
 				avatarURL: RiotClient.user.avatarURL
 			});
 		});
@@ -56,10 +61,11 @@ export default class Profile extends React.Component<{}, {
 	}
 
 	updateStateFromClient(user: User) {
-		if(user.id !== RiotClient.user.id || this.state.status === user.status) return;
+		if(user.id !== RiotClient.user.id || (this.state.status === user.status && this.state.activity === user.activity)) return;
 		this.setState((prevState) => {
 			return Object.assign({}, prevState, {
-				status: user.status || "invisible"
+				status: user.status || "offline",
+				activity: user.activity
 			});
 		})
 	}
@@ -76,18 +82,23 @@ export default class Profile extends React.Component<{}, {
 		return (
 			<div style={{ flex: "0 0 auto" }}>
 				{/* <ConnectedVoice /> */}
-				<StatusMenu open={this.state.statusMenuOpen} onSet={(status: "online" | "away" | "busy" | "invisible") => {
+				<StatusMenu open={this.state.statusMenuOpen} onSet={(status: "online" | "away" | "busy" | "offline") => {
 					RiotClient.user.setStatus(status);
 					this.setStatusMenu(false);
 				}}/>
 				<div className={`${styles.profile}`}>
-					<div className={`${styles.picture}`} style={{ backgroundImage: `url("${this.state.avatarURL}")` }} onClick={() => this.setStatusMenu(!this.state.statusMenuOpen)}/>
+					<div className={`${styles.picture}`} style={{ backgroundImage: `url("${this.state.avatarURL}")` }} onClick={() => this.setStatusMenu(!this.state.statusMenuOpen)}>
+						<div className={`${styles.indicator} ${this.state.status ? styles[this.state.status.toLowerCase()] : ""}`}
+							aria-label={this.state.status}
+						/>
+					</div>
 					<div className={`${styles.username}`}>
 						<span>{this.state.username}</span>
-						{this.state.status.toUpperCase() !== "ONLINE" && 
-						<div className={`${styles.status}`}>{properStatus(this.state.status, "invisible")}
-							<Icon className={styles.icon} icon="joystick"/>
-						</div> }
+						{ !(this.state.status.toUpperCase() === "ONLINE" && this.state.activity.type === Activity.None) && (
+							<div className={`${styles.status}`}>
+								{ parseStatus(this.state.status, this.state.activity, styles.icon) }
+							</div>
+						)}
 					</div>
 					<Icon className={styles.settings} icon="cog" onClick={ () => { pubsub.emit('openSettings'); } } />
 				</div>

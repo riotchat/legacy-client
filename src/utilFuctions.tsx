@@ -1,6 +1,11 @@
+import * as React from 'react';
 import { ThemeInfo, StreamerMode, AccessibilityOptions } from "./components/util/ExtendableComponent";
 import lodash from 'lodash';
 import { pubsub } from ".";
+import { Activity } from "riotchat.js/dist/api/v1/users";
+import { User } from "riotchat.js";
+import { properStatus } from './components/app/Profile';
+import Icon from './components/util/Icon';
 
 // https://gist.github.com/navix/6c25c15e0a2d3cd0e5bce999e0086fc9
 type DeepPartial<T> = {
@@ -58,6 +63,15 @@ export function isLight(r: number, g: number, b: number): boolean {
 	return hsp > 175;
 }
 
+export const parseStatus = (status: User["status"], activity: User["activity"], iconClassName?: string, whenOffline?: string): React.ReactNode => {
+    let statusText: React.ReactNode = null;
+	if (activity.type === Activity.Custom) statusText = <span>{activity.custom}<Icon className={iconClassName} icon="user-voice"/></span>
+	else if (activity.type === Activity.Playing) statusText = <span>Playing <b>{activity.custom}</b><Icon className={iconClassName} icon="joystick"/></span>
+	else statusText = <span>{properStatus(status, whenOffline)}</span>
+
+    return statusText;
+}
+
 export type ClientOptions = {
 	themeInfo: ThemeInfo;
 	streamerMode: StreamerMode,
@@ -83,7 +97,6 @@ export function getOptions(): ClientOptions {
 			bold: false,
 			noAnimations: false,
 			noBackButton: false,
-
 			textToSpeech: false,
 		}
 	}
