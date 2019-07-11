@@ -190,8 +190,12 @@ $mobile-header-height: 64px;
 				}
 
 				@include themify($themes) {
-					@media screen and (min-width: 900px) {
-						&.active { background-color: themed('button-hover'); cursor: default;}
+					@media screen and (min-width: 901px) {
+						&.active {
+							cursor: default;
+							transition: none;
+							background: themed('button-hover') !important;
+						}
 					}
 	
 					&:hover { background-color: themed('button-hover'); }

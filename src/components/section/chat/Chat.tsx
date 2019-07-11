@@ -239,7 +239,7 @@ export default class Chat extends React.Component<ChatProps, {
 						<Icon className={css.feedback} icon="megaphone"/>
 					</div>
 				</div>
-				<HeaderBanner title="Outage" text="We are currently experiencing a high load on our voice servers." />
+				{/*<HeaderBanner title="Outage" text="We are currently experiencing a high load on our voice servers." />*/}
 				<div className={css.content} onScroll={this.handleScroll} ref={this.chatRef}>
 					{messageGroups}
 					<div ref={this.scrollToBottomRef} />

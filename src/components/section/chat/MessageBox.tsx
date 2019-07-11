@@ -25,9 +25,6 @@ export default class MessageBox extends React.Component<{ channelName: string, c
 						placeholder={this.props.channelType === "self" ? "Save message" : `Message ${this.props.channelType === "dm" ? "@" : "#"}${this.props.channelName}`}
 						autoFocus={true}
 					/>
-					<div className={css.actionButton}>
-						<Icon className={css.emojiButton} icon="dots-vertical-rounded" type="regular" />
-					</div>
 				</div>
 			</div>
 		)
@@ -136,7 +133,16 @@ export class InnerMessageBox extends React.Component<{
 					</Textarea>
 				</form>
 				<div className={css.button} onClick={this.togglePicker}>
+					<Icon icon="image"/>
+				</div>
+				<div className={css.button} onClick={this.togglePicker}>
 					<Icon icon="smiley-happy"/>
+				</div>
+				<div className={css.button} onClick={this.togglePicker}>
+					<Icon icon="dots-vertical-rounded" type="regular"/>
+				</div>
+				<div className={css.button} onClick={this.togglePicker}>
+					<Icon icon="send"/>
 				</div>
 			</div>
 		)

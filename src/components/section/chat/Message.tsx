@@ -1,7 +1,6 @@
 import * as React from 'react';
 import marked from 'marked';
 import hljs from 'highlight.js';
-import twemoji from 'twemoji';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Message as MessageClass } from 'riotchat.js/dist/internal/Message';
 
@@ -11,8 +10,11 @@ import { InnerMessageBox } from './MessageBox';
 import Icon from '../../util/Icon';
 import { RiotClient } from '../../..';
 
+import emoteData from 'emojibase-data/en/compact.json';
+
 let urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-let emojiRegex = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32-\ude3a]|[\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
+let unicodeEmojiRegex = /\\:(\w+):/g;
+let twemojiRegex = /:(\w+):/g;
 
 const renderer = new marked.Renderer();
 renderer.paragraph = (text) => {
@@ -98,7 +100,8 @@ export default class Message extends React.Component<{ message: MessageClass }, 
 		if(!this.state.editing) {
 			let parsed = "";
 			if (this.props.message.content) {
-				let onlyEmotes = this.props.message.content.replace(emojiRegex, '') == "" && this.props.message.content.length <= 30;
+				let onlyEmotes = this.props.message.content.replace(unicodeEmojiRegex, '').replace(twemojiRegex, '').trim().length === 0
+					&& this.props.message.content.replace(unicodeEmojiRegex, 'h').replace(twemojiRegex, 'h').trim().length <= 15;
 				let tokens = marked.lexer(this.props.message.content.toString(), mdOptions);
 				// Token processing
 				tokens.forEach((value, index, array) => {
@@ -120,10 +123,32 @@ export default class Message extends React.Component<{ message: MessageClass }, 
 				});
 				
 				parsed = marked.parser(tokens, mdOptions);
-				parsed = twemoji.parse(parsed, {
+				/*parsed = twemoji.parse(parsed, {
 					className: onlyEmotes ? css.emojiBig : css.emoji,
 					folder: 'svg',
 					ext: '.svg'
+				});*/
+				parsed = parsed.replace(unicodeEmojiRegex, (substring: string, shortcode: string) => {
+					let found = emoteData.find((emote) => {
+						for(let _shortcode of emote.shortcodes) {
+							if(_shortcode === shortcode.toLowerCase()) return true;
+						}
+						return false;
+					});
+					if (found === undefined) return substring;
+					return found.unicode;
+				});
+
+				parsed = parsed.replace(twemojiRegex, (substring: string, shortcode: string) => {
+					let found = emoteData.find((emote) => {
+						for(let _shortcode of emote.shortcodes) {
+							if(_shortcode === shortcode.toLowerCase()) return true;
+						}
+						return false;
+					});
+					if (found === undefined) return substring;
+					return `<img src="https://twemoji.maxcdn.com/2/svg/${found.hexcode.toLowerCase()}.svg" alt="${substring.toLowerCase()}"`
+						+ ` draggable="false" class="${onlyEmotes ? css.emojiBig : css.emoji}">`;
 				});
 			}
 
