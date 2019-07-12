@@ -10,6 +10,7 @@ import * as Riot from 'riotchat.js';
 import { isLight, hexToRgb, shadeColor, ClientOptions } from './utilFuctions';
 import { StreamerMode, ThemeInfo, OptionsComponent, AccessibilityOptions } from './components/util/ExtendableComponent';
 import { Input, Checkbox, RadioGroup } from './components/util/FormComponents';
+import Login from './Login';
 
 let pubsub = new EventEmitter();
 
@@ -207,8 +208,8 @@ class PreApp extends OptionsComponent<{}, {loginState: "loggedIn" | "loggingIn" 
 }
 
 ReactDOM.render(
-	<PreApp>
+	/*<PreApp>
 		<App />
-	</PreApp>,
+	</PreApp>*/ <Login />,
 	document.getElementById('app')
 );

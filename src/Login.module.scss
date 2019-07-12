@@ -1,0 +1,151 @@
+@import './sass/colors';
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+}
+
+.login {
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	user-select: none;
+
+	background-image: url("/assets/images/pro-banner.jpg");
+	background-size: cover;
+	background-position: center;
+
+	.logo {height: 50px;}
+
+	.form {
+		max-width: 450px;
+		border-radius: 10px;
+    	background: #333234;
+        padding: 25px;
+        box-sizing: border-box;
+
+		@include themify($themes) {
+			background: themed('main');
+			border: 2px solid themed('sub');
+		}
+
+		.welcome {
+			font-size: 24px;
+			margin-bottom: 8px;
+		}
+
+		.title {
+			text-transform: uppercase;
+			color: #aaaaaa;
+			font-size: 12px;
+			font-weight: bold;
+			margin-bottom: 4px;
+			letter-spacing: .7px;
+		}
+
+		.link {
+			color: mediumslateblue;
+			font-size: 14px;
+			margin: 12px 0;
+			font-weight: 600;
+			text-decoration: none;
+		}
+
+		.signin {
+			color: #aaaaaa;
+			font-size: 14px;
+		}
+		
+		input[type=email], input[type=password] {
+			font-family: 'Open Sans', sans-serif;
+			height: 40px;
+			color: white;
+			font-size: 1rem;
+			width: 100%;
+			padding: 10px;
+			margin: 8px 0;
+			border: 1px solid #222428;
+			border-radius: 4px;
+			box-sizing: border-box;
+			background-color: #303339;
+			transition: border .3s;
+			user-select: none;
+			outline: 0;
+	
+			&:focus {
+				border: 1px solid mediumslateblue;
+			}
+		}
+	
+		input[type=submit] {
+			width: 100%;
+			color: white;
+			padding: 12px 32px;
+			margin: 10px 0 10px 0;
+			font-size: 1rem;
+			background: mediumslateblue;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: .3s ease;
+			outline: 0;
+			font-family: 'Open Sans', sans-serif;
+			border: 1px solid transparent;
+
+			&:focus {
+				border: 1px solid mediumslateblue;
+			}
+		}
+	}
+    
+    @media screen and (max-width: 900px) {
+        & {
+            display: flex;
+            flex-direction: column;
+        }
+ 
+        .left {
+			padding: 40px 20px 0 20px;
+			.logo {height: 24px;}
+		}
+
+		.right {padding: 0;}
+
+        .form {
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 100%;
+        }
+    }
+
+    @media screen and (min-width: 901px) {
+        display: flex;
+        align-items: center;
+        
+        .left {
+			flex: 45%;
+			padding: 50px;
+			
+			.logo {float: right;}
+        }
+
+        .right {
+			flex: 55%;
+            padding: 50px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    }
+}
