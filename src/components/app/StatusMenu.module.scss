@@ -9,13 +9,7 @@
 		background: themed('profile');
 	}
 
-	&.hidden {
-		display: none;
-	}
-
-	.picker {
-		margin: 0 10px;
-	}
+	.picker { margin: 0 10px; }
 
 	.divider {
 		margin: 4px 0;
@@ -49,7 +43,7 @@
 			
 		}
 		.dot {
-			display: inline-block;
+			//display: inline-block;
 			height: $dot-size;
 			width: $dot-size;
 			border-radius: 50%;
@@ -59,7 +53,7 @@
 			&.busy { background: $red; }
 
 			$top-bottom-margin: ($name-size - $dot-size) / 2;
-			margin: $top-bottom-margin 8px $top-bottom-margin 0px;
+			margin: $top-bottom-margin 8px $top-bottom-margin 0;
 		}
 
 		.dotAndName {
@@ -84,21 +78,32 @@
 					flex: 1 1 auto;
 					display: block;
 					font-size: 11px;
-					color: #AFAFAF; //keep this
+					color: #AFAFAF;
 				}
 			}
 		}
-	}
-}
 
-.iconAndName {
-	display: flex;
-	align-items: center;
-
-	.icon {
-		margin-right: 4px;
-	}
-
-	.clear {
+		.iconAndName {
+			display: flex;
+			align-items: center;
+		
+			.icon {
+				flex: 0 0 auto;
+				margin-right: 4px;
+			}
+		
+			.name {
+				flex: 1 1 auto;
+			}
+			
+			.clear {
+				flex: 0 0 auto;
+				margin-left: 4px;
+				border-radius: 4px;
+				@include themify($themes) {
+					background: themed('sub');
+				}
+			}
+		}
 	}
 }

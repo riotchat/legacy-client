@@ -35,6 +35,8 @@
 			flex-direction: column;
 		
 			.username {
+				display: flex;
+				align-items: center;
 				min-width: 0;
 				font-weight: 600;
 				overflow: hidden;
@@ -51,8 +53,8 @@
 			.statusText {
 				display: none;
 				@media only screen and (max-width: 900px) {
-					display: flex;
 					color: #aaaaaa;
+					display: flex;
 					font-size: .75rem;
 				}
 			}
@@ -202,6 +204,7 @@
 		font-size: .9375rem;
 		display: flex;
 		align-items: center;
+		color: #aaaaaa;
 		> .indicator { margin-right: 8px; }
 	}
 	.mobileStatus { display: none; }
@@ -211,4 +214,11 @@
 	@media only screen and (min-width: 901px) {
 		display: none;
 	}
+}
+
+.icon {
+	fill: #aaaaaa;
+	height: 18px;
+	width: 18px;
+	margin-left: 3px;
 }

@@ -30,52 +30,33 @@ export class Status extends React.Component<{ name: string, description?: string
 }
 
 export default class StatusMenu extends React.Component<{
-	open?: boolean,
 	onSet?: (status: "online" | "away" | "busy" | "offline") => void
 }> {
 	render() {
 		return (
-			<div className={`${css.menu} ${this.props.open === false ? css.hidden : ""}`}>
+			<div className={css.menu}>
 				<div className={css.picker}>
-					<div className={css.status} onClick={() => {
+					<div className={css.status} onClick={(e) => {
+						e.stopPropagation();
 						let status = prompt("Enter the custom status you want to set");
-						if(status == null || status == "" || status.trim() == "") RiotClient.user.setActivity(Activity.None);
+						if(status == null || status == "" || status.trim() == "") return;
 						else RiotClient.user.setActivity(Activity.Custom, status.trim());
 					}}>
 						<div className={css.iconAndName}>
 							<Icon className={css.icon} icon="user-voice"/>
-							<span className={css.name}>Set custom status</span>
-							<Icon className={css.clear} icon="x"/>
+							<span className={css.name}>{ RiotClient.user.activity.type !== Activity.Custom ? "Set custom status" : "Edit status" }</span>
+							{ RiotClient.user.activity.type === Activity.Custom && <Icon className={css.clear} icon="x" type="regular" onClick={(e) => {
+								e.stopPropagation();
+								RiotClient.user.setActivity(Activity.None);
+							}}/> }
 						</div>
 					</div>
-					<div className={css.divider} />
-					<div className={css.status} onClick={() => { if (this.props.onSet) this.props.onSet("online"); }}>
-						<div className={css.dotAndName}>
-							<span className={`${css.dot} ${css.online}`}/>
-							<span className={css.name}>Online</span>
-						</div>
-					</div>
-					<div className={css.status} onClick={() => { if (this.props.onSet) this.props.onSet("away"); }}>
-						<div className={css.dotAndName}>
-							<span className={`${css.dot} ${css.away}`}/>
-							<span className={css.name}>Away</span>
-						</div>
-					</div>
-					<div className={css.status} onClick={() => { if (this.props.onSet) this.props.onSet("busy"); }}>
-						<div className={css.dotAndName}>
-							<span className={`${css.dot} ${css.busy}`}/>
-							<span className={css.name}>Busy</span>
-						</div>
-					</div>
-					<div className={css.status} onClick={() => { if (this.props.onSet) this.props.onSet("offline"); }}>
-						<div className={css.dotAndName}>
-							<span className={css.dot}/>
-							<div className={css.nameWrapper}>
-								<span className={css.name}>Invisible</span>
-								<span className={css.description}>You will appear offline to others, but will have full access to Riot.</span>
-							</div>
-						</div>
-					</div>
+					<div className={css.divider}/>
+					<Status name="Online" className={css.online} onClick={() => { if (this.props.onSet) this.props.onSet("online"); }} />
+					<Status name="Away" className={css.away} onClick={() => { if (this.props.onSet) this.props.onSet("away"); }} />
+					<Status name="Busy" className={css.busy} onClick={() => { if (this.props.onSet) this.props.onSet("busy"); }} />
+					<Status name="Invisible" description="You will appear offline to others, but will have full access to Riot."
+						onClick={() => { if (this.props.onSet) this.props.onSet("offline"); }} />
 				</div>
 			</div>
 		)

@@ -63,7 +63,7 @@ export default class Friend extends React.Component<{
 	}
 
 	render() {
-		let status = parseStatus(this.props.user.status, this.props.user.activity);
+		let status = parseStatus(this.props.user.status, this.props.user.activity, css.icon);
 		return (
 			<div className={`${css.friend} ${this.props.hidden ? css.hidden : ""} ${this.props.type === "mutual" && this.props.onClick ? css.clickable : ""}`}
 				onClick={(e => { if(this.props.onClick) this.props.onClick(); })}

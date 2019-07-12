@@ -63,11 +63,18 @@ export function isLight(r: number, g: number, b: number): boolean {
 	return hsp > 175;
 }
 
+const style: React.CSSProperties = { display: "flex", alignItems: "center" };
 export const parseStatus = (status: User["status"], activity: User["activity"], iconClassName?: string, whenOffline?: string): React.ReactNode => {
     let statusText: React.ReactNode = null;
-	if (activity.type === Activity.Custom) statusText = <span>{activity.custom}<Icon className={iconClassName} icon="user-voice"/></span>
-	else if (activity.type === Activity.Playing) statusText = <span>Playing <b>{activity.custom}</b><Icon className={iconClassName} icon="joystick"/></span>
-	else statusText = <span>{properStatus(status, whenOffline)}</span>
+	if (activity.type === Activity.Custom) statusText = <span style={style}>{activity.custom}<Icon className={iconClassName} icon="user-voice"/></span>
+	else if (activity.type === Activity.Playing) statusText = (
+		<span style={style}>
+			Playing
+			<b style={{ marginLeft: "0.25em" }}>{activity.custom}</b>
+			<Icon className={iconClassName} icon="joystick"/>
+		</span>
+	);
+	else statusText = <span style={style}>{properStatus(status, whenOffline)}</span>
 
     return statusText;
 }

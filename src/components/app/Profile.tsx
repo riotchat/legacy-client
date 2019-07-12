@@ -82,10 +82,10 @@ export default class Profile extends React.Component<{}, {
 		return (
 			<div style={{ flex: "0 0 auto" }}>
 				{/* <ConnectedVoice /> */}
-				<StatusMenu open={this.state.statusMenuOpen} onSet={(status: "online" | "away" | "busy" | "offline") => {
+				{this.state.statusMenuOpen && <StatusMenu onSet={(status: "online" | "away" | "busy" | "offline") => {
 					RiotClient.user.setStatus(status);
 					this.setStatusMenu(false);
-				}}/>
+				}}/> }
 				<div className={`${styles.profile}`}>
 					<div className={`${styles.picture}`} style={{ backgroundImage: `url("${this.state.avatarURL}")` }} onClick={() => this.setStatusMenu(!this.state.statusMenuOpen)}>
 						<div className={`${styles.indicator} ${this.state.status ? styles[this.state.status.toLowerCase()] : ""}`}
